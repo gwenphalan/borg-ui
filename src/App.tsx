@@ -65,7 +65,7 @@ function App() {
   const [multiSelectDropdownOpen, setMultiSelectDropdownOpen] = useState(false);
   const [multiSelectDropdown, setMultiSelectDropdown] = useState<string[]>([]);
   const dropdownOptions: DropdownOption[] = [
-    { value: 'option1', label: 'Option 1', icon: 'check' },
+    { value: 'option1', label: 'Option 1', icon: 'placeholder' },
     { value: 'option2', label: 'Option 2' },
     { isSeparator: true },
     { value: 'option3', label: 'Option 3 (Disabled)', icon: 'error-state', disabled: true },
@@ -129,7 +129,7 @@ function App() {
       {
         label: "Home",
         href: "/",
-        icon: <Icon name="check" size={18} color="var(--content-secondary)" />,
+        icon: <Icon name="placeholder" size={18} color="var(--content-secondary)" />,
       },
       {
         label: "Features",
@@ -139,12 +139,12 @@ function App() {
           { label: "-", divider: true },
           { label: "Feature C (Disabled)", disabled: true },
         ],
-        icon: <Icon name="arrow" size={18} color="var(--content-secondary)" />,
+        icon: <Icon name="placeholder" size={18} color="var(--content-secondary)" />,
       },
       {
         label: "Docs",
         href: "/docs",
-        icon: <Icon name="arrow" size={18} color="var(--content-secondary)" />,
+        icon: <Icon name="placeholder" size={18} color="var(--content-secondary)" />,
       },
       {
         label: "Account",
@@ -273,8 +273,8 @@ function App() {
           <div className="flex flex-col gap-4">
             {(['primary', 'secondary', 'destructive', 'info', 'warn'] as const).map((style) => (
               <div key={style} className="flex gap-4 items-center">
-                <Button styleType={style} icon="left" iconName="arrow" label={`${style.charAt(0).toUpperCase() + style.slice(1)} Left`} />
-                <Button styleType={style} icon="right" iconName="check">{`${style.charAt(0).toUpperCase() + style.slice(1)} Right`}</Button>
+                <Button styleType={style} icon="left" iconName="placeholder" label={`${style.charAt(0).toUpperCase() + style.slice(1)} Left`} />
+                <Button styleType={style} icon="right" iconName="placeholder">{`${style.charAt(0).toUpperCase() + style.slice(1)} Right`}</Button>
                 <Button styleType={style} icon="off">{`${style.charAt(0).toUpperCase() + style.slice(1)} No Icon`}</Button>
               </div>
             ))}
@@ -286,7 +286,7 @@ function App() {
           <h2 className="text-xl font-semibold mb-3">Icon-Only Buttons</h2>
           <div className="flex gap-4 items-center">
             {(['primary', 'secondary', 'destructive', 'info', 'warn'] as const).map((style) => (
-              <Button key={style} styleType={style} icon="left" iconName="check" />
+              <Button key={style} styleType={style} icon="left" iconName="placeholder" />
             ))}
           </div>
         </section>
@@ -297,8 +297,8 @@ function App() {
           <div className="flex flex-col gap-4">
             {(['primary', 'secondary', 'destructive', 'info', 'warn'] as const).map((style) => (
               <div key={style} className="flex gap-4 items-center">
-                <ToggleButton styleType={style} icon="left" iconName="arrow" label={`${style.charAt(0).toUpperCase() + style.slice(1)} Toggle Left`} defaultToggled={style === 'primary'} />
-                <ToggleButton styleType={style} icon="right" iconName="check" label={`${style.charAt(0).toUpperCase() + style.slice(1)} Toggle Right`} />
+                <ToggleButton styleType={style} icon="left" iconName="placeholder" label={`${style.charAt(0).toUpperCase() + style.slice(1)} Toggle Left`} defaultToggled={style === 'primary'} />
+                <ToggleButton styleType={style} icon="right" iconName="placeholder" label={`${style.charAt(0).toUpperCase() + style.slice(1)} Toggle Right`} />
                 <ToggleButton styleType={style} icon="off" label={`${style.charAt(0).toUpperCase() + style.slice(1)} Toggle No Icon`} defaultToggled={style === 'secondary'} />
               </div>
             ))}
@@ -310,7 +310,7 @@ function App() {
           <h2 className="text-xl font-semibold mb-3">Icon-Only Toggle Buttons</h2>
           <div className="flex gap-4 items-center">
             {(['primary', 'secondary', 'destructive', 'info', 'warn'] as const).map((style) => (
-              <ToggleButton key={style} styleType={style} icon="left" iconName="check" defaultToggled={style === 'primary' || style === 'info'} />
+              <ToggleButton key={style} styleType={style} icon="left" iconName="placeholder" defaultToggled={style === 'primary' || style === 'info'} />
             ))}
           </div>
           {/* Example of a controlled toggle button, if you still want to demonstrate that */}
@@ -319,7 +319,7 @@ function App() {
             <ToggleButton
               styleType="primary"
               icon="left"
-              iconName="arrow"
+              iconName="placeholder"
               label={`Controlled: ${controlledToggleState ? 'ON' : 'OFF'}`}
               toggled={controlledToggleState}
               onToggledChange={setControlledToggleState}
@@ -333,7 +333,7 @@ function App() {
           <div className="flex gap-4 items-center">
             <Icon name="arrow" size={32} color="#00FF9F" />
             <Icon name="check" size={32} color="#FF3264" />
-            <Icon name="toggle" size={32} color="#8888FF" />
+            <Icon name="placeholder" size={32} color="#8888FF" />
           </div>
         </section>
 
@@ -422,7 +422,7 @@ function App() {
             isOpen={isCustomModalOpen}
             onClose={() => setIsCustomModalOpen(false)}
             title="Custom Icon Modal"
-            icon="toggle"
+            icon="placeholder"
             actions={[
               {
                 label: "Cancel",
@@ -745,16 +745,16 @@ function App() {
               {
                 label: "Home",
                 href: "/",
-                icon: <Icon name="home" size={16} color="var(--content-primary)" />,
+                icon: <Icon name="placeholder" size={16} color="var(--content-primary)" />,
               },
               {
                 label: "Library",
                 href: "/library",
-                icon: <Icon name="chevron-right" size={16} color="var(--content-secondary)" />,
+                icon: <Icon name="placeholder" size={16} color="var(--content-secondary)" />,
               },
               {
                 label: "Data",
-                icon: <Icon name="chevron-right" size={16} color="var(--content-secondary)" />,
+                icon: <Icon name="placeholder" size={16} color="var(--content-secondary)" />,
               },
             ]}
           />
@@ -825,9 +825,9 @@ function App() {
             <Chip label="Error" variant="error" />
             <Chip label="Small" size="sm" />
             <Chip label="Large" size="lg" />
-            <Chip label="With Icon" icon={<Icon name="info-state" size={16} />} />
-            <Chip label="Leading" leading={<Icon name="profile" size={16} />} />
-            <Chip label="Trailing" trailing={<Icon name="arrow" size={16} />} />
+            <Chip label="With Icon" icon={<Icon name="placeholder" size={16} />} />
+            <Chip label="Leading" leading={<Icon name="placeholder" size={16} />} />
+            <Chip label="Trailing" trailing={<Icon name="placeholder" size={16} />} />
             <Chip label="Clickable" clickable onClick={() => alert("Chip clicked!")} />
             <Chip label="Disabled" disabled />
             <ClosableChipDemo />
