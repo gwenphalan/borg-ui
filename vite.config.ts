@@ -34,4 +34,7 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    allowedHosts: ['demo.unimatrix-01.dev'],
+  },
 });
