@@ -1,0 +1,83 @@
+/* src/index.css */
+
+/* 1. Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
+
+/* 2. Define your CSS Custom Properties (Source of Truth) */
+:root {
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  /* Default bold font weight */
+  line-height: 1.5;
+
+  color-scheme: dark;
+
+  /* Your Color Palette as CSS Variables */
+  --background-default: rgba(8, 20, 11, 1);
+  --background-elevated: rgba(12, 29, 18, 1);
+  --border-default: rgba(0, 77, 38, 1);
+  --content-primary: rgba(0, 255, 159, 1);
+  --content-secondary: rgba(0, 178, 115, 1);
+  --interactive-accentfocus: rgba(51, 255, 184, 1);
+  --status-error: rgba(255, 50, 100, 1);
+  --status-info: rgba(32, 160, 255, 1);
+  --status-warning: rgba(255, 192, 0, 1);
+  --status-success: rgba(0, 255, 159, 1);
+  --surface-default: rgba(16, 37, 25, 1);
+  --text-dark: rgba(8, 20, 11, 1);
+  --text-light: rgba(208, 255, 221, 1);
+  /* Assuming text-background-default is the same as background-default for dark text */
+  --text-background-default: rgba(8, 20, 11, 1);
+
+  /* Other global settings */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 4. (Optional) If you have plugins that require a JS config, point to it */
+/* @config "./tailwind.config.js"; */
+/* If you use this, your tailwind.config.js would mainly contain the 'plugins' array. */
+/* The @theme directive above would still take precedence for theme values if defined in both. */
+
+/* 5. Import Tailwind's styles (Tailwind v4 shorthand) */
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  /* These can also be applied to your root App component using Tailwind classes */
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+
+  /* Using CSS variables directly here is fine, or use theme() if preferred after Tailwind import */
+  background-color: var(--background-default);
+  color: var(--content-primary);
+  /* font-family is already set in :root */
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  /* font-weight will inherit from :root (700) or you can specify */
+}
+
+section {
+  margin-top: 1.5rem;
+}
+
+/* 7. Your Custom Utilities (if not handled by a plugin) */
+/* Example: .all-\[unset\] utility */
+/* If you had this in a JS plugin before, you might define it here or keep the JS plugin */
+/* For Tailwind v4, you can also define custom utilities using @utility directive */
+/*
+@utility .all-unset {
+  all: unset;
+}
+*/
+/* Or keep it as a simple class if preferred: */
+.all-\\[unset\\] {
+  all: unset;
+}
