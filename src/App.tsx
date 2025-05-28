@@ -86,59 +86,104 @@ function App() {
     { name: "Jerome Bell", state: "Tag", stateType: "error", social: "facebook", date: "8/21/15" },
   ];
 
-  // Example menu items for demonstration
-  const menuItems: MenuItem[] = [
-    {
-      label: "Home",
-      href: "/",
-      isActive: true,
-      icon: <Icon name="check" size={18} color="var(--content-secondary)" />,
-    },
-    {
-      label: "Features",
-      children: [
-        { label: "Feature A", href: "/features/a" },
-        { label: "Feature B", href: "/features/b" },
-        { label: "-", divider: true },
-        { label: "Feature C (Disabled)", disabled: true },
-      ],
-      icon: <Icon name="arrow" size={18} color="var(--content-secondary)" />,
-    },
-    {
-      label: "Docs",
-      href: "/docs",
-      icon: <Icon name="arrow" size={18} color="var(--content-secondary)" />,
-    },
-    {
-      label: "Account",
-      align: "right",
-      children: [
-        { label: "Profile", href: "/profile" },
-        { label: "Settings", href: "/settings" },
-        { label: "-", divider: true },
-        { label: "Logout", onClick: () => alert("Logged out") },
-      ],
-    },
-    {
-      label: "Help",
-      href: "/help",
-      align: "right",
-    },
-  ];
+  // Simulated route state for menu demos
+  const [activeMenuPath, setActiveMenuPath] = useState<string>("/");
+  const [activeVerticalMenuPath, setActiveVerticalMenuPath] = useState<string>("/dashboard");
 
-  const verticalMenuItems: MenuItem[] = [
-    { label: "Dashboard", href: "/dashboard", isActive: true },
-    { label: "Projects", href: "/projects" },
-    {
-      label: "Team",
-      children: [
-        { label: "Members", href: "/team/members" },
-        { label: "Invite", href: "/team/invite" },
-      ],
-    },
-    { label: "-", divider: true },
-    { label: "Settings", href: "/settings" },
-  ];
+  // Helper to recursively add isActive and onClick to menu items
+  function mapMenuItems(
+    items: MenuItem[],
+    activePath: string,
+    setActive: (path: string) => void
+  ): MenuItem[] {
+    return items.map((item) => {
+      // If divider or custom, just return as is
+      if (item.divider || item.customComponent) return item;
+      // If has children, recursively map children
+      if (item.children) {
+        return {
+          ...item,
+          isActive: item.children.some(
+            (child) => !child.divider && !child.customComponent && child.href === activePath
+          ),
+          children: mapMenuItems(item.children, activePath, setActive),
+        };
+      }
+      // For leaf items
+      const isActive = item.href === activePath;
+      return {
+        ...item,
+        isActive,
+        onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
+          e.preventDefault();
+          if (item.href) setActive(item.href);
+          if (item.onClick) item.onClick(e);
+        },
+      };
+    });
+  }
+
+  // Example menu items for demonstration (horizontal)
+  const menuItems: MenuItem[] = mapMenuItems(
+    [
+      {
+        label: "Home",
+        href: "/",
+        icon: <Icon name="check" size={18} color="var(--content-secondary)" />,
+      },
+      {
+        label: "Features",
+        children: [
+          { label: "Feature A", href: "/features/a" },
+          { label: "Feature B", href: "/features/b" },
+          { label: "-", divider: true },
+          { label: "Feature C (Disabled)", disabled: true },
+        ],
+        icon: <Icon name="arrow" size={18} color="var(--content-secondary)" />,
+      },
+      {
+        label: "Docs",
+        href: "/docs",
+        icon: <Icon name="arrow" size={18} color="var(--content-secondary)" />,
+      },
+      {
+        label: "Account",
+        align: "right",
+        children: [
+          { label: "Profile", href: "/profile" },
+          { label: "Settings", href: "/settings" },
+          { label: "-", divider: true },
+          { label: "Logout", onClick: () => alert("Logged out") },
+        ],
+      },
+      {
+        label: "Help",
+        href: "/help",
+        align: "right",
+      },
+    ],
+    activeMenuPath,
+    setActiveMenuPath
+  );
+
+  // Vertical menu items
+  const verticalMenuItems: MenuItem[] = mapMenuItems(
+    [
+      { label: "Dashboard", href: "/dashboard" },
+      { label: "Projects", href: "/projects" },
+      {
+        label: "Team",
+        children: [
+          { label: "Members", href: "/team/members" },
+          { label: "Invite", href: "/team/invite" },
+        ],
+      },
+      { label: "-", divider: true },
+      { label: "Settings", href: "/settings" },
+    ],
+    activeVerticalMenuPath,
+    setActiveVerticalMenuPath
+  );
 
   // Handler for multi-select
   const handleMultiSelectChange = (val: string | string[]) => {
@@ -212,11 +257,13 @@ function App() {
         <section className="w-full">
           <h2 className="text-xl font-semibold mb-3">Menu Bar (Horizontal, with left/right groups, dropdowns, custom, etc.)</h2>
           <Menu items={menuItems} />
+          <div className="mt-2 text-sm text-[var(--content-secondary)]">Active: <span className="font-mono">{activeMenuPath}</span></div>
         </section>
         <section className="w-full">
           <h2 className="text-xl font-semibold mb-3">Menu (Vertical Example)</h2>
           <div className="w-64">
             <Menu items={verticalMenuItems} orientation="vertical" />
+            <div className="mt-2 text-sm text-[var(--content-secondary)]">Active: <span className="font-mono">{activeVerticalMenuPath}</span></div>
           </div>
         </section>
 

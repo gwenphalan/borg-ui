@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  ui-demo:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - "52134:52134"
+    command: sh -c "yarn install && yarn build && yarn global add serve && serve -s dist -l 52134" 
