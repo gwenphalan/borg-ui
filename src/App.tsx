@@ -373,13 +373,13 @@ function App() {
         <section className="w-full">
           <h2 className="text-xl font-semibold mb-3">Modal Component Demo</h2>
           <div className="flex gap-4 mb-4">
-            <Button styleType="primary" onClick={() => setIsBasicModalOpen(true)}>
+            <Button icon="off" styleType="primary" onClick={() => setIsBasicModalOpen(true)}>
               Open Basic Modal
             </Button>
-            <Button styleType="info" onClick={() => setIsStatusModalOpen(true)}>
+            <Button icon="off" styleType="info" onClick={() => setIsStatusModalOpen(true)}>
               Open Info Status Modal
             </Button>
-            <Button styleType="secondary" onClick={() => setIsCustomModalOpen(true)}>
+            <Button icon="off" styleType="secondary" onClick={() => setIsCustomModalOpen(true)}>
               Open Custom Icon Modal
             </Button>
           </div>
