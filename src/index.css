@@ -1,155 +1,144 @@
 /* src/index.css */
 
 /* 1. Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap");
 
-/* 2. Import Tailwind's styles */
-@import "tailwindcss/preflight";
+@tailwind base;
+@tailwind components;
 @tailwind utilities;
 
-/* 3. Define your CSS Custom Properties (Source of Truth) */
-:root {
-  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-weight: 700;
-  line-height: 1.5;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color-scheme: dark;
+@layer base {
+  :root {
+    font-family: "Orbitron", system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    line-height: 1.5;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color-scheme: dark;
 
-  /* Dark Theme Color Palette (Default) */
-  --background-default: rgba(8, 20, 11, 1);
-  --background-elevated: rgba(12, 29, 18, 1);
-  --border-default: rgba(0, 77, 38, 1);
-  --content-primary: rgba(0, 255, 159, 1);
-  --content-secondary: rgba(0, 178, 115, 1);
-  --interactive-accentfocus: rgba(51, 255, 184, 1);
-  --status-error: rgba(255, 50, 100, 1);
-  --status-info: rgba(32, 160, 255, 1);
-  --status-warning: rgba(255, 192, 0, 1);
-  --status-success: rgba(0, 255, 159, 1);
-  --surface-default: rgba(16, 37, 25, 1);
-  --text-dark: rgba(8, 20, 11, 1);
-  --text-light: rgba(208, 255, 221, 1);
-  --text-background-default: rgba(8, 20, 11, 1);
-  --gradient-dark-start: rgba(26, 26, 26, 1);
-  --gradient-dark-end: rgba(0, 0, 0, 1);
-}
-
-/* Light Theme */
-[data-theme="light"] {
-  color-scheme: light;
-
-  /* Light Theme Color Palette - Borg Holographic Light */
-  --background-default: rgba(240, 255, 248, 1);
-  --background-elevated: rgba(230, 255, 242, 1);
-  --border-default: rgba(0, 178, 115, 0.3);
-  --content-primary: rgba(0, 128, 85, 1);
-  --content-secondary: rgba(0, 178, 115, 1);
-  --interactive-accentfocus: rgba(0, 255, 159, 0.8);
-  --status-error: rgba(255, 50, 100, 1);
-  --status-info: rgba(32, 160, 255, 1);
-  --status-warning: rgba(255, 192, 0, 1);
-  --status-success: rgba(0, 178, 115, 1);
-  --surface-default: rgba(245, 255, 250, 1);
-  --text-dark: rgba(0, 77, 38, 1);
-  --text-light: rgba(240, 255, 248, 1);
-  --text-background-default: rgba(240, 255, 248, 1);
-  --gradient-dark-start: rgba(240, 255, 248, 1);
-  --gradient-dark-end: rgba(230, 255, 242, 1);
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background-color: var(--background-default);
-  color: var(--content-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-  /* font-weight will inherit from :root (700) or you can specify */
-}
-
-h2 {
-  font-size: 2.4em;
-  line-height: 1.2;
-}
-
-h3 {
-  font-size: 1.8em;
-  line-height: 1.3;
-}
-
-section {
-  margin-top: 1.5rem;
-}
-
-/* 7. Your Custom Utilities (if not handled by a plugin) */
-/* Example: .all-\[unset\] utility */
-/* If you had this in a JS plugin before, you might define it here or keep the JS plugin */
-/* For Tailwind v4, you can also define custom utilities using @utility directive */
-/*
-@utility .all-unset {
-  all: unset;
-}
-*/
-/* Or keep it as a simple class if preferred: */
-.all-\\[unset\\] {
-  all: unset;
-}
-
-/* Theme Transition */
-* {
-  transition: background-color 0.3s ease,
-    border-color 0.3s ease,
-    color 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-/* Focus Styles */
-:focus-visible {
-  outline: 2px solid var(--interactive-accentfocus);
-  outline-offset: 2px;
-}
-
-/* Selection Styles */
-::selection {
-  background-color: var(--interactive-accentfocus);
-  color: var(--text-light);
-}
-
-/* Scrollbar Styles */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--background-elevated);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--content-secondary);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--content-primary);
-}
-
-/* Print Styles */
-@media print {
-  body {
-    background: white;
-    color: black;
+    /* Dark Theme Color Palette (Default) */
+    --background-default: rgba(8, 20, 11, 1);
+    --background-elevated: rgba(12, 29, 18, 1);
+    --border-default: rgba(0, 77, 38, 1);
+    --content-primary: rgba(0, 255, 159, 1);
+    --content-secondary: rgba(0, 178, 115, 1);
+    --interactive-accentfocus: rgba(51, 255, 184, 1);
+    --status-error: rgba(255, 50, 100, 1);
+    --status-info: rgba(32, 160, 255, 1);
+    --status-warning: rgba(255, 192, 0, 1);
+    --status-success: rgba(0, 255, 159, 1);
+    --surface-default: rgba(16, 37, 25, 1);
+    --text-dark: rgba(8, 20, 11, 1);
+    --text-light: rgba(208, 255, 221, 1);
+    --text-background-default: rgba(8, 20, 11, 1);
+    --gradient-dark-start: rgba(26, 26, 26, 1);
+    --gradient-dark-end: rgba(0, 0, 0, 1);
   }
 
-  * {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+  /* Light Theme */
+  [data-theme="light"] {
+    color-scheme: light;
+
+    /* Light Theme Color Palette - Borg Holographic Light */
+    --background-default: rgba(240, 255, 248, 1);
+    --background-elevated: rgba(230, 255, 242, 1);
+    --border-default: rgba(0, 178, 115, 0.3);
+    --content-primary: rgba(0, 128, 85, 1);
+    --content-secondary: rgba(0, 178, 115, 1);
+    --interactive-accentfocus: rgba(0, 255, 159, 0.8);
+    --status-error: rgba(255, 50, 100, 1);
+    --status-info: rgba(32, 160, 255, 1);
+    --status-warning: rgba(255, 192, 0, 1);
+    --status-success: rgba(0, 178, 115, 1);
+    --surface-default: rgba(245, 255, 250, 1);
+    --text-dark: rgba(0, 77, 38, 1);
+    --text-light: rgba(240, 255, 248, 1);
+    --text-background-default: rgba(240, 255, 248, 1);
+    --gradient-dark-start: rgba(240, 255, 248, 1);
+    --gradient-dark-end: rgba(230, 255, 242, 1);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--background-default);
+    color: var(--content-primary);
+  }
+
+  /* Scoped Theme Transitions */
+  /* Apply transitions only to interactive or theme-sensitive elements */
+  body,
+  button,
+  a,
+  input,
+  textarea,
+  [data-theme-transition] {
+    transition: background-color 0.3s ease, border-color 0.3s ease,
+      color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+  }
+
+  h2 {
+    font-size: 2.4em;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-size: 1.8em;
+    line-height: 1.3;
+  }
+
+  section {
+    margin-top: 1.5rem;
+  }
+
+  /* Focus Styles */
+  :focus-visible {
+    outline: 2px solid var(--interactive-accentfocus);
+    outline-offset: 2px;
+  }
+
+  /* Selection Styles */
+  ::selection {
+    background-color: var(--interactive-accentfocus);
+    color: var(--text-light);
+  }
+
+  /* Scrollbar Styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background-elevated);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--content-secondary);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--content-primary);
+  }
+
+  /* Print Styles */
+  @media print {
+    body {
+      background: white;
+      color: black;
+    }
+
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
   }
 }

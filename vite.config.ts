@@ -1,11 +1,24 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 import dts from 'vite-plugin-dts';
 import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [
     react(),
+    svgr({
+      svgrOptions: {
+        // SVGR options
+        icon: true,
+        svgo: true,
+        replaceAttrValues: {
+          '#000000': 'currentColor',
+          '#000': 'currentColor',
+          black: 'currentColor',
+        },
+      },
+    }),
     dts({
       include: ['src'],
       exclude: ['src/**/*.stories.tsx', 'src/**/*.test.tsx'],

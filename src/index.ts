@@ -26,7 +26,7 @@ export * from './components/tooltip';
 export * from './types';
 
 // Export styles
-import './styles.css';
+import './index.css';
 
 // Components
 export { Button } from './components/button';

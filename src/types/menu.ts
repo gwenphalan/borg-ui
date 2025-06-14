@@ -1,13 +1,15 @@
+import { ReactNode } from 'react';
+
 export interface MenuItem {
     label: string;
     href?: string;
     external?: boolean;
-    icon?: React.ReactNode;
+    icon?: ReactNode;
     children?: MenuItem[];
     disabled?: boolean;
     divider?: boolean;
-    customComponent?: React.ReactNode;
+    customComponent?: ReactNode;
     align?: 'left' | 'right';
-    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    onClick?: (e: React.MouseEvent<HTMLElement>) => void;
     isActive?: boolean;
 } 
