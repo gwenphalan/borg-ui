@@ -110,15 +110,11 @@ function DynamicSvgIcon({ name, className = "", color = "currentColor", size = 2
         try {
           // Try Vite (with ?react), then CRA/Webpack/SVGR (default), else fallback
           try {
-            // Vite: ?react suffix
-            // @vite-ignore
-            const mod = await import(`${path}?react`);
+            const mod = await import(/* @vite-ignore */ `${path}?react`);
             return { default: mod.ReactComponent || mod.default || (() => null) };
           } catch {
             try {
-              // CRA/Webpack/SVGR: default export is a React component
-              // @vite-ignore
-              const mod = await import(path);
+              const mod = await import(/* @vite-ignore */ path);
               return { default: mod.ReactComponent || mod.default || (() => null) };
             } catch {
               // Not found or error

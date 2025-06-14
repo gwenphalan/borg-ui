@@ -1,33 +1,33 @@
 import { useState } from "react";
-import { Button } from "./components/button";
+import { Button } from "./components/button/button";
+import { Card } from "./components/card/card";
 import { TextInput } from "./components/text-input/text-input";
 import { TextArea } from "./components/text-input/text-area";
-import { Toggle } from "./components/toggle";
+import { Toggle } from "./components/toggle/toggle";
 import { Checkbox } from "./components/checkbox/checkbox";
 import { Radio } from "./components/checkbox/radio";
-import { Dropdown } from "./components/dropdown/Dropdown";
-import { Card } from "./components/card";
-import { Chip } from "./components/chip";
 import { DatePicker } from "./components/date-picker";
 import { TimePicker } from "./components/time-picker/time-picker";
+import { Dropdown } from "./components/dropdown/Dropdown";
+import { Chip } from "./components/chip";
 import { Breadcrumbs } from "./components/breadcrumbs";
 import { Menu } from "./components/menu/menu";
 import { Modal } from "./components/modal/Modal";
 import { WarpSpeedBackground } from "./components/background/warp-speed-background";
-import { HologramContainer } from "./components/container/hologram-container";
+import { HologramContainer } from "./components/hologram-container";
 import { MainLayout } from './components/layout/main-layout';
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  const [selectedTime, setSelectedTime] = useState<string>('12:00');
-  const [username, setUsername] = useState('');
-  const [description, setDescription] = useState('');
+  const [username, setUsername] = useState("");
+  const [description, setDescription] = useState("");
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState("option1");
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [selectedTime, setSelectedTime] = useState<string>("12:00");
+  const [selectedDropdownValue, setSelectedDropdownValue] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedDropdownValue, setSelectedDropdownValue] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDateChange = (value: Date | Date[] | [Date | null, Date | null] | [Date, Date] | null) => {
     if (value instanceof Date) {
