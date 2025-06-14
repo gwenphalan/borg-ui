@@ -1,38 +1,49 @@
-# Source files
-src/
-.git/
-.github/
-.vscode/
-
 # Development files
-*.log
-*.test.ts
-*.test.tsx
-*.spec.ts
-*.spec.tsx
+.git
+.github
+.vscode
+node_modules
+scripts
+src
+tests
+__tests__
+*.test.*
+*.spec.*
+*.stories.*
+*.config.*
 .eslintrc*
 .prettierrc*
 .editorconfig
 .gitignore
-.cursorrules
-todo.md
-StyleGuide.md
-
-# Build files
-dist/
-coverage/
-.nyc_output/
-
-# Dependencies
-node_modules/
-
-# Config files
+.npmrc
+.yarnrc
 tsconfig*.json
 vite.config.ts
+
+# Build files
+dist/*.map
+dist/*.d.ts.map
+
+# Documentation
+docs
+*.md
+!README.md
+!LICENSE
+
+# Misc
+.DS_Store
+*.log
+*.lock
+.env*
+coverage
+.nyc_output
+
+# Config files
 docker-compose.yml
 index.html
 
 # Misc
-.DS_Store
 *.pem
-.env* 
+.cursorrules
+todo.md
+StyleGuide.md 

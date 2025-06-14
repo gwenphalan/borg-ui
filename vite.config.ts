@@ -2,36 +2,43 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 import { resolve } from 'path';
-import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
   plugins: [
     react(),
-    dts({ include: ['src'] }),
-    svgr()
+    dts({
+      include: ['src'],
+      exclude: ['src/**/*.stories.tsx', 'src/**/*.test.tsx'],
+      rollupTypes: true,
+    }),
   ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'BorgUI',
-      fileName: 'index',
-      formats: ['es']
+      fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`,
     },
     rollupOptions: {
       external: ['react', 'react-dom'],
       output: {
         globals: {
           react: 'React',
-          'react-dom': 'ReactDOM'
-        }
-      }
+          'react-dom': 'ReactDOM',
+        },
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name === 'style.css') return 'styles.css';
+          return assetInfo.name;
+        },
+      },
     },
     sourcemap: true,
-    minify: true
+    minify: true,
+    copyPublicDir: true,
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
-    }
-  }
+      '@': resolve(__dirname, './src'),
+    },
+  },
+  publicDir: 'public',
 });

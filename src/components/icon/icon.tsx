@@ -7,6 +7,7 @@ export interface IconProps {
   className?: string;
   color?: string;
   size?: number | string;
+  source?: 'package' | 'project'; // Add source prop to specify where to look for the icon
 }
 
 type SVGProps = { color: string; size: number | string };
@@ -95,31 +96,41 @@ const icons: Record<string, SVGComponent> = {
   ),
 };
 
-function DynamicSvgIcon({ name, className = "", color = "currentColor", size = 24 }: IconProps) {
-  // Dynamic import for SVGs in src/assets/images/icons
+function DynamicSvgIcon({ name, className = "", color = "currentColor", size = 24, source = 'package' }: IconProps) {
   const ImportedIcon = React.useMemo(
     () =>
       React.lazy(async () => {
-        // Try Vite (with ?react), then CRA/Webpack/SVGR (default), else fallback
+        const paths = {
+          package: `/icons/${name}.svg`, // From public/icons in the package
+          project: `@/icons/${name}.svg`, // From project's @/icons directory
+        };
+
+        const path = paths[source];
+
         try {
-          // Vite: ?react suffix
-          const mod = await import(`../../assets/images/icons/${name}.svg?react`);
-          return { default: mod.ReactComponent || mod.default || (() => null) };
-        } catch {
+          // Try Vite (with ?react), then CRA/Webpack/SVGR (default), else fallback
           try {
-            // CRA/Webpack/SVGR: default export is a React component
-            const mod = await import(`../../assets/images/icons/${name}.svg`);
+            // Vite: ?react suffix
+            const mod = await import(`${path}?react`);
             return { default: mod.ReactComponent || mod.default || (() => null) };
           } catch {
-            // Not found or error
-            return { default: () => null };
+            try {
+              // CRA/Webpack/SVGR: default export is a React component
+              const mod = await import(path);
+              return { default: mod.ReactComponent || mod.default || (() => null) };
+            } catch {
+              // Not found or error
+              return { default: () => null };
+            }
           }
+        } catch {
+          // If all attempts fail, return null component
+          return { default: () => null };
         }
       }),
-    [name]
+    [name, source]
   );
-  // Render with Suspense fallback
-  // Type assertion: SVGs support className and style
+
   return (
     <Suspense fallback={null}>
       <ImportedIcon {...({ className, style: { color, width: size, height: size } } as Record<string, unknown>)} />
@@ -127,7 +138,7 @@ function DynamicSvgIcon({ name, className = "", color = "currentColor", size = 2
   );
 }
 
-export function Icon({ name, className = "", color = "currentColor", size = 24 }: IconProps) {
+export function Icon({ name, className = "", color = "currentColor", size = 24, source = 'package' }: IconProps) {
   const IconSvg = icons[name];
   if (IconSvg) {
     return (
@@ -139,8 +150,8 @@ export function Icon({ name, className = "", color = "currentColor", size = 24 }
       </span>
     );
   }
-  // Fallback to dynamic SVG import from src/assets/images/icons
-  return <DynamicSvgIcon name={name} className={className} color={color} size={size} />;
+  // Fallback to dynamic SVG import
+  return <DynamicSvgIcon name={name} className={className} color={color} size={size} source={source} />;
 }
 
 Icon.displayName = 'Icon'; 

@@ -1,4 +1,4 @@
-# @borg/ui
+# @unimatrix-01/ui
 
 A modern React UI component library with a holographic theme, built with TypeScript, Tailwind CSS, and React.
 
@@ -12,16 +12,38 @@ A modern React UI component library with a holographic theme, built with TypeScr
 - ♿ Accessibility-first
 - 🎯 Zero runtime CSS-in-JS
 - 📦 Tree-shakeable
+- 🎨 Built-in icon system with project override support
 
 ## Installation
 
 ```bash
-npm install @borg/ui
+npm install @unimatrix-01/ui
 # or
-yarn add @borg/ui
+yarn add @unimatrix-01/ui
 # or
-pnpm add @borg/ui
+pnpm add @unimatrix-01/ui
 ```
+
+## Quick Setup
+
+We provide a setup script to quickly get started:
+
+```bash
+# Install the package
+npm install @unimatrix-01/ui
+
+# Run the setup script
+npm run setup
+
+# Set up icons
+npm run setup-icons
+```
+
+This will:
+1. Install the package
+2. Set up the theme system
+3. Download default icons
+4. Install the VS Code extension for easy icon management
 
 ## Usage
 
@@ -34,7 +56,7 @@ npm install react react-dom tailwindcss
 Then, import the components you need:
 
 ```tsx
-import { Button, Card, Modal } from '@borg/ui';
+import { Button, Card, Modal } from '@unimatrix-01/ui';
 
 function App() {
   return (
@@ -42,6 +64,27 @@ function App() {
   );
 }
 ```
+
+### Icon System
+
+The library includes a flexible icon system that supports both package icons and project-specific icons:
+
+```tsx
+import { Icon } from '@unimatrix-01/ui';
+
+// Use package icons (default)
+<Icon name="placeholder" />
+
+// Use project-specific icons
+<Icon name="custom-icon" source="project" />
+```
+
+To add your own icons:
+1. Create an `icons` directory in your project
+2. Add your SVG icons
+3. Use them with `source="project"`
+
+The VS Code extension "Get SVG Icons" is recommended for easy icon management.
 
 ### Tailwind CSS Setup
 
@@ -51,7 +94,7 @@ Add the following to your `tailwind.config.js`:
 module.exports = {
   content: [
     // ... your content configuration
-    './node_modules/@borg/ui/dist/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@unimatrix-01/ui/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
@@ -69,7 +112,7 @@ To set up your app with the holographic and warp speed effects, follow these ste
 1. First, import the required components:
 
 ```tsx
-import { HologramContainer, WarpSpeedBackground } from '@borg/ui';
+import { HologramContainer, WarpSpeedBackground } from '@unimatrix-01/ui';
 ```
 
 2. Wrap your app's root component with the `WarpSpeedBackground` and `HologramContainer`:
@@ -149,7 +192,7 @@ Note: The holographic effects work best on dark backgrounds and may need to be a
 A circular or square avatar component that can display an image, initials, or both.
 
 ```tsx
-import { Avatar } from '@borg/ui';
+import { Avatar } from '@unimatrix-01/ui';
 
 // Basic usage
 <Avatar src="https://example.com/avatar.jpg" alt="User Name" />
@@ -180,7 +223,7 @@ Props:
 A small badge component for displaying status, counts, or labels.
 
 ```tsx
-import { Badge } from '@borg/ui';
+import { Badge } from '@unimatrix-01/ui';
 
 // Basic usage
 <Badge>Default</Badge>
@@ -211,7 +254,7 @@ Props:
 A versatile button component with multiple styles and variants.
 
 ```tsx
-import { Button } from '@borg/ui';
+import { Button } from '@unimatrix-01/ui';
 
 // Basic usage
 <Button>Click me</Button>
@@ -240,7 +283,7 @@ Props:
 A flexible card component for displaying content in a contained box.
 
 ```tsx
-import { Card } from '@borg/ui';
+import { Card } from '@unimatrix-01/ui';
 
 // Basic usage
 <Card title="Card Title" subtitle="Card Subtitle">
@@ -286,7 +329,7 @@ Props:
 A checkbox input component with support for indeterminate state.
 
 ```tsx
-import { Checkbox } from '@borg/ui';
+import { Checkbox } from '@unimatrix-01/ui';
 
 // Basic usage
 <Checkbox 
@@ -320,7 +363,7 @@ Props:
 A small, interactive element for displaying tags, filters, or selections.
 
 ```tsx
-import { Chip } from '@borg/ui';
+import { Chip } from '@unimatrix-01/ui';
 
 // Basic usage
 <Chip label="Default" />
@@ -364,7 +407,7 @@ Props:
 A date selection component with support for single date, range, and multiple dates.
 
 ```tsx
-import { DatePicker } from '@borg/ui';
+import { DatePicker } from '@unimatrix-01/ui';
 
 // Single date
 <DatePicker
@@ -412,7 +455,7 @@ Props:
 A dropdown menu component with support for single and multi-select.
 
 ```tsx
-import { Dropdown } from '@borg/ui';
+import { Dropdown } from '@unimatrix-01/ui';
 
 // Basic usage
 <Dropdown
@@ -455,7 +498,7 @@ Props:
 A component for displaying icons with customizable size and color.
 
 ```tsx
-import { Icon } from '@borg/ui';
+import { Icon } from '@unimatrix-01/ui';
 
 // Basic usage
 <Icon name="placeholder" size={32} color="#00FF9F" />
@@ -475,7 +518,7 @@ Props:
 A navigation menu component with support for horizontal and vertical layouts.
 
 ```tsx
-import { Menu } from '@borg/ui';
+import { Menu } from '@unimatrix-01/ui';
 
 // Horizontal menu
 <Menu
@@ -513,7 +556,7 @@ Props:
 A modal dialog component for displaying content in an overlay.
 
 ```tsx
-import { Modal } from '@borg/ui';
+import { Modal } from '@unimatrix-01/ui';
 
 // Basic usage
 <Modal
@@ -562,7 +605,7 @@ Props:
 A radio button component for single selection from a group of options.
 
 ```tsx
-import { Radio } from '@borg/ui';
+import { Radio } from '@unimatrix-01/ui';
 
 // Basic usage
 <Radio
@@ -597,7 +640,7 @@ Props:
 A data table component with sorting, filtering, and pagination.
 
 ```tsx
-import { Table } from '@borg/ui';
+import { Table } from '@unimatrix-01/ui';
 
 // Basic usage
 <Table
@@ -632,7 +675,7 @@ Props:
 A text input component with support for various states and validations.
 
 ```tsx
-import { TextInput } from '@borg/ui';
+import { TextInput } from '@unimatrix-01/ui';
 
 // Basic usage
 <TextInput
@@ -683,7 +726,7 @@ Props:
 A multi-line text input component.
 
 ```tsx
-import { TextArea } from '@borg/ui';
+import { TextArea } from '@unimatrix-01/ui';
 
 // Basic usage
 <TextArea
@@ -725,7 +768,7 @@ Props:
 A time selection component with various formats and options.
 
 ```tsx
-import { TimePicker } from '@borg/ui';
+import { TimePicker } from '@unimatrix-01/ui';
 
 // Basic usage
 <TimePicker
@@ -785,7 +828,7 @@ Props:
 A toggle switch component for boolean values.
 
 ```tsx
-import { Toggle } from '@borg/ui';
+import { Toggle } from '@unimatrix-01/ui';
 
 // Basic usage
 <Toggle
@@ -817,7 +860,7 @@ Props:
 A tooltip component for displaying additional information.
 
 ```tsx
-import { Tooltip } from '@borg/ui';
+import { Tooltip } from '@unimatrix-01/ui';
 
 // Basic usage
 <Tooltip content="This is a tooltip">
@@ -839,6 +882,245 @@ Props:
 - `content`: ReactNode
 - `placement`: 'top' | 'right' | 'bottom' | 'left'
 - `disabled`: boolean
+
+## Quick Start
+
+Setting up a new Borg UI project is now easier than ever! You can create a new project with just one command:
+
+```bash
+npx @unimatrix-01/ui
+```
+
+This interactive setup script will:
+1. Ask for your project name
+2. Let you choose your preferred React setup (Vite, Next.js, or Create React App)
+3. Create a new project with all necessary dependencies
+4. Set up the essential Borg UI files
+5. Configure your project with the Borg UI theme and components
+
+### Manual Setup
+
+If you prefer to set up Borg UI manually in an existing project:
+
+1. Install the package:
+```bash
+npm install @unimatrix-01/ui
+```
+
+2. Add the essential files to your project:
+
+```typescript:src/App.tsx
+import { useState } from "react";
+import { HologramContainer } from "@unimatrix-01/ui";
+import { WarpSpeedBackground } from "@unimatrix-01/ui";
+import { MainLayout } from "./MainLayout";
+
+function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  return (
+    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
+      <WarpSpeedBackground />
+      <HologramContainer>
+        <MainLayout isDarkMode={isDarkMode} onThemeToggle={() => setIsDarkMode(!isDarkMode)} />
+      </HologramContainer>
+    </div>
+  );
+}
+
+export default App;
+```
+
+```typescript:src/MainLayout.tsx
+import type { ReactNode } from "react";
+import { Menu, Icon, Button } from "@unimatrix-01/ui";
+import type { MenuItem } from "@unimatrix-01/ui";
+
+interface MainLayoutProps {
+  children?: ReactNode;
+  isDarkMode: boolean;
+  onThemeToggle: () => void;
+}
+
+export function MainLayout({ children, isDarkMode, onThemeToggle }: MainLayoutProps) {
+  const menuItems: MenuItem[] = [
+    {
+      label: "Home",
+      href: "/",
+      icon: <Icon name="placeholder" size={18} color="var(--content-secondary)" />,
+    },
+    {
+      label: "Features",
+      children: [
+        { label: "Feature A", href: "/features/a" },
+        { label: "Feature B", href: "/features/b" },
+      ],
+      icon: <Icon name="placeholder" size={18} color="var(--content-secondary)" />,
+    },
+    {
+      label: "Settings",
+      align: "right" as const,
+      children: [
+        { label: "Profile", href: "/profile" },
+        { label: "Settings", href: "/settings" },
+        { label: "-", divider: true },
+        { label: "Logout", onClick: () => alert("Logged out") },
+      ],
+    },
+  ];
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <header className="sticky top-0 z-50 bg-[var(--background-elevated)] border-b border-[var(--border-default)]">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <h1 className="text-xl font-bold text-[var(--content-primary)]">Borg UI</h1>
+            </div>
+            <div className="flex items-center gap-4">
+              <Button
+                icon="left"
+                iconName={isDarkMode ? "sun" : "moon"}
+                onClick={onThemeToggle}
+                styleType="secondary"
+              >
+                {isDarkMode ? "Light Mode" : "Dark Mode"}
+              </Button>
+            </div>
+          </div>
+          <Menu items={menuItems} />
+        </div>
+      </header>
+
+      <main className="flex-grow container mx-auto px-4 py-8">
+        {children}
+      </main>
+
+      <footer className="bg-[var(--background-elevated)] border-t border-[var(--border-default)]">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex justify-between items-center">
+            <p className="text-[var(--content-secondary)]">© 2024 Borg UI. All rights reserved.</p>
+            <div className="flex gap-4">
+              <a href="#" className="text-[var(--content-secondary)] hover:text-[var(--content-primary)]">Terms</a>
+              <a href="#" className="text-[var(--content-secondary)] hover:text-[var(--content-primary)]">Privacy</a>
+              <a href="#" className="text-[var(--content-secondary)] hover:text-[var(--content-primary)]">Contact</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+```
+
+```css:src/App.css
+/* Borg UI App Styles */
+:root {
+  /* Light Theme Variables */
+  --background-default: #ffffff;
+  --background-elevated: #f8f9fa;
+  --border-default: #e9ecef;
+  --content-primary: #212529;
+  --content-secondary: #6c757d;
+  --interactive-accentfocus: #0d6efd;
+  --status-error: #dc3545;
+  --status-info: #0dcaf0;
+  --status-warning: #ffc107;
+  --surface-default: #ffffff;
+  --text-light: #f8f9fa;
+  --text-background-default: #ffffff;
+  --text-dark: #212529;
+}
+
+.dark {
+  /* Dark Theme Variables */
+  --background-default: #1a1a1a;
+  --background-elevated: #2d2d2d;
+  --border-default: #404040;
+  --content-primary: #e9ecef;
+  --content-secondary: #adb5bd;
+  --interactive-accentfocus: #0d6efd;
+  --status-error: #dc3545;
+  --status-info: #0dcaf0;
+  --status-warning: #ffc107;
+  --surface-default: #2d2d2d;
+  --text-light: #f8f9fa;
+  --text-background-default: #1a1a1a;
+  --text-dark: #212529;
+}
+
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-default);
+  color: var(--content-primary);
+}
+
+/* Smooth Transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-elevated);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--content-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--content-primary);
+}
+```
+
+```css:src/index.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Borg UI styles */
+@import './App.css';
+
+/* Additional global styles */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--interactive-accentfocus);
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background-color: var(--interactive-accentfocus);
+  color: var(--text-light);
+}
+```
+
+3. Import the styles in your main entry file (usually `src/main.tsx` or `src/index.tsx`):
+```typescript
+import './index.css';
+```
+
+4. Start your development server:
+```bash
+npm run dev
+```
 
 ## Contributing
 
