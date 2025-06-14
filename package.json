@@ -1,6 +1,6 @@
 {
   "name": "@unimatrix-01/ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A modern React UI component library with a holographic theme",
   "type": "module",
   "main": "dist/index.js",
