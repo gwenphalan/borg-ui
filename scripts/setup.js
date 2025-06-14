@@ -32,6 +32,20 @@ const TEMPLATES = {
 };
 
 const BORG_UI_FILES = {
+  'index.html': `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/@icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Borg UI App</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>`,
+
   'src/App.tsx': `import { useState } from "react";
 import { HologramContainer, WarpSpeedBackground } from "@unimatrix-01/ui";
 import { MainLayout } from "./MainLayout";
@@ -93,7 +107,8 @@ export function MainLayout({ children, isDarkMode, onThemeToggle }: MainLayoutPr
       <header className="sticky top-0 z-50 bg-[var(--background-elevated)] border-b border-[var(--border-default)]">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
+            <div className="flex items-center gap-2">
+              <img src="/@icon.png" alt="Borg UI Logo" className="w-8 h-8" />
               <h1 className="text-xl font-bold text-[var(--content-primary)]">Borg UI</h1>
             </div>
             <div className="flex items-center gap-4">
@@ -294,6 +309,13 @@ async function main() {
     'borg:setup': 'node ./node_modules/@unimatrix-01/ui/scripts/setup.js'
   };
   fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+
+  // Copy icon file
+  console.log('\nCopying icon file...');
+  const iconSource = path.join(__dirname, '..', 'public', '@icon.png');
+  const iconDest = path.join(projectDir, 'public', '@icon.png');
+  fs.mkdirSync(path.dirname(iconDest), { recursive: true });
+  fs.copyFileSync(iconSource, iconDest);
 
   console.log('\n✨ Borg UI setup complete!');
   console.log('\nTo start your project:');

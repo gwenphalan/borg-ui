@@ -1,33 +1,53 @@
 import { useState } from "react";
 import { Button } from "./components/button";
-import { ToggleButton } from "./components/button/toggle-button";
-import { Icon } from "./components/icon";
-import { Toggle } from "./components/toggle";
 import { TextInput } from "./components/text-input/text-input";
 import { TextArea } from "./components/text-input/text-area";
-import { Accordion } from "./components/accordion/accordion";
-import { Menu } from "./components/menu/menu";
-import type { MenuItem } from "./components/menu/menu";
-import { HologramContainer } from "./components/container/hologram-container";
-import { Modal } from "./components/modal/Modal";
-import { Dropdown } from "./components/dropdown/Dropdown";
-import type { DropdownOption } from "./components/dropdown/types";
+import { Toggle } from "./components/toggle";
 import { Checkbox } from "./components/checkbox/checkbox";
 import { Radio } from "./components/checkbox/radio";
-import { Avatar } from "./components/avatar/avatar";
-import { Badge } from "./components/badge/badge";
-import { Tooltip } from "./components/tooltip";
-import { Table } from "./components/table";
-import { Breadcrumbs } from "./components/breadcrumbs";
+import { Dropdown } from "./components/dropdown/Dropdown";
 import { Card } from "./components/card";
-import placeholderSvg from "./assets/images/icons/placeholder.svg";
 import { Chip } from "./components/chip";
 import { DatePicker } from "./components/date-picker";
 import { TimePicker } from "./components/time-picker/time-picker";
+import { Breadcrumbs } from "./components/breadcrumbs";
+import { Menu } from "./components/menu/menu";
+import { Modal } from "./components/modal/Modal";
 import { WarpSpeedBackground } from "./components/background/warp-speed-background";
 import { MainLayout } from './components/layout/main-layout';
 
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [selectedTime, setSelectedTime] = useState<string>('12:00');
+  const [username, setUsername] = useState('');
+  const [description, setDescription] = useState('');
+  const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
+  const [isTermsAccepted, setIsTermsAccepted] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedDropdownValue, setSelectedDropdownValue] = useState('');
+
+  const handleDateChange = (value: Date | Date[] | [Date | null, Date | null] | [Date, Date] | null) => {
+    if (value instanceof Date) {
+      setSelectedDate(value);
+    } else if (value === null) {
+      setSelectedDate(undefined);
+    }
+  };
+
+  const handleTimeChange = (value: string | number | Date | null) => {
+    if (typeof value === 'string') {
+      setSelectedTime(value);
+    }
+  };
+
+  const handleDropdownChange = (value: string | string[]) => {
+    if (typeof value === 'string') {
+      setSelectedDropdownValue(value);
+    }
+  };
+
   return (
     <MainLayout
       title="Borg UI"
@@ -77,16 +97,104 @@ function App() {
           </Card>
         </section>
 
+        <section className="space-y-4">
+          <h2 className="text-2xl font-bold text-[var(--content-primary)]">Interactive Components</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-4">
+              <TextInput
+                label="Username"
+                placeholder="Enter username"
+                value={username}
+                onChange={setUsername}
+              />
+              <TextArea
+                label="Description"
+                placeholder="Enter description"
+                value={description}
+                onChange={setDescription}
+              />
+              <Toggle
+                checked={isNotificationsEnabled}
+                onToggle={() => setIsNotificationsEnabled(!isNotificationsEnabled)}
+              />
+              <Checkbox
+                label="Accept terms"
+                checked={isTermsAccepted}
+                onChange={() => setIsTermsAccepted(!isTermsAccepted)}
+              />
+              <Radio
+                label="Select option"
+                name="option"
+                value="option1"
+                checked={selectedOption === 'option1'}
+                onChange={() => setSelectedOption('option1')}
+              />
+            </div>
+            <div className="space-y-4">
+              <DatePicker
+                value={selectedDate}
+                onChange={handleDateChange}
+                label="Select date"
+              />
+              <TimePicker
+                value={selectedTime}
+                onChange={handleTimeChange}
+                label="Select time"
+              />
+              <Dropdown
+                label="Select option"
+                options={[
+                  { label: "Option 1", value: "1" },
+                  { label: "Option 2", value: "2" }
+                ]}
+                value={selectedDropdownValue}
+                onChange={handleDropdownChange}
+                isOpen={isDropdownOpen}
+                onOpenChange={setIsDropdownOpen}
+              />
+              <Chip label="New" variant="primary" />
+            </div>
+          </div>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="text-2xl font-bold text-[var(--content-primary)]">Navigation</h2>
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Components", href: "/components" },
+              { label: "Buttons", href: "/components/buttons" }
+            ]}
+          />
+          <Menu items={[
+            { label: "Profile", icon: "user" },
+            { label: "Settings", icon: "settings" },
+            { label: "Logout", icon: "logout" }
+          ]} />
+        </section>
+
         <section className="text-center">
           <Button
             styleType="primary"
             icon="right"
             iconName="arrow"
-            onClick={() => window.open('https://github.com/gwenphalan', '_blank')}
+            onClick={() => setIsModalOpen(true)}
           >
-            Get Started
+            Open Modal
           </Button>
         </section>
+
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Welcome to Borg UI"
+        >
+          <p className="text-[var(--content-secondary)]">
+            This is a modal dialog showcasing the modal component.
+          </p>
+        </Modal>
+
+        <WarpSpeedBackground />
       </div>
     </MainLayout>
   );

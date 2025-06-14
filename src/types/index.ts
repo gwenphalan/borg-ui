@@ -59,5 +59,32 @@ export type Combine<T, U> = T & Omit<U, keyof T>;
 // Common component props
 export type CommonProps = Combine<
     BaseProps,
-    Combine<ThemeProps, Combine<SizeProps, Combine<VariantProps, Combine<StatusProps, Combine<DisabledProps, Combine<LoadingProps, Combine<IconProps, Combine<LabelProps, Combine<ErrorProps, Combine<WarningProps, HelperTextProps>>>>>>>>>>>
-); 
+    Combine<
+        ThemeProps,
+        Combine<
+            SizeProps,
+            Combine<
+                VariantProps,
+                Combine<
+                    StatusProps,
+                    Combine<
+                        DisabledProps,
+                        Combine<
+                            LoadingProps,
+                            Combine<
+                                IconProps,
+                                Combine<
+                                    LabelProps,
+                                    Combine<
+                                        ErrorProps,
+                                        Combine<WarningProps, HelperTextProps>
+                                    >
+                                >
+                            >
+                        >
+                    >
+                >
+            >
+        >
+    >
+>; 
