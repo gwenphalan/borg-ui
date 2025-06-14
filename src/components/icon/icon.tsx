@@ -156,4 +156,29 @@ export function Icon({ name, className = "", color = "currentColor", size = 24, 
   return <DynamicSvgIcon name={name} className={className} color={color} size={size} source={source} />;
 }
 
-Icon.displayName = 'Icon'; 
+Icon.displayName = 'Icon';
+
+async function tryImportIcon(name: string) {
+  const locations = [
+    // Try from src/assets/icons
+    `../../assets/icons/${name}.svg`,
+    // Try from public/icons (as URL)
+    `/icons/${name}.svg?url`,
+  ];
+
+  for (const location of locations) {
+    try {
+      // Try Vite's ?react suffix first for src assets
+      if (location.startsWith('../../')) {
+        const mod = await import(/* @vite-ignore */ `${location}?react`);
+        return { default: mod.ReactComponent || mod.default || (() => null) };
+      }
+      // For public assets, use the URL
+      const mod = await import(/* @vite-ignore */ location);
+      return { default: () => <img src={mod.default} alt={name} /> };
+    } catch {
+      continue;
+    }
+  }
+  return { default: () => null };
+} 

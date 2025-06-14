@@ -50,7 +50,12 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background-default)]">
+    <div
+      className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-[var(--gradient-dark-start)] to-[var(--gradient-dark-end)]"
+      style={{
+        backgroundAttachment: 'fixed',
+      }}
+    >
       <WarpSpeedBackground />
       <HologramContainer>
         <MainLayout

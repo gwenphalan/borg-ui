@@ -1,8 +1,13 @@
 # Node dependencies
 /node_modules
+/create-borg-ui/node_modules
 
 # Built files
 /dist
+/create-borg-ui/dist
+
+# Template creation tool
+/create-borg-ui
 
 # Testing
 /coverage

@@ -1,7 +1,8 @@
 /* src/index.css */
 
-/* 1. Import Tailwind's styles (Tailwind v4 shorthand) */
-@import "tailwindcss";
+/* 1. Import Tailwind's styles */
+@import "tailwindcss/preflight";
+@tailwind utilities;
 
 /* 2. Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
@@ -19,42 +20,23 @@
   -moz-osx-font-smoothing: grayscale;
   color-scheme: dark;
 
-  /* Dark Theme Color Palette (Default) */
-  --background-default: rgba(8, 20, 11, 1);
-  --background-elevated: rgba(12, 29, 18, 1);
-  --border-default: rgba(0, 77, 38, 1);
-  --content-primary: rgba(0, 255, 159, 1);
-  --content-secondary: rgba(0, 178, 115, 1);
-  --interactive-accentfocus: rgba(51, 255, 184, 1);
-  --status-error: rgba(255, 50, 100, 1);
-  --status-info: rgba(32, 160, 255, 1);
-  --status-warning: rgba(255, 192, 0, 1);
+  /* Theme Colors */
+  --background-default: #08140B;
+  --background-elevated: #0A1A0F;
+  --border-default: #1A2A1F;
+  --content-primary: #00FF9F;
+  --content-secondary: #20A0FF;
+  --interactive-accentfocus: #00FF9F;
+  --status-error: #FF3264;
+  --status-info: #20A0FF;
+  --status-warning: #FFC000;
   --status-success: rgba(0, 255, 159, 1);
-  --surface-default: rgba(16, 37, 25, 1);
-  --text-dark: rgba(8, 20, 11, 1);
-  --text-light: rgba(208, 255, 221, 1);
-  --text-background-default: rgba(8, 20, 11, 1);
-}
-
-/* Light Theme */
-[data-theme="light"] {
-  color-scheme: light;
-
-  /* Light Theme Color Palette - Borg Holographic Light */
-  --background-default: rgba(240, 255, 248, 1);
-  --background-elevated: rgba(230, 255, 242, 1);
-  --border-default: rgba(0, 178, 115, 0.3);
-  --content-primary: rgba(0, 128, 85, 1);
-  --content-secondary: rgba(0, 178, 115, 1);
-  --interactive-accentfocus: rgba(0, 255, 159, 0.8);
-  --status-error: rgba(255, 50, 100, 1);
-  --status-info: rgba(32, 160, 255, 1);
-  --status-warning: rgba(255, 192, 0, 1);
-  --status-success: rgba(0, 178, 115, 1);
-  --surface-default: rgba(245, 255, 250, 1);
-  --text-dark: rgba(0, 77, 38, 1);
-  --text-light: rgba(240, 255, 248, 1);
-  --text-background-default: rgba(240, 255, 248, 1);
+  --surface-default: #0A1A0F;
+  --text-dark: #000000;
+  --text-light: #FFFFFF;
+  --text-background-default: #08140B;
+  --gradient-dark-start: #1a1a1a;
+  --gradient-dark-end: #000000;
 }
 
 /* 4. (Optional) If you have plugins that require a JS config, point to it */
@@ -72,7 +54,7 @@ body {
 
   /* Using CSS variables directly here is fine, or use theme() if preferred after Tailwind import */
   background-color: var(--background-default);
-  color: var(--content-primary);
+  color: var(--text-light);
   /* font-family is already set in :root */
   transition: background-color 0.3s ease, color 0.3s ease;
 }

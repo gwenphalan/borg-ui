@@ -1,32 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
-import type { ReactNode, MouseEvent } from "react";
-import { Icon } from "../icon/icon";
-
-// Theming style map (required by project conventions)
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)",
-};
+import React, { useState, useRef, useEffect, ReactNode } from "react";
+import { Icon } from "../icon";
+import { isIconElement } from "../../utils/icon-utils";
+import { styleMap } from "../../utils/style-map";
 
 // Menu item interface
 export interface MenuItem {
     label: string;
     href?: string;
-    onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-    icon?: ReactNode | string;
-    disabled?: boolean;
-    isActive?: boolean;
+    icon?: ReactNode;
     children?: MenuItem[];
+    onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+    isActive?: boolean;
+    disabled?: boolean;
     className?: string;
     divider?: boolean;
     customComponent?: ReactNode;
@@ -42,10 +27,6 @@ export interface MenuProps {
     menuVariant?: string;
     currentPath?: string;
     style?: React.CSSProperties;
-}
-
-function isIconElement(element: ReactNode): element is React.ReactElement<{ color?: string; size?: number | string }> {
-    return React.isValidElement(element) && (element.type as { displayName?: string })?.displayName === 'Icon';
 }
 
 export function Menu({
