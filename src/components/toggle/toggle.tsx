@@ -7,7 +7,7 @@ const styleMap: Record<string, string> = {
   handle: "var(--background-default)",
 };
 
-interface ToggleProps {
+export interface ToggleProps {
   checked: boolean;
   disabled?: boolean;
   onToggle?: (newState: boolean) => void;

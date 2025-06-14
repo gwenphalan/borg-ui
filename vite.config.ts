@@ -1,40 +1,37 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
-import tailwindcss from '@tailwindcss/vite'; // Import the plugin
-import path from 'path';
+import { resolve } from 'path';
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
   plugins: [
     react(),
-    svgr({
-      svgrOptions: {
-        icon: true,
-      },
-    }),
-    dts({ insertTypesEntry: true }),
-    tailwindcss(), // Add the tailwindcss plugin
+    dts({ include: ['src'] }),
+    svgr()
   ],
   build: {
     lib: {
-      entry: path.resolve(process.cwd(), 'src/index.ts'),
-      name: 'MyAwesomeUILibrary',
-      formats: ['es', 'umd'],
-      fileName: (format) => `my-awesome-ui-library.${format}.js`,
+      entry: resolve(__dirname, 'src/index.ts'),
+      name: 'BorgUI',
+      fileName: 'index',
+      formats: ['es']
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: ['react', 'react-dom'],
       output: {
         globals: {
           react: 'React',
-          'react-dom': 'ReactDOM',
-          'react/jsx-runtime': 'jsxRuntime',
-        },
-      },
+          'react-dom': 'ReactDOM'
+        }
+      }
     },
+    sourcemap: true,
+    minify: true
   },
-  server: {
-    allowedHosts: ['demo.unimatrix-01.dev'],
-  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src')
+    }
+  }
 });

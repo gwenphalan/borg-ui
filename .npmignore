@@ -1,0 +1,38 @@
+# Source files
+src/
+.git/
+.github/
+.vscode/
+
+# Development files
+*.log
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+.eslintrc*
+.prettierrc*
+.editorconfig
+.gitignore
+.cursorrules
+todo.md
+StyleGuide.md
+
+# Build files
+dist/
+coverage/
+.nyc_output/
+
+# Dependencies
+node_modules/
+
+# Config files
+tsconfig*.json
+vite.config.ts
+docker-compose.yml
+index.html
+
+# Misc
+.DS_Store
+*.pem
+.env* 
