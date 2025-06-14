@@ -1,46 +1,32 @@
 import { Menu } from '../menu/menu';
 import { ThemeToggle } from '../theme-toggle/theme-toggle';
-import type { MenuItem } from '../../types/menu';
 
-interface HeaderProps {
-    title?: string;
-    logo?: string;
-    menuItems?: MenuItem[];
-}
+const navItems = [
+    { label: 'Home', href: '/' },
+    { label: 'Features', href: '/features' },
+    { label: 'Documentation', href: '/docs' },
+    {
+        label: 'GitHub',
+        href: 'https://github.com/gwenphalan',
+        external: true,
+    },
+];
 
-export function Header({
-    title = "Borg UI",
-    logo,
-    menuItems = [
-        { label: "Home", href: "/" },
-        { label: "Features", href: "/features" },
-        { label: "Documentation", href: "/docs" },
-        { label: "GitHub", href: "https://github.com/gwenphalan", external: true }
-    ]
-}: HeaderProps) {
+export const Header = () => {
     return (
-        <header className="w-full bg-[var(--background-elevated)] border-b border-[var(--border-default)]">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
-                    <div className="flex items-center">
-                        {logo && (
-                            <img
-                                src={logo}
-                                alt={`${title} logo`}
-                                className="h-8 w-8 mr-3"
-                            />
-                        )}
-                        <span className="text-xl font-bold text-[var(--content-primary)]">
-                            {title}
-                        </span>
-                    </div>
-
-                    <nav className="flex items-center space-x-4">
-                        <Menu items={menuItems} />
-                        <ThemeToggle />
+        <header className="sticky top-0 z-40 w-full border-b border-[var(--border-default)] bg-[var(--background-default)]/80 backdrop-blur-sm">
+            <div className="container flex h-16 items-center justify-between">
+                <div className="flex items-center space-x-4">
+                    <img src="/icon.png" alt="Borg UI Icon" className="h-8 w-8" />
+                    <h1 className="text-xl font-bold">Borg UI</h1>
+                </div>
+                <div className="flex items-center space-x-4">
+                    <nav className="hidden md:flex">
+                        <Menu items={navItems} />
                     </nav>
+                    <ThemeToggle />
                 </div>
             </div>
         </header>
     );
-} 
+}; 

@@ -1,20 +1,23 @@
-import { useTheme } from '../../hooks/useTheme';
-import { Icon } from '../icon';
+import { Button } from '../button/button';
+import { Icon } from '../icon/icon';
+import { useTheme } from '../../hooks/use-theme';
 
-export function ThemeToggle() {
+export const ThemeToggle = () => {
     const { theme, toggleTheme } = useTheme();
 
     return (
-        <button
+        <Button
+            variant="ghost"
             onClick={toggleTheme}
-            className="p-2 rounded-lg hover:bg-[var(--background-elevated)] transition-colors"
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            aria-label="Toggle theme"
+            className="p-2"
         >
             {theme === 'dark' ? (
-                <Icon name="sun" size={20} color="var(--content-primary)" />
+                <Icon name="sun" className="h-5 w-5" />
             ) : (
-                <Icon name="moon" size={20} color="var(--content-primary)" />
+                <Icon name="moon" className="h-5 w-5" />
             )}
-        </button>
+            <span className="sr-only">Toggle theme</span>
+        </Button>
     );
-} 
+}; 

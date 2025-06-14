@@ -1,30 +1,17 @@
-import { Header } from '../header/header';
+import { ReactNode } from 'react';
 import { Footer } from '../footer/footer';
-import { ThemeProvider } from '../../context/ThemeContext';
-import type { MenuItem } from '../../types/menu';
+import { Header } from '../header/header';
 
 interface MainLayoutProps {
-    children: React.ReactNode;
-    title?: string;
-    logo?: string;
-    menuItems?: MenuItem[];
+    children: ReactNode;
 }
 
-export function MainLayout({
-    children,
-    title,
-    logo,
-    menuItems
-}: MainLayoutProps) {
+export const MainLayout = ({ children }: MainLayoutProps) => {
     return (
-        <ThemeProvider>
-            <div className="min-h-screen flex flex-col">
-                <Header title={title} logo={logo} menuItems={menuItems} />
-                <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    {children}
-                </main>
-                <Footer />
-            </div>
-        </ThemeProvider>
+        <div>
+            <Header />
+            <main className="container flex-1 py-8">{children}</main>
+            <Footer />
+        </div>
     );
-} 
+}; 

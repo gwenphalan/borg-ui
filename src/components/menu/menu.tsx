@@ -202,15 +202,8 @@ export function Menu({
                     </a>
                 );
             } else {
-                const buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> = {
-                    type: 'button',
-                    ...commonProps, // commonProps now includes onClick
-                    disabled: isDisabled,
-                    className: baseItemClass + ' group',
-                };
-                if (isActive) buttonProps['aria-current'] = 'page';
                 itemNode = (
-                    <button {...buttonProps}>
+                    <button {...commonProps}>
                         {content}
                     </button>
                 );

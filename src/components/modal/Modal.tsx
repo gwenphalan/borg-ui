@@ -172,22 +172,19 @@ export function Modal({
             {/* Footer Section */}
             {actions && actions.length > 0 && (
                 <div className="w-full h-[52px] flex justify-end items-end gap-[8px]">
-                    {actions.map((action, idx) => (
+                    {actions.map((action) => (
                         <Button
-                            key={`${action.label}-${idx}`}
-                            styleType={action.style || "primary"}
+                            key={action.label}
+                            onClick={action.onClick}
+                            variant={action.style === "primary" ? "primary" :
+                                action.style === "secondary" ? "secondary" :
+                                    action.style === "destructive" ? "destructive" :
+                                        action.style === "info" ? "info" :
+                                            action.style === "warn" ? "warn" : "default"}
                             icon={action.iconPosition || (action.iconName ? "left" : "off")}
                             iconName={action.iconName}
-                            onClick={action.onClick}
                             autoFocus={action.autoFocus}
                             disabled={action.disabled}
-                            className={clsx(
-                                action.style === "primary" && 'bg-[' + styleMap.content_primary + '] text-[' + styleMap.background_default + '] font-orbitron font-[900] text-[14.51px] leading-[29.87px]',
-                                action.style === "secondary" && 'bg-[' + styleMap.border_default + '] text-[' + styleMap.text_light + '] font-orbitron font-[900] text-[14.51px] leading-[29.87px]',
-                                action.style === "destructive" && 'bg-[' + styleMap.status_error + '] text-[' + styleMap.text_light + '] font-orbitron font-[900] text-[14.51px] leading-[29.87px]',
-                                action.style === "info" && 'bg-[' + styleMap.status_info + '] text-[' + styleMap.text_light + '] font-orbitron font-[900] text-[14.51px] leading-[29.87px]',
-                                action.style === "warn" && 'bg-[' + styleMap.status_warning + '] text-[' + styleMap.background_default + '] font-orbitron font-[900] text-[14.51px] leading-[29.87px]'
-                            )}
                         >
                             {action.label}
                         </Button>
