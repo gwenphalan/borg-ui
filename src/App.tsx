@@ -14,6 +14,7 @@ import { Breadcrumbs } from "./components/breadcrumbs";
 import { Menu } from "./components/menu/menu";
 import { Modal } from "./components/modal/Modal";
 import { WarpSpeedBackground } from "./components/background/warp-speed-background";
+import { HologramContainer } from "./components/container/hologram-container";
 import { MainLayout } from './components/layout/main-layout';
 
 function App() {
@@ -49,154 +50,157 @@ function App() {
   };
 
   return (
-    <MainLayout
-      title="Borg UI"
-      menuItems={[
-        { label: "Home", href: "/" },
-        { label: "Features", href: "/features" },
-        { label: "Documentation", href: "/docs" },
-        { label: "GitHub", href: "https://github.com/gwenphalan", external: true }
-      ]}
-    >
-      <div className="space-y-8">
-        <section className="text-center">
-          <h1 className="text-4xl font-bold text-[var(--content-primary)] mb-4">
-            Welcome to Borg UI
-          </h1>
-          <p className="text-[var(--content-secondary)] max-w-2xl mx-auto">
-            A modern, accessible, and customizable UI component library built with React, TypeScript, and Tailwind CSS.
-          </p>
-        </section>
-
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card
-            title="Modern Design"
-            subtitle="Built with modern web standards"
-          >
-            <p className="text-[var(--content-secondary)]">
-              Clean, accessible, and responsive components that follow the latest web design trends.
-            </p>
-          </Card>
-
-          <Card
-            title="TypeScript"
-            subtitle="Fully typed components"
-          >
-            <p className="text-[var(--content-secondary)]">
-              Written in TypeScript for better developer experience and type safety.
-            </p>
-          </Card>
-
-          <Card
-            title="Customizable"
-            subtitle="Theme and style customization"
-          >
-            <p className="text-[var(--content-secondary)]">
-              Easily customize the look and feel of components to match your brand.
-            </p>
-          </Card>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-[var(--content-primary)]">Interactive Components</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-4">
-              <TextInput
-                label="Username"
-                placeholder="Enter username"
-                value={username}
-                onChange={setUsername}
-              />
-              <TextArea
-                label="Description"
-                placeholder="Enter description"
-                value={description}
-                onChange={setDescription}
-              />
-              <Toggle
-                checked={isNotificationsEnabled}
-                onToggle={() => setIsNotificationsEnabled(!isNotificationsEnabled)}
-              />
-              <Checkbox
-                label="Accept terms"
-                checked={isTermsAccepted}
-                onChange={() => setIsTermsAccepted(!isTermsAccepted)}
-              />
-              <Radio
-                label="Select option"
-                name="option"
-                value="option1"
-                checked={selectedOption === 'option1'}
-                onChange={() => setSelectedOption('option1')}
-              />
-            </div>
-            <div className="space-y-4">
-              <DatePicker
-                value={selectedDate}
-                onChange={handleDateChange}
-                label="Select date"
-              />
-              <TimePicker
-                value={selectedTime}
-                onChange={handleTimeChange}
-                label="Select time"
-              />
-              <Dropdown
-                label="Select option"
-                options={[
-                  { label: "Option 1", value: "1" },
-                  { label: "Option 2", value: "2" }
-                ]}
-                value={selectedDropdownValue}
-                onChange={handleDropdownChange}
-                isOpen={isDropdownOpen}
-                onOpenChange={setIsDropdownOpen}
-              />
-              <Chip label="New" variant="primary" />
-            </div>
-          </div>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-[var(--content-primary)]">Navigation</h2>
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Components", href: "/components" },
-              { label: "Buttons", href: "/components/buttons" }
-            ]}
-          />
-          <Menu items={[
-            { label: "Profile", icon: "user" },
-            { label: "Settings", icon: "settings" },
-            { label: "Logout", icon: "logout" }
-          ]} />
-        </section>
-
-        <section className="text-center">
-          <Button
-            styleType="primary"
-            icon="right"
-            iconName="arrow"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Open Modal
-          </Button>
-        </section>
-
-        <Modal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          title="Welcome to Borg UI"
+    <div className="min-h-screen bg-[var(--background-default)]">
+      <WarpSpeedBackground />
+      <HologramContainer>
+        <MainLayout
+          title="Borg UI"
+          menuItems={[
+            { label: "Home", href: "/" },
+            { label: "Features", href: "/features" },
+            { label: "Documentation", href: "/docs" },
+            { label: "GitHub", href: "https://github.com/gwenphalan", external: true }
+          ]}
         >
-          <p className="text-[var(--content-secondary)]">
-            This is a modal dialog showcasing the modal component.
-          </p>
-        </Modal>
+          <div className="space-y-8">
+            <section className="text-center">
+              <h1 className="text-4xl font-bold text-[var(--content-primary)] mb-4">
+                Welcome to Borg UI
+              </h1>
+              <p className="text-[var(--content-secondary)] max-w-2xl mx-auto">
+                A modern, accessible, and customizable UI component library built with React, TypeScript, and Tailwind CSS.
+              </p>
+            </section>
 
-        <WarpSpeedBackground />
-      </div>
-    </MainLayout>
+            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card
+                title="Modern Design"
+                subtitle="Built with modern web standards"
+              >
+                <p className="text-[var(--content-secondary)]">
+                  Clean, accessible, and responsive components that follow the latest web design trends.
+                </p>
+              </Card>
+
+              <Card
+                title="TypeScript"
+                subtitle="Fully typed components"
+              >
+                <p className="text-[var(--content-secondary)]">
+                  Written in TypeScript for better developer experience and type safety.
+                </p>
+              </Card>
+
+              <Card
+                title="Customizable"
+                subtitle="Theme and style customization"
+              >
+                <p className="text-[var(--content-secondary)]">
+                  Easily customize the look and feel of components to match your brand.
+                </p>
+              </Card>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-bold text-[var(--content-primary)]">Interactive Components</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <TextInput
+                    label="Username"
+                    placeholder="Enter username"
+                    value={username}
+                    onChange={setUsername}
+                  />
+                  <TextArea
+                    label="Description"
+                    placeholder="Enter description"
+                    value={description}
+                    onChange={setDescription}
+                  />
+                  <Toggle
+                    checked={isNotificationsEnabled}
+                    onToggle={() => setIsNotificationsEnabled(!isNotificationsEnabled)}
+                  />
+                  <Checkbox
+                    label="Accept terms"
+                    checked={isTermsAccepted}
+                    onChange={() => setIsTermsAccepted(!isTermsAccepted)}
+                  />
+                  <Radio
+                    label="Select option"
+                    name="option"
+                    value="option1"
+                    checked={selectedOption === 'option1'}
+                    onChange={() => setSelectedOption('option1')}
+                  />
+                </div>
+                <div className="space-y-4">
+                  <DatePicker
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    label="Select date"
+                  />
+                  <TimePicker
+                    value={selectedTime}
+                    onChange={handleTimeChange}
+                    label="Select time"
+                  />
+                  <Dropdown
+                    label="Select option"
+                    options={[
+                      { label: "Option 1", value: "1" },
+                      { label: "Option 2", value: "2" }
+                    ]}
+                    value={selectedDropdownValue}
+                    onChange={handleDropdownChange}
+                    isOpen={isDropdownOpen}
+                    onOpenChange={setIsDropdownOpen}
+                  />
+                  <Chip label="New" variant="primary" />
+                </div>
+              </div>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-bold text-[var(--content-primary)]">Navigation</h2>
+              <Breadcrumbs
+                items={[
+                  { label: "Home", href: "/" },
+                  { label: "Components", href: "/components" },
+                  { label: "Buttons", href: "/components/buttons" }
+                ]}
+              />
+              <Menu items={[
+                { label: "Profile", icon: "user" },
+                { label: "Settings", icon: "settings" },
+                { label: "Logout", icon: "logout" }
+              ]} />
+            </section>
+
+            <section className="text-center">
+              <Button
+                styleType="primary"
+                icon="right"
+                iconName="arrow"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Open Modal
+              </Button>
+            </section>
+
+            <Modal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              title="Welcome to Borg UI"
+            >
+              <p className="text-[var(--content-secondary)]">
+                This is a modal dialog showcasing the modal component.
+              </p>
+            </Modal>
+          </div>
+        </MainLayout>
+      </HologramContainer>
+    </div>
   );
 }
 

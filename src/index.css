@@ -1,9 +1,12 @@
 /* src/index.css */
 
-/* 1. Import Google Fonts */
+/* 1. Import Tailwind's styles (Tailwind v4 shorthand) */
+@import "tailwindcss";
+
+/* 2. Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
 
-/* 2. Define your CSS Custom Properties (Source of Truth) */
+/* 3. Define your CSS Custom Properties (Source of Truth) */
 :root {
   font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 700;
@@ -58,9 +61,6 @@
 /* @config "./tailwind.config.js"; */
 /* If you use this, your tailwind.config.js would mainly contain the 'plugins' array. */
 /* The @theme directive above would still take precedence for theme values if defined in both. */
-
-/* 5. Import Tailwind's styles (Tailwind v4 shorthand) */
-@import "tailwindcss";
 
 body {
   margin: 0;
