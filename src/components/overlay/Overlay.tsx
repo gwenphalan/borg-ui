@@ -87,23 +87,26 @@ export function Overlay({
     if (!open) return null;
 
     const isHologram = React.useContext(HologramContext);
-    const content = isHologram ? <HologramEffect>{children}</HologramEffect> : children;
+
+    const panel = (
+        <div
+            ref={refs.setFloating}
+            className={className}
+            style={{
+                position: strategy,
+                top: y ?? 0,
+                left: x ?? 0,
+                zIndex: 9999,
+                ...style,
+            }}
+        >
+            {children}
+        </div>
+    );
 
     return (
         <HologramPortal>
-            <div
-                ref={refs.setFloating}
-                className={className}
-                style={{
-                    position: strategy,
-                    top: y ?? 0,
-                    left: x ?? 0,
-                    zIndex: 9999,
-                    ...style,
-                }}
-            >
-                {content}
-            </div>
+            {isHologram ? <HologramEffect>{panel}</HologramEffect> : panel}
         </HologramPortal>
     );
 } 
