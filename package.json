@@ -1,86 +1,33 @@
 {
-  "name": "@unimatrix-01/ui",
-  "version": "1.0.2",
-  "description": "A modern, holographic UI component library for React applications",
+  "name": "@unimatrix/create-borg-ui",
+  "version": "1.0.12",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./styles.css": "./dist/styles.css"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE",
-    "scripts",
-    "public"
-  ],
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "lint": "eslint . --max-warnings 0",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm run lint",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "setup": "node ./scripts/setup.js"
-  },
-  "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "dependencies": {
-    "@floating-ui/react": "^0.24.8",
-    "@radix-ui/react-slot": "^1.0.2",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.0.0",
-    "date-fns": "^3.3.1",
-    "react-day-picker": "^8.10.0",
-    "react-popper": "^2.3.0",
-    "tailwind-merge": "^2.0.0"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.29.0",
-    "@types/node": "^20.11.19",
-    "@types/react": "^18.2.55",
-    "@types/react-dom": "^18.2.19",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.17",
-    "eslint": "^8.56.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
-    "globals": "^16.2.0",
-    "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.2.2",
-    "typescript-eslint": "^8.34.0",
-    "vite": "^5.1.0",
-    "vite-plugin-dts": "^3.7.3",
-    "vite-plugin-svgr": "^4.2.0"
-  },
+  "description": "CLI tool for creating Borg UI projects",
   "bin": {
-    "borg-ui": "./scripts/setup.js"
+    "create-borg-ui": "./index.js"
   },
   "keywords": [
-    "react",
-    "ui",
-    "components",
-    "holographic",
-    "typescript",
-    "tailwindcss"
+    "cli",
+    "borg-ui",
+    "template",
+    "generator"
   ],
-  "author": "Unimatrix-01",
+  "author": "Unimatrix",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/yourusername/borg-ui/issues"
+  "files": [
+    "index.js",
+    "templates/",
+    "scripts/"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
   },
-  "homepage": "https://github.com/yourusername/borg-ui#readme"
+  "dependencies": {
+    "@inquirer/prompts": "^3.3.0",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "execa": "^8.0.1",
+    "fs-extra": "^11.2.0",
+    "ora": "^7.0.1"
+  }
 }
