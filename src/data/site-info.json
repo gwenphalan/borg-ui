@@ -1,0 +1,67 @@
+{
+  "site": {
+    "name": "Borg UI",
+    "tagline": "Resistance is Futile. Assimilation is Beautiful.",
+    "description": "A modern, accessible, and customizable UI component library built with React, TypeScript, and Tailwind CSS. Designed for developers who demand excellence in both functionality and aesthetics.",
+    "version": "1.0.12",
+    "repository": "https://github.com/gwenphalan/borg-ui",
+    "license": "MIT"
+  },
+  "author": {
+    "name": "Gwen Phalan",
+    "title": "Full-Stack Developer & UI/UX Designer",
+    "bio": "Passionate about creating beautiful, accessible, and performant user interfaces. With a background in both design and development, I bridge the gap between aesthetics and functionality to deliver exceptional user experiences.",
+    "avatar": "author_pfp.png",
+    "social": {
+      "github": "https://github.com/gwenphalan",
+      "website": "https://gwenphalan.dev",
+      "email": "gwen@example.com"
+    },
+    "skills": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "UI/UX Design",
+      "Accessibility",
+      "Performance"
+    ]
+  },
+  "features": [
+    {
+      "title": "Modern Design System",
+      "description": "Built with consistent design tokens and a unified aesthetic that scales across your entire application.",
+      "icon": "settings"
+    },
+    {
+      "title": "Accessibility First",
+      "description": "WCAG 2.1 AA compliant components with full keyboard navigation and screen reader support.",
+      "icon": "check"
+    },
+    {
+      "title": "TypeScript Native",
+      "description": "Written from the ground up in TypeScript with comprehensive type definitions for better DX.",
+      "icon": "arrow"
+    },
+    {
+      "title": "Customizable Theming",
+      "description": "Dark/light modes and extensive CSS custom properties for complete visual customization.",
+      "icon": "user"
+    },
+    {
+      "title": "Performance Optimized",
+      "description": "Tree-shakable components, optimized bundle sizes, and performance-first architecture.",
+      "icon": "clock"
+    },
+    {
+      "title": "Developer Experience",
+      "description": "Intuitive APIs, comprehensive documentation, and excellent TypeScript inference.",
+      "icon": "help"
+    }
+  ],
+  "stats": {
+    "components": 20,
+    "variants": 45,
+    "sizes": 15,
+    "features": 120
+  }
+}

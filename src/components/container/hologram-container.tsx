@@ -161,7 +161,7 @@ export function HologramContainer({
     <HologramContext.Provider value={true}>
       <HologramEffect>
         <div
-          className={`hologram-container ${className}`.trim()}
+          className={`hologram-container min-h-screen ${className}`.trim()}
           style={style}
         >
           {children}

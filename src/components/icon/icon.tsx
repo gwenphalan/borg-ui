@@ -5,16 +5,16 @@ import { cn } from "../../lib/utils";
 
 export interface IconProps {
   name: string;
-  className?: string;
+  size?: number;
   color?: string;
-  size?: number | string;
+  className?: string;
 }
 
-type SVGProps = { color: string; size: number | string };
+interface IconComponent {
+  (props: { color: string; size: number }): JSX.Element;
+}
 
-type SVGComponent = React.FC<SVGProps>;
-
-const icons: Record<string, SVGComponent> = {
+const icons: Record<string, IconComponent> = {
   arrow: ({ color, size }) => (
     <svg viewBox="0 0 24 24" fill="none" width={size} height={size}>
       <path d="M5 12h14M13 6l6 6-6 6" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -167,84 +167,34 @@ const icons: Record<string, SVGComponent> = {
       <line x1="21" y1="12" x2="9" y2="12" />
     </svg>
   ),
+  // Sun icon for light theme
+  "sun": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="5" />
+      <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+    </svg>
+  ),
+  // Moon icon for dark theme
+  "moon": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  ),
 };
 
-// Preload any user-supplied SVGs that live in src/assets/icons (optional).
-// This uses Vite's glob import so that the dependency scanner is happy even when
-// the directory is missing or empty.
-const projectIconModules: Record<string, () => Promise<any>> = import.meta.glob(
-  "../../assets/icons/**/*.svg"
-);
-
-async function loadIcon(name: string): Promise<React.ComponentType<React.SVGProps<SVGSVGElement>>> {
-  const keyCandidates = [
-    `../../assets/icons/${name}.svg`,
-  ];
-
-  for (const key of keyCandidates) {
-    if (key in projectIconModules) {
-      const mod = await projectIconModules[key]();
-      return (mod as any).ReactComponent || (mod as any).default || (() => null);
-    }
-  }
-
-  // Fallback: try to load from public /icons folder in consumer projects.
-  try {
-    const pkgIcon = await import(/* @vite-ignore */ `/icons/${name}.svg?react`);
-    return pkgIcon.ReactComponent || pkgIcon.default;
-  } catch {
-    return () => null;
-  }
-}
-
-function DynamicSvgIcon({ name, className = "", color = "currentColor", size = 24 }: IconProps) {
-  const [IconComponent, setIconComponent] = React.useState<React.ComponentType<React.SVGProps<SVGSVGElement>> | null>(null);
-
-  React.useEffect(() => {
-    let mounted = true;
-
-    loadIcon(name).then((Component) => {
-      if (mounted) {
-        setIconComponent(() => Component);
-      }
-    });
-
-    return () => {
-      mounted = false;
-    };
-  }, [name]);
-
-  if (!IconComponent) {
-    return null;
-  }
-
-  return (
-    <span
-      className={cn("inline-flex", className)}
-      style={{ color, width: size, height: size }}
-    >
-      <IconComponent
-        className={cn(className)}
-        style={{ color, width: size, height: size }}
-      />
-    </span>
-  );
-}
-
 export function Icon({ name, className = "", color = "currentColor", size = 24 }: IconProps) {
-  const IconSvg = icons[name];
-  if (IconSvg) {
+  const IconComponent = icons[name as keyof typeof icons];
+  if (IconComponent) {
     return (
       <span
         className={cn("inline-flex", className)}
         style={{ color, width: size, height: size }}
       >
-        <IconSvg color={color} size={size} />
+        <IconComponent color={color} size={size} />
       </span>
     );
   }
-  // Fallback to dynamic SVG import
-  return <DynamicSvgIcon name={name} className={className} color={color} size={size} />;
+  return null;
 }
 
 Icon.displayName = 'Icon'; 

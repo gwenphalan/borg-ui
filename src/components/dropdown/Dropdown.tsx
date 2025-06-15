@@ -144,18 +144,15 @@ export function Dropdown({
                 <span className="flex-1 text-left truncate font-extrabold">
                     {buttonLabel}
                 </span>
-                <button
-                    type="button"
+                <span
                     className={`chevron-button ${isOpen ? 'open' : ''}`}
-                    tabIndex={-1}
-                    disabled={disabled}
                 >
                     <Icon
                         name="chevron"
                         size={20}
                         color={disabled ? "var(--border-default)" : "var(--content-primary)"}
                     />
-                </button>
+                </span>
             </button>
             <Overlay
                 reference={buttonRef.current}
@@ -179,10 +176,10 @@ export function Dropdown({
                         <button
                             key={opt.value || idx}
                             className={`flex items-center w-full text-left px-4 py-2 text-sm rounded ${opt.disabled
-                                    ? "opacity-50 cursor-not-allowed"
-                                    : isSelected
-                                        ? "bg-(--interactive-accentfocus) text-(--text-background-default) font-bold hover:opacity-90"
-                                        : "hover:bg-background-default"
+                                ? "opacity-50 cursor-not-allowed"
+                                : isSelected
+                                    ? "bg-(--interactive-accentfocus) text-(--text-background-default) font-bold hover:opacity-90"
+                                    : "hover:bg-background-default"
                                 }`}
                             onClick={() => handleOptionClick(opt)}
                             onMouseEnter={() => handleOptionMouseEnter()}

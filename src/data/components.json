@@ -1,0 +1,297 @@
+{
+  "components": [
+    {
+      "id": "button",
+      "name": "Button",
+      "category": "Actions",
+      "description": "Interactive button component with multiple variants and sizes",
+      "variants": [
+        "primary",
+        "secondary",
+        "destructive",
+        "info",
+        "warn",
+        "outline",
+        "ghost",
+        "link"
+      ],
+      "sizes": ["sm", "default", "lg", "large", "icon"],
+      "features": [
+        "Icons",
+        "Loading states",
+        "Disabled states",
+        "Custom styling"
+      ],
+      "accessibility": "WCAG 2.1 AA compliant",
+      "usage": "Core interactive element for user actions"
+    },
+    {
+      "id": "toggle-button",
+      "name": "Toggle Button",
+      "category": "Actions",
+      "description": "Stateful button that toggles between active and inactive states",
+      "variants": ["primary", "secondary", "destructive", "info", "warn"],
+      "sizes": ["sm", "default", "lg", "large", "icon"],
+      "features": [
+        "Toggle state",
+        "Controlled/Uncontrolled",
+        "Icons",
+        "Custom styling"
+      ],
+      "accessibility": "ARIA pressed states",
+      "usage": "For binary state changes and filters"
+    },
+    {
+      "id": "text-input",
+      "name": "Text Input",
+      "category": "Forms",
+      "description": "Versatile text input with validation and enhanced features",
+      "variants": ["default", "error", "warning"],
+      "sizes": ["default"],
+      "features": [
+        "Validation",
+        "Dropdown suggestions",
+        "Character count",
+        "Password strength"
+      ],
+      "accessibility": "Screen reader compatible",
+      "usage": "Data collection and user input"
+    },
+    {
+      "id": "text-area",
+      "name": "Text Area",
+      "category": "Forms",
+      "description": "Multi-line text input for longer content",
+      "variants": ["default", "error", "warning"],
+      "sizes": ["default"],
+      "features": [
+        "Auto-resize",
+        "Character count",
+        "Validation",
+        "Custom height"
+      ],
+      "accessibility": "ARIA labeling",
+      "usage": "Long-form text input"
+    },
+    {
+      "id": "checkbox",
+      "name": "Checkbox",
+      "category": "Forms",
+      "description": "Binary selection component with indeterminate state support",
+      "variants": ["default"],
+      "sizes": ["default"],
+      "features": ["Indeterminate state", "Custom labels", "Disabled states"],
+      "accessibility": "Full keyboard navigation",
+      "usage": "Multi-select options"
+    },
+    {
+      "id": "radio",
+      "name": "Radio Button",
+      "category": "Forms",
+      "description": "Single selection from a group of options",
+      "variants": ["default"],
+      "sizes": ["default"],
+      "features": ["Group management", "Custom labels", "Disabled states"],
+      "accessibility": "Arrow key navigation",
+      "usage": "Exclusive selection"
+    },
+    {
+      "id": "toggle",
+      "name": "Toggle Switch",
+      "category": "Forms",
+      "description": "Animated toggle switch for binary settings",
+      "variants": ["default"],
+      "sizes": ["default"],
+      "features": ["Smooth animation", "Hover effects", "Disabled states"],
+      "accessibility": "ARIA switch role",
+      "usage": "Settings and preferences"
+    },
+    {
+      "id": "dropdown",
+      "name": "Dropdown",
+      "category": "Forms",
+      "description": "Searchable dropdown with single/multi-select support",
+      "variants": ["default"],
+      "sizes": ["default"],
+      "features": [
+        "Search",
+        "Multi-select",
+        "Custom options",
+        "Keyboard navigation"
+      ],
+      "accessibility": "ARIA combobox",
+      "usage": "Option selection"
+    },
+    {
+      "id": "date-picker",
+      "name": "Date Picker",
+      "category": "Forms",
+      "description": "Comprehensive date selection with calendar interface",
+      "variants": ["default"],
+      "sizes": ["default"],
+      "features": [
+        "Calendar view",
+        "Range selection",
+        "Min/max dates",
+        "Localization"
+      ],
+      "accessibility": "Full keyboard support",
+      "usage": "Date input and selection"
+    },
+    {
+      "id": "time-picker",
+      "name": "Time Picker",
+      "category": "Forms",
+      "description": "Time selection with 12/24 hour formats",
+      "variants": ["default"],
+      "sizes": ["default"],
+      "features": ["12/24 hour", "Step intervals", "AM/PM toggle"],
+      "accessibility": "Number input accessible",
+      "usage": "Time input"
+    },
+    {
+      "id": "card",
+      "name": "Card",
+      "category": "Layout",
+      "description": "Versatile container for grouping related content",
+      "variants": ["default", "primary", "outlined", "secondary"],
+      "sizes": ["default"],
+      "features": [
+        "Header/Footer",
+        "Actions",
+        "Images",
+        "Clickable",
+        "Loading states"
+      ],
+      "accessibility": "Semantic markup",
+      "usage": "Content organization"
+    },
+    {
+      "id": "modal",
+      "name": "Modal",
+      "category": "Overlay",
+      "description": "Overlay dialog for focused interactions",
+      "variants": ["default"],
+      "sizes": ["default"],
+      "features": ["Backdrop", "Escape handling", "Focus trap", "Animations"],
+      "accessibility": "Focus management",
+      "usage": "Interrupting workflows"
+    },
+    {
+      "id": "table",
+      "name": "Data Table",
+      "category": "Data Display",
+      "description": "Feature-rich table with sorting, filtering, and selection",
+      "variants": ["default"],
+      "sizes": ["default"],
+      "features": [
+        "Sorting",
+        "Filtering",
+        "Pagination",
+        "Row selection",
+        "Custom cells"
+      ],
+      "accessibility": "Screen reader friendly",
+      "usage": "Tabular data display"
+    },
+    {
+      "id": "accordion",
+      "name": "Accordion",
+      "category": "Data Display",
+      "description": "Collapsible content sections",
+      "variants": ["default"],
+      "sizes": ["default"],
+      "features": ["Multiple panels", "Animation", "Default open", "Icons"],
+      "accessibility": "ARIA expanded states",
+      "usage": "FAQ and content organization"
+    },
+    {
+      "id": "avatar",
+      "name": "Avatar",
+      "category": "Data Display",
+      "description": "User profile image with fallback and status indicators",
+      "variants": ["default"],
+      "sizes": ["sm", "md", "lg"],
+      "features": [
+        "Image fallback",
+        "Status indicators",
+        "Initials",
+        "Rounded variants"
+      ],
+      "accessibility": "Alt text support",
+      "usage": "User representation"
+    },
+    {
+      "id": "badge",
+      "name": "Badge",
+      "category": "Data Display",
+      "description": "Small status and notification indicators",
+      "variants": ["default", "info", "success", "warning", "error"],
+      "sizes": ["default"],
+      "features": ["Icons", "Dismissible", "Pill shape", "Counts"],
+      "accessibility": "Status announcements",
+      "usage": "Status communication"
+    },
+    {
+      "id": "chip",
+      "name": "Chip",
+      "category": "Data Display",
+      "description": "Compact elements for tags, filters, and selections",
+      "variants": [
+        "default",
+        "primary",
+        "secondary",
+        "info",
+        "warning",
+        "error"
+      ],
+      "sizes": ["sm", "md", "lg"],
+      "features": ["Removable", "Icons", "Click actions", "Selection states"],
+      "accessibility": "Keyboard interaction",
+      "usage": "Tags and filters"
+    },
+    {
+      "id": "breadcrumbs",
+      "name": "Breadcrumbs",
+      "category": "Navigation",
+      "description": "Hierarchical navigation showing user location",
+      "variants": ["default"],
+      "sizes": ["default"],
+      "features": ["Icons", "Custom separators", "Click navigation"],
+      "accessibility": "Navigation landmarks",
+      "usage": "Site navigation"
+    },
+    {
+      "id": "menu",
+      "name": "Menu",
+      "category": "Navigation",
+      "description": "Contextual action menus with icons and grouping",
+      "variants": ["default"],
+      "sizes": ["default"],
+      "features": [
+        "Icons",
+        "Grouping",
+        "Disabled items",
+        "Keyboard navigation"
+      ],
+      "accessibility": "ARIA menu role",
+      "usage": "Action lists"
+    },
+    {
+      "id": "tooltip",
+      "name": "Tooltip",
+      "category": "Overlay",
+      "description": "Contextual information on hover or focus",
+      "variants": ["default"],
+      "sizes": ["default"],
+      "features": [
+        "Positioning",
+        "Delay control",
+        "Rich content",
+        "Arrow indicators"
+      ],
+      "accessibility": "Screen reader compatible",
+      "usage": "Additional context"
+    }
+  ]
+}

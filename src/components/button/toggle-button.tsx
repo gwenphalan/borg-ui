@@ -4,6 +4,7 @@ import { Icon } from "../icon/icon";
 import clsx from "clsx";
 
 type StyleKey = "destructive" | "info" | "secondary" | "primary" | "warn";
+type ToggleButtonSize = "default" | "sm" | "lg" | "large" | "icon";
 
 export interface ToggleButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   styleType?: StyleKey;
@@ -15,6 +16,7 @@ export interface ToggleButtonProps extends ButtonHTMLAttributes<HTMLButtonElemen
   onToggledChange?: (isToggled: boolean) => void;
   label?: string;
   className?: string;
+  size?: ToggleButtonSize;
 }
 
 export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
@@ -30,6 +32,7 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
       label,
       className = "",
       onClick: propsOnClick,
+      size = "default",
       ...props
     },
     ref
@@ -50,28 +53,37 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
 
     const styleMap: Record<StyleKey, { toggled: string; untoggled: string }> = {
       destructive: {
-        toggled: "bg-(--status-error) text-(--text-light) border-2 border-transparent",
-        untoggled: "bg-transparent text-(--text-light) border-2 border-(--status-error)",
+        toggled: "bg-status-error text-text-light border-2 border-transparent",
+        untoggled: "bg-transparent text-text-light border-2 border-status-error",
       },
       info: {
-        toggled: "bg-(--status-info) text-(--text-light) border-2 border-transparent",
-        untoggled: "bg-transparent text-(--text-light) border-2 border-(--status-info)",
+        toggled: "bg-status-info text-text-light border-2 border-transparent",
+        untoggled: "bg-transparent text-text-light border-2 border-status-info",
       },
       secondary: {
-        toggled: "bg-(--border-default) text-(--text-light) border-2 border-transparent",
-        untoggled: "bg-transparent text-(--text-light) border-2 border-(--border-default)",
+        toggled: "bg-border-default text-text-light border-2 border-transparent",
+        untoggled: "bg-transparent text-text-light border-2 border-border-default",
       },
       primary: {
-        toggled: "bg-(--content-primary) text-(--background-default) border-2 border-transparent",
-        untoggled: "bg-transparent text-(--text-light) border-2 border-(--content-primary)",
+        toggled: "bg-content-primary text-text-dark border-2 border-transparent",
+        untoggled: "bg-transparent text-text-light border-2 border-content-primary",
       },
       warn: {
-        toggled: "bg-(--status-warning) text-(--background-default) border-2 border-transparent",
-        untoggled: "bg-transparent text-(--text-light) border-2 border-(--status-warning)",
+        toggled: "bg-status-warning text-text-dark border-2 border-transparent",
+        untoggled: "bg-transparent text-text-light border-2 border-status-warning",
       },
     };
 
+    const sizeMap: Record<ToggleButtonSize, { height: string; padding: string; iconPadding: string; fontSize?: string }> = {
+      default: { height: "h-10", padding: "px-4 py-2", iconPadding: "p-2.5" },
+      sm: { height: "h-9", padding: "px-3 py-1.5", iconPadding: "p-2" },
+      lg: { height: "h-11", padding: "px-8 py-2.5", iconPadding: "p-2.5" },
+      large: { height: "h-12", padding: "px-10 py-3", iconPadding: "p-3", fontSize: "text-base" },
+      icon: { height: "h-10", padding: "p-2.5", iconPadding: "p-2.5" },
+    };
+
     const stylesForType = styleMap[styleType];
+    const sizeConfig = sizeMap[size];
     const colorClasses = currentToggledState
       ? stylesForType.toggled
       : stylesForType.untoggled;
@@ -82,24 +94,17 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
     const cursor = "cursor-pointer";
     const focusRing = "focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-(--content-primary)";
 
-    const isIconOnly = icon !== "off" && iconName && !label;
+    const isIconOnly = (icon !== "off" && iconName && !label) || size === "icon";
 
-    let paddingClasses = "";
-    if (isIconOnly) {
-      paddingClasses = "p-2.5";
-    } else {
-      paddingClasses = "px-4 py-2";
-    }
+    const paddingClasses = isIconOnly ? sizeConfig.iconPadding : sizeConfig.padding;
 
     const iconColor = currentToggledState
       ? styleType === "primary"
-        ? "#08140B"
+        ? "var(--text-dark)"
         : styleType === "warn"
-        ? "#333333"
-        : "#fff"
-      : styleType === "primary"
-      ? "#D0FFDD"
-      : "#fff";
+          ? "var(--text-dark)"
+          : "var(--text-light)"
+      : "var(--text-light)";
 
     return (
       <button
@@ -109,8 +114,8 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
         className={clsx(
           "inline-flex items-center justify-center relative",
           "inline-flex items-center justify-center relative gap-2",
-          "h-10",
-          isIconOnly ? "w-10" : "", // Use w-10 for icon-only to ensure square shape
+          sizeConfig.height,
+          isIconOnly ? `w-${sizeConfig.height.split('-')[1]}` : "", // Match width to height for icon-only
           shadow,
           colorClasses,
           pillShape,
@@ -120,6 +125,7 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
           "hover:scale-105 hover:shadow-lg",
           "active:scale-95",
           paddingClasses,
+          sizeConfig.fontSize,
           className
         )}
         aria-pressed={currentToggledState}
@@ -129,7 +135,12 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
           <Icon name={iconName} className="w-5 h-5" color={iconColor} />
         )}
         {label && (
-          <span className={clsx("font-semibold text-sm leading-none flex-1 text-right")}>{label}</span>
+          <span
+            className={clsx("font-semibold text-sm leading-none flex-1 text-right")}
+            style={{ color: iconColor }}
+          >
+            {label}
+          </span>
         )}
         {icon === "right" && iconName && (
           <Icon name={iconName} className="w-5 h-5" color={iconColor} />

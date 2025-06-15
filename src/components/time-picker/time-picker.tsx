@@ -235,10 +235,10 @@ export function TimePicker({
                         ref={el => itemRefArray[index] = el}
                         onClick={() => !disabled && onSelect(item)}
                         className={`w-full text-center p-1 rounded ${disabled
-                                ? "opacity-50 cursor-not-allowed"
-                                : isSelected
-                                    ? "bg-(--interactive-accentfocus) text-(--text-background-default) font-bold hover:opacity-90"
-                                    : "hover:bg-background-default"
+                            ? "opacity-50 cursor-not-allowed"
+                            : isSelected
+                                ? "bg-(--interactive-accentfocus) text-(--text-background-default) font-bold hover:opacity-90"
+                                : "hover:bg-background-default"
                             }`}
                         disabled={disabled}
                     >
@@ -250,7 +250,7 @@ export function TimePicker({
     );
 
     // Custom hook for scrolling to selected item
-    function useScrollToSelected(colRef: React.RefObject<HTMLDivElement>, items: (string | number)[], selectedValue: string | number | null, itemRefArray: (HTMLButtonElement | null)[]) {
+    function useScrollToSelected(isOpen: boolean, colRef: React.RefObject<HTMLDivElement>, items: (string | number)[], selectedValue: string | number | null, itemRefArray: (HTMLButtonElement | null)[]) {
         useEffect(() => {
             if (isOpen && colRef.current && selectedValue !== null) {
                 const idx = items.findIndex(i => i === selectedValue);
@@ -270,10 +270,10 @@ export function TimePicker({
     const secondColRef = useRef<HTMLDivElement>(null);
     const ampmColRef = useRef<HTMLDivElement>(null);
 
-    useScrollToSelected(hourColRef, hours, pendingHour, itemRefs.current[0]);
-    useScrollToSelected(minuteColRef, minutes, pendingMinute, itemRefs.current[1]);
-    useScrollToSelected(secondColRef, seconds, showSeconds ? pendingSecond : null, itemRefs.current[2]);
-    useScrollToSelected(ampmColRef, ["AM", "PM"], is12Hour ? pendingAmPm : null, itemRefs.current[3]);
+    useScrollToSelected(isOpen, hourColRef, hours, pendingHour, itemRefs.current[0]);
+    useScrollToSelected(isOpen, minuteColRef, minutes, pendingMinute, itemRefs.current[1]);
+    useScrollToSelected(isOpen, secondColRef, seconds, showSeconds ? pendingSecond : null, itemRefs.current[2]);
+    useScrollToSelected(isOpen, ampmColRef, ["AM", "PM"], is12Hour ? pendingAmPm : null, itemRefs.current[3]);
 
 
     const panelContent = (
@@ -300,7 +300,7 @@ export function TimePicker({
     const labelClasses = `label-base ${error ? 'text-status-error' : 'text-content-primary'
         }`;
     const inputClasses = `input-base ${error ? 'error-state' :
-            isOpen ? 'focus-state' : ''
+        isOpen ? 'focus-state' : ''
         } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} input-focus-ring`;
 
     return (

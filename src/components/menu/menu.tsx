@@ -1,5 +1,6 @@
 import React, { useState, useRef, MouseEvent } from "react";
 import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
 import { Icon } from "../icon/icon";
 import { Overlay } from "../overlay/Overlay";
 
@@ -153,7 +154,32 @@ function MenuItemComponent({
 
     let itemNode: ReactNode;
     if (item.href && !disabled) {
-        itemNode = <a href={item.href} className={finalItemClass} data-active={active} onClick={handleItemClick} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}>{content}</a>;
+        // Use React Router Link for internal navigation, regular anchor for external
+        if (item.href.startsWith('http') || item.href.startsWith('mailto:') || item.href.startsWith('tel:')) {
+            itemNode = (
+                <a
+                    href={item.href}
+                    className={finalItemClass}
+                    data-active={active}
+                    onClick={handleItemClick}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {content}
+                </a>
+            );
+        } else {
+            itemNode = (
+                <Link
+                    to={item.href}
+                    className={finalItemClass}
+                    data-active={active}
+                    onClick={handleItemClick}
+                >
+                    {content}
+                </Link>
+            );
+        }
     } else {
         itemNode = <button type="button" className={finalItemClass} data-active={active} onClick={handleItemClick} disabled={disabled}>{content}</button>;
     }
