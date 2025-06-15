@@ -115,7 +115,7 @@ function MenuItemComponent({
     const baseItemClass = `flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none no-underline group ${itemClassName} ${item.className || ''} ${isVertical ? 'w-full' : ''}`;
 
     const activeClass = "text-content-primary bg-background-default";
-    const hoverClass = "hover:bg-content-primary hover:text-[var(--text-dark)]";
+    const hoverClass = "hover:bg-content-primary hover:text-(--text-dark)";
     const disabledClass = "bg-transparent text-content-secondary opacity-50 cursor-not-allowed";
     const defaultClass = "bg-transparent text-content-primary";
 
@@ -145,7 +145,7 @@ function MenuItemComponent({
     const content = (
         <>
             {item.icon && (
-                <span className="h-5 w-5 flex-shrink-0 mr-2 flex items-center">
+                <span className="h-5 w-5 shrink-0 mr-2 flex items-center">
                     {typeof item.icon === "string" ? <Icon name={item.icon} size={20} color={iconColor} /> : item.icon}
                 </span>
             )}

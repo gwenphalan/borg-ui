@@ -181,7 +181,7 @@ export function Dropdown({
                             className={`flex items-center w-full text-left px-4 py-2 text-sm rounded ${opt.disabled
                                     ? "opacity-50 cursor-not-allowed"
                                     : isSelected
-                                        ? "bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-bold hover:opacity-90"
+                                        ? "bg-(--interactive-accentfocus) text-(--text-background-default) font-bold hover:opacity-90"
                                         : "hover:bg-background-default"
                                 }`}
                             onClick={() => handleOptionClick(opt)}

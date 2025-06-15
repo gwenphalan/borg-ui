@@ -193,7 +193,7 @@ export function TextInput({
                 <input
                     ref={inputRef}
                     type={type}
-                    className="w-full min-w-0 bg-transparent border-none outline-none text-base font-extrabold font-orbitron p-0 m-0 break-words text-content-primary placeholder:text-content-secondary"
+                    className="w-full min-w-0 bg-transparent border-none outline-hidden text-base font-extrabold font-orbitron p-0 m-0 break-words text-content-primary placeholder:text-content-secondary"
                     value={value}
                     onChange={e => {
                         if (!maxLength || e.target.value.length <= maxLength) onChange(e.target.value);

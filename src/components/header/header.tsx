@@ -18,7 +18,7 @@ export const Header = () => {
             <div className="flex items-center justify-between px-2 mx-auto">
                 <a href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity cursor-pointer">
                     <img src="/icon.png" alt="Borg UI Icon" className="h-7 w-7" />
-                    <h1 className="text-lg font-bold text-[var(--content-primary)]">Borg UI</h1>
+                    <h1 className="text-lg font-bold text-(--content-primary)">Borg UI</h1>
                 </a>
                 <div className="flex items-center space-x-4">
                     <nav className="flex">

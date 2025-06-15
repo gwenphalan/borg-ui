@@ -50,24 +50,24 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
 
     const styleMap: Record<StyleKey, { toggled: string; untoggled: string }> = {
       destructive: {
-        toggled: "bg-[var(--status-error)] text-[var(--text-light)] border-2 border-transparent",
-        untoggled: "bg-transparent text-[var(--text-light)] border-2 border-[var(--status-error)]",
+        toggled: "bg-(--status-error) text-(--text-light) border-2 border-transparent",
+        untoggled: "bg-transparent text-(--text-light) border-2 border-(--status-error)",
       },
       info: {
-        toggled: "bg-[var(--status-info)] text-[var(--text-light)] border-2 border-transparent",
-        untoggled: "bg-transparent text-[var(--text-light)] border-2 border-[var(--status-info)]",
+        toggled: "bg-(--status-info) text-(--text-light) border-2 border-transparent",
+        untoggled: "bg-transparent text-(--text-light) border-2 border-(--status-info)",
       },
       secondary: {
-        toggled: "bg-[var(--border-default)] text-[var(--text-light)] border-2 border-transparent",
-        untoggled: "bg-transparent text-[var(--text-light)] border-2 border-[var(--border-default)]",
+        toggled: "bg-(--border-default) text-(--text-light) border-2 border-transparent",
+        untoggled: "bg-transparent text-(--text-light) border-2 border-(--border-default)",
       },
       primary: {
-        toggled: "bg-[var(--content-primary)] text-[var(--background-default)] border-2 border-transparent",
-        untoggled: "bg-transparent text-[var(--text-light)] border-2 border-[var(--content-primary)]",
+        toggled: "bg-(--content-primary) text-(--background-default) border-2 border-transparent",
+        untoggled: "bg-transparent text-(--text-light) border-2 border-(--content-primary)",
       },
       warn: {
-        toggled: "bg-[var(--status-warning)] text-[var(--background-default)] border-2 border-transparent",
-        untoggled: "bg-transparent text-[var(--text-light)] border-2 border-[var(--status-warning)]",
+        toggled: "bg-(--status-warning) text-(--background-default) border-2 border-transparent",
+        untoggled: "bg-transparent text-(--text-light) border-2 border-(--status-warning)",
       },
     };
 
@@ -80,7 +80,7 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
     const pillShape = state === "focus" ? "rounded-xl" : "rounded-full";
     const transition = "transition-all duration-200 ease-out";
     const cursor = "cursor-pointer";
-    const focusRing = "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--content-primary)]";
+    const focusRing = "focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-(--content-primary)";
 
     const isIconOnly = icon !== "off" && iconName && !label;
 

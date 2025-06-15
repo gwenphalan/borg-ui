@@ -29,8 +29,8 @@ This document summarizes the comprehensive CSS refactoring performed across the 
 - **Changes**:
   - Removed inline `style={{ backgroundAttachment: 'fixed' }}` 
   - Replaced with `bg-fixed` utility class
-  - Updated all `text-[var(--content-primary)]` to `text-content-primary`
-  - Updated all `text-[var(--content-secondary)]` to `text-content-secondary`
+  - Updated all `text-(--content-primary)` to `text-content-primary`
+  - Updated all `text-(--content-secondary)` to `text-content-secondary`
 
 ### 4. Manually Refactored Core Components
 
@@ -52,7 +52,7 @@ This document summarizes the comprehensive CSS refactoring performed across the 
 #### Button Component (`src/components/button/button.tsx`)
 - **Removed**: Repetitive font declarations across variants
 - **Consolidated**: All variants use consistent utility patterns
-- **Replaced**: `font-[900] text-[14.51px] leading-[29.87px]` with `font-black text-sm leading-normal`
+- **Replaced**: `font-black text-[14.51px] leading-[29.87px]` with `font-black text-sm leading-normal`
 - **Added**: Base `btn-base` utility with `focus-ring` for consistent behavior
 
 #### Toggle Component (`src/components/toggle/toggle.tsx`)
@@ -177,7 +177,7 @@ After the initial roll-out we tackled a handful of regressions and polish tasks 
 * Added missing built-in icons (`user`, `settings`, `logout`) to `Icon` component so external SVG downloads are no longer required.
 
 ### 7.2  Navigation Menu Polish
-* Menu items now use `hover:bg-content-primary hover:text-[var(--text-dark)]` and icons follow the same colour for perfect contrast.
+* Menu items now use `hover:bg-content-primary hover:text-(--text-dark)` and icons follow the same colour for perfect contrast.
 * Header nav is visible on all break-points (removed `hidden md:flex` gate).
 
 ### 7.3  Overlay / Portal Architecture

@@ -76,8 +76,8 @@ export function Chip({
     const isInteractive = clickable && !disabled && typeof onClick === "function";
     return (
         <span
-            className={`inline-flex items-center gap-1 rounded-full font-orbitron font-semibold uppercase tracking-[1px] select-none transition-all duration-150 outline-none ${variantStyles.bg
-                } ${variantStyles.border} ${variantStyles.text} ${sizeStyles} ${isInteractive ? "cursor-pointer hover:shadow-md hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-[var(--interactive-accentfocus)]" : ""
+            className={`inline-flex items-center gap-1 rounded-full font-orbitron font-semibold uppercase tracking-[1px] select-none transition-all duration-150 outline-hidden ${variantStyles.bg
+                } ${variantStyles.border} ${variantStyles.text} ${sizeStyles} ${isInteractive ? "cursor-pointer hover:shadow-md hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-(--interactive-accentfocus)" : ""
                 } ${disabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""} ${className}`}
             style={style}
             tabIndex={isInteractive ? 0 : undefined}
@@ -103,7 +103,7 @@ export function Chip({
                         e.stopPropagation();
                         onClose?.();
                     }}
-                    className="ml-1 flex items-center justify-center w-4 h-4 rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--interactive-accentfocus)] cursor-pointer"
+                    className="ml-1 flex items-center justify-center w-4 h-4 rounded-full focus:outline-hidden focus:ring-2 focus:ring-(--interactive-accentfocus) cursor-pointer"
                     tabIndex={0}
                 >
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">

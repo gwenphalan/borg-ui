@@ -46,7 +46,7 @@ export function Badge({
                     type="button"
                     aria-label="Remove badge"
                     onClick={onRemove}
-                    className="mr-1 flex items-center justify-center w-4 h-4 rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--interactive-accentfocus)] cursor-pointer"
+                    className="mr-1 flex items-center justify-center w-4 h-4 rounded-full focus:outline-hidden focus:ring-2 focus:ring-(--interactive-accentfocus) cursor-pointer"
                     tabIndex={0}
                 >
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">

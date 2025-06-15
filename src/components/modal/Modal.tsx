@@ -132,7 +132,7 @@ export function Modal({
                             <h2 className="text-lg font-bold text-content-primary">{title}</h2>
                             <button
                                 onClick={onClose}
-                                className="text-content-primary hover:text-[var(--interactive-accentfocus)] transition-colors"
+                                className="text-content-primary hover:text-(--interactive-accentfocus) transition-colors"
                             >
                                 <Icon name="close" size={24} />
                             </button>
@@ -156,7 +156,7 @@ export function Modal({
                         <h2 className="text-lg font-bold text-content-primary">{title}</h2>
                         <button
                             onClick={onClose}
-                            className="text-content-primary hover:text-[var(--interactive-accentfocus)] transition-colors"
+                            className="text-content-primary hover:text-(--interactive-accentfocus) transition-colors"
                         >
                             <Icon name="close" size={24} />
                         </button>

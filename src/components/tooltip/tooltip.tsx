@@ -56,7 +56,7 @@ export function Tooltip({
                 onOpenChange={setIsOpen}
                 placement={placement}
                 className={[
-                    "z-50 px-3 py-2 rounded shadow-lg text-xs font-medium transition-opacity duration-150 border",
+                    "z-50 px-3 py-2 rounded-sm shadow-lg text-xs font-medium transition-opacity duration-150 border",
                     className,
                 ].join(" ")}
                 style={{

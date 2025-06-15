@@ -35,7 +35,7 @@ All colors are managed via CSS Custom Properties defined in `src/index.css` and 
 *   **Weights**:
     *   Normal/Default: `700` (bold - set in `:root`)
     *   Input Fields / Component Text: `font-extrabold` (800)
-    *   Labels / Titles: `font-black` (900) or `font-[900]`
+    *   Labels / Titles: `font-black` (900) or `font-black`
 *   **Sizes**:
     *   Form Labels: `12px` (e.g., `text-[12px]`)
     *   Input Text / Standard Component Text: `16px` (e.g., `text-[16px]`)
@@ -63,24 +63,24 @@ All colors are managed via CSS Custom Properties defined in `src/index.css` and 
 ## 5. Borders, Outlines, and Shadows
 
 ### Borders:
-*   **Standard**: `border` or `border-2` with `border-[var(--border-default)]`.
+*   **Standard**: `border` or `border-2` with `border-(--border-default)`.
 *   **Rounded Corners**:
     *   Inputs, wrapper elements: `rounded-[5px]`.
     *   Dropdown menus, table containers: `rounded-lg` (8px).
     *   Modals: `rounded-[15px]`.
     *   Accordions: `rounded-[12px]`.
     *   Toggles: `rounded-[22px]` (track), `rounded-[13px]` (handle).
-    *   Buttons (Modal Actions): `!rounded-[46.79px]` (pill shape).
+    *   Buttons (Modal Actions): `rounded-[46.79px]!` (pill shape).
     *   Buttons (general if not specified): default to `rounded-md` (6px) from DaisyUI or component-specific.
 
 ### Outlines:
-*   **Input Wrappers**: `outline-2 outline-offset-[-1px]` or `outline-offset-[-2px]`.
-    *   Default: `outline-[var(--border-default)]`.
-    *   Focused: `outline-[var(--content-primary)]`.
-    *   Error: `outline-[var(--status-error)]`.
-    *   Warning: `outline-[var(--status-warning)]`.
+*   **Input Wrappers**: `outline-2 -outline-offset-1` or `-outline-offset-2`.
+    *   Default: `outline-(--border-default)`.
+    *   Focused: `outline-(--content-primary)`.
+    *   Error: `outline-(--status-error)`.
+    *   Warning: `outline-(--status-warning)`.
 *   **Focus Visible (Keyboard Navigation)**:
-    *   Dropdown button: `focus-visible:outline-2 focus-visible:outline-[var(--interactive-accentfocus)]`.
+    *   Dropdown button: `focus-visible:outline-2 focus-visible:outline-(--interactive-accentfocus)`.
     *   General interactive elements should have clear focus states.
 
 ### Shadows:
@@ -94,23 +94,23 @@ All colors are managed via CSS Custom Properties defined in `src/index.css` and 
 
 ### Hover States:
 *   **General Pattern**: For items in menus, dropdowns:
-    *   Background: `hover:bg-[var(--content-primary)]`.
-    *   Text: `hover:text-[var(--background-default)]` or `hover:text-[var(--text-light)]`.
+    *   Background: `hover:bg-(--content-primary)`.
+    *   Text: `hover:text-(--background-default)` or `hover:text-(--text-light)`.
 *   **Buttons**: Specific hover states defined per button type.
 *   **Toggle**: Handle width changes on hover.
 
 ### Focus States:
 *   **Inputs/Dropdowns**: Outline changes color to `var(--content-primary)` or `var(--interactive-accentfocus)`.
-*   **Keyboard Focus**: Ensure all interactive elements have a visible focus state (often `outline-offset-[-1px]` or similar).
+*   **Keyboard Focus**: Ensure all interactive elements have a visible focus state (often `-outline-offset-1` or similar).
 
 ### Active/Selected States:
 *   **Dropdown/Menu Items**:
-    *   Background: `bg-[var(--content-primary)]`.
-    *   Text: `text-[var(--background-default)]`.
-    *   Outline: `outline outline-2 outline-[var(--interactive-accentfocus)] outline-offset-[-2px]`.
+    *   Background: `bg-(--content-primary)`.
+    *   Text: `text-(--background-default)`.
+    *   Outline: `outline-solid outline-2 outline-(--interactive-accentfocus) -outline-offset-2`.
 *   **Accordion (Open Item)**:
-    *   Background: `bg-[var(--content-primary)]`.
-    *   Text: `text-[var(--text-dark)]`.
+    *   Background: `bg-(--content-primary)`.
+    *   Text: `text-(--text-dark)`.
 
 ### Disabled States:
 *   **General**: `opacity-50 cursor-not-allowed`.
@@ -138,39 +138,39 @@ All colors are managed via CSS Custom Properties defined in `src/index.css` and 
 ### Input Fields (TextInput, TextArea):
 *   **Structure**: Label (optional), Wrapper div, Input element, Status icon (optional), Character count (optional), Helper/Error message.
 *   **Styling**:
-    *   Wrapper: `bg-[var(--surface-default)]`, `rounded-[5px]`, `outline-2` (color dynamic).
+    *   Wrapper: `bg-(--surface-default)`, `rounded-[5px]`, `outline-2` (color dynamic).
     *   Label: `text-[12px] font-black uppercase tracking-[2px] font-[Orbitron]`. Color dynamic with state.
-    *   Input Text: `text-[16px] font-extrabold font-[Orbitron] text-[var(--content-primary)]`.
+    *   Input Text: `text-[16px] font-extrabold font-[Orbitron] text-(--content-primary)`.
 
 ### Dropdowns & Menus:
 *   **Button/Trigger**: Styled similarly to TextInput wrapper. Includes chevron icon.
-*   **Menu Panel**: `bg-[var(--background-elevated)]`, `border border-[var(--border-default)]`, `rounded-lg`, `shadow-lg`, `p-2`.
+*   **Menu Panel**: `bg-(--background-elevated)`, `border border-(--border-default)`, `rounded-lg`, `shadow-lg`, `p-2`.
 *   **Items**: `font-semibold py-2 px-4 rounded-md`. States (hover, active, disabled) follow patterns described in "Interactivity".
 
 ### Modals:
 *   **Backdrop**: Semi-transparent dark overlay (`rgba(0, 0, 0, 0.60)`).
-*   **Container**: `bg-[var(--surface-default)]`, `rounded-[15px]`, `outline outline-2 outline-[var(--border-default)]`, `p-[24px]`.
-*   **Header**: Title (`font-orbitron font-[900] text-[20px]`) and close button. Optional status icon.
-*   **Body**: Flexible content area, text styled with `font-orbitron font-[700] text-[16px]`.
-*   **Footer (Actions)**: Buttons styled specifically (primary, secondary, destructive) with pill shape (`!rounded-[46.79px]`).
+*   **Container**: `bg-(--surface-default)`, `rounded-[15px]`, `outline-solid outline-2 outline-(--border-default)`, `p-[24px]`.
+*   **Header**: Title (`font-orbitron font-black text-[20px]`) and close button. Optional status icon.
+*   **Body**: Flexible content area, text styled with `font-orbitron font-bold text-[16px]`.
+*   **Footer (Actions)**: Buttons styled specifically (primary, secondary, destructive) with pill shape (`rounded-[46.79px]!`).
 
 ### Tables:
-*   **Container**: `rounded-lg border border-[var(--border-default)] bg-[var(--background-default)]`.
-*   **Header**: `bg-[var(--background-elevated)]`, `border-b border-[var(--border-default)]`, `font-semibold`.
-*   **Rows**: `even:bg-[var(--background-elevated)]`, `hover:bg-[var(--surface-default)]`.
-*   **Cells**: `border-b border-[var(--border-default)]`.
+*   **Container**: `rounded-lg border border-(--border-default) bg-(--background-default)`.
+*   **Header**: `bg-(--background-elevated)`, `border-b border-(--border-default)`, `font-semibold`.
+*   **Rows**: `even:bg-(--background-elevated)`, `hover:bg-(--surface-default)`.
+*   **Cells**: `border-b border-(--border-default)`.
 
 ### Toggles:
 *   **Track**: `rounded-[22px]`. Background uses `var(--content-primary)` (on) or `var(--status-error)` (off - as per its local styleMap meaning "disabled/off").
-*   **Handle**: `rounded-[13px]`, `bg-[var(--background-default)]`.
+*   **Handle**: `rounded-[13px]`, `bg-(--background-default)`.
 *   Animated transitions for state changes and hover.
 
 ### Accordions:
-*   **Container**: `rounded-[12px] border-2 border-[var(--border-default)] bg-[var(--surface-default)]`.
+*   **Container**: `rounded-[12px] border-2 border-(--border-default) bg-(--surface-default)`.
 *   **Header Button**: `font-[Orbitron] text-[18px] font-extrabold`.
-    *   Closed: `bg-[var(--surface-default)] text-[var(--content-primary)]`.
-    *   Open: `bg-[var(--content-primary)] text-[var(--text-dark)]`, shadow.
-*   **Content Panel**: `bg-[var(--surface-default)] text-[var(--content-secondary)]`.
+    *   Closed: `bg-(--surface-default) text-(--content-primary)`.
+    *   Open: `bg-(--content-primary) text-(--text-dark)`, shadow.
+*   **Content Panel**: `bg-(--surface-default) text-(--content-secondary)`.
 
 ## 9. Theming with `styleMap`
 

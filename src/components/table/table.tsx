@@ -258,14 +258,14 @@ export function Table<T extends Record<string, unknown>>({
                         value={filterText}
                         onChange={handleFilterChange}
                         placeholder="Filter..."
-                        className="px-3 py-1.5 rounded border-2 border-default bg-background-elevated text-sm focus:outline-none focus:ring-2 focus:ring-[var(--content_primary)]"
+                        className="px-3 py-1.5 rounded-sm border-2 border-default bg-background-elevated text-sm focus:outline-hidden focus:ring-2 focus:ring-(--content_primary)"
                         style={{ color: "var(--content-primary)" }}
                     />
                 )}
                 {showPagination && totalPages > 0 && (
                     <div className="flex items-center gap-2">
                         <button
-                            className="px-2 py-1 rounded border-2 border-default bg-background-elevated disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-2 py-1 rounded-sm border-2 border-default bg-background-elevated disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={() => handlePageChange(page - 1)}
                             disabled={page === 1}
                             aria-label="Previous page"
@@ -276,7 +276,7 @@ export function Table<T extends Record<string, unknown>>({
                             Page {page} / {totalPages || 1}
                         </span>
                         <button
-                            className="px-2 py-1 rounded border-2 border-default bg-background-elevated disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-2 py-1 rounded-sm border-2 border-default bg-background-elevated disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={() => handlePageChange(page + 1)}
                             disabled={page === totalPages || totalPages === 0}
                             aria-label="Next page"

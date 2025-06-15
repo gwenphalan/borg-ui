@@ -48,7 +48,7 @@ export function Checkbox({
     const customVisualClasses: string[] = [
         "w-5",
         "h-5",
-        "rounded",
+        "rounded-sm",
         "flex",
         "items-center",
         "justify-center",
@@ -88,7 +88,7 @@ export function Checkbox({
 
     if (!disabled) {
         customVisualClasses.push(
-            "peer-focus:outline",
+            "peer-focus:outline-solid",
             "peer-focus:outline-2",
             "peer-focus:outline-offset-1",
             "peer-focus:outline-content-primary",
@@ -102,7 +102,7 @@ export function Checkbox({
     return (
         <label
             htmlFor={actualId}
-            className={`group inline-flex items-center gap-2 select-none focus:outline-none ${/* Add focus:outline-none here */ ""}
+            className={`group inline-flex items-center gap-2 select-none focus:outline-hidden ${/* Add focus:outline-hidden here */ ""}
         ${disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer"}
         ${className}`}
         >
@@ -120,7 +120,7 @@ export function Checkbox({
                 {!disabled &&
                     (indeterminate ? (
                         <span
-                            className="w-[10px] h-[10px] rounded-sm bg-border-default"
+                            className="w-[10px] h-[10px] rounded-xs bg-border-default"
                         />
                     ) : checked ? (
                         <Icon name="check" size={16} color={iconColor} />

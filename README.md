@@ -122,7 +122,7 @@ import { HologramContainer, WarpSpeedBackground } from "@unimatrix-01/ui";
 ```tsx
 function App() {
   return (
-    <div className="flex items-center justify-center min-h-screen min-w-screen text-[var(--text-light)]">
+    <div className="flex items-center justify-center min-h-screen min-w-screen text-(--text-light)">
       <WarpSpeedBackground />
       <HologramContainer>{/* Your app content goes here */}</HologramContainer>
     </div>
@@ -137,7 +137,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="flex items-center justify-center min-h-screen min-w-screen text-[var(--text-light)]">
+    <div className="flex items-center justify-center min-h-screen min-w-screen text-(--text-light)">
       <WarpSpeedBackground />
       <HologramContainer>
         {/* Your app content */}
@@ -218,7 +218,7 @@ Props:
 - `initials`: string - Initials to display if no image
 - `status`: 'online' | 'offline' | 'away' | 'busy' - Status indicator
 - `size`: 'sm' | 'md' | 'lg' - Size of the avatar
-- `rounded`: boolean - Whether the avatar is rounded (default: true)
+- `rounded-sm`: boolean - Whether the avatar is rounded (default: true)
 
 ### Badge
 
@@ -1025,11 +1025,11 @@ export function MainLayout({ children, isDarkMode, onThemeToggle }: MainLayoutPr
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-50 bg-[var(--background-elevated)] border-b border-[var(--border-default)]">
+      <header className="sticky top-0 z-50 bg-(--background-elevated) border-b border-(--border-default)">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-bold text-[var(--content-primary)]">Borg UI</h1>
+              <h1 className="text-xl font-bold text-(--content-primary)">Borg UI</h1>
             </div>
             <div className="flex items-center gap-4">
               <Button
@@ -1046,18 +1046,18 @@ export function MainLayout({ children, isDarkMode, onThemeToggle }: MainLayoutPr
         </div>
       </header>
 
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <main className="grow container mx-auto px-4 py-8">
         {children}
       </main>
 
-      <footer className="bg-[var(--background-elevated)] border-t border-[var(--border-default)]">
+      <footer className="bg-(--background-elevated) border-t border-(--border-default)">
         <div className="container mx-auto px-4 py-6">
           <div className="flex justify-between items-center">
-            <p className="text-[var(--content-secondary)]">© 2024 Borg UI. All rights reserved.</p>
+            <p className="text-(--content-secondary)">© 2024 Borg UI. All rights reserved.</p>
             <div className="flex gap-4">
-              <a href="#" className="text-[var(--content-secondary)] hover:text-[var(--content-primary)]">Terms</a>
-              <a href="#" className="text-[var(--content-secondary)] hover:text-[var(--content-primary)]">Privacy</a>
-              <a href="#" className="text-[var(--content-secondary)] hover:text-[var(--content-primary)]">Contact</a>
+              <a href="#" className="text-(--content-secondary) hover:text-(--content-primary)">Terms</a>
+              <a href="#" className="text-(--content-secondary) hover:text-(--content-primary)">Privacy</a>
+              <a href="#" className="text-(--content-secondary) hover:text-(--content-primary)">Contact</a>
             </div>
           </div>
         </div>

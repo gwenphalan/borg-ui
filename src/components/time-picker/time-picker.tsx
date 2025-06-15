@@ -237,7 +237,7 @@ export function TimePicker({
                         className={`w-full text-center p-1 rounded ${disabled
                                 ? "opacity-50 cursor-not-allowed"
                                 : isSelected
-                                    ? "bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-bold hover:opacity-90"
+                                    ? "bg-(--interactive-accentfocus) text-(--text-background-default) font-bold hover:opacity-90"
                                     : "hover:bg-background-default"
                             }`}
                         disabled={disabled}
@@ -287,7 +287,7 @@ export function TimePicker({
             <div className="p-2 border-t border-default">
                 <button
                     onClick={commitPendingTime}
-                    className="w-full px-4 py-2 text-sm font-bold text-[var(--text-dark)] bg-[var(--interactive-accentfocus)] rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--interactive-accentfocus)]"
+                    className="w-full px-4 py-2 text-sm font-bold text-(--text-dark) bg-(--interactive-accentfocus) rounded-md hover:opacity-90 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-(--interactive-accentfocus)"
                 >
                     OK
                 </button>
