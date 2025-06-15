@@ -151,20 +151,18 @@ const icons: Record<string, SVGComponent> = {
 // This uses Vite's glob import so that the dependency scanner is happy even when
 // the directory is missing or empty.
 const projectIconModules: Record<string, () => Promise<any>> = import.meta.glob(
-  "../../assets/icons/**/*.svg",
-  { query: "?react" }
+  "../../assets/icons/**/*.svg"
 );
 
 async function loadIcon(name: string): Promise<React.ComponentType<React.SVGProps<SVGSVGElement>>> {
   const keyCandidates = [
     `../../assets/icons/${name}.svg`,
-    `../../assets/icons/${name}.svg?react`, // just in case
   ];
 
   for (const key of keyCandidates) {
     if (key in projectIconModules) {
       const mod = await projectIconModules[key]();
-      return mod.ReactComponent || mod.default || (() => null);
+      return (mod as any).ReactComponent || (mod as any).default || (() => null);
     }
   }
 
