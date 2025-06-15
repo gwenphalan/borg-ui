@@ -4,7 +4,7 @@ import React, { useId } from "react";
 
 export interface RadioProps {
     checked: boolean;
-    onChange: (isChecked: boolean) => void;
+    onChange: (value: string) => void;
     disabled?: boolean;
     className?: string;
     "aria-label"?: string;
@@ -29,7 +29,7 @@ export function Radio({
     const actualId = providedId || generatedId;
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(event.target.checked);
+        onChange(event.target.value);
     };
 
     const accessibleName = ariaLabelProp || (label ? undefined : "Radio option");
@@ -90,9 +90,8 @@ export function Radio({
     return (
         <label
             htmlFor={actualId}
-            className={`group inline-flex items-center gap-2 select-none focus:outline-none ${
-                disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer"
-            } ${className}`}
+            className={`group inline-flex items-center gap-2 select-none focus:outline-none ${disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer"
+                } ${className}`}
         >
             <input
                 type="radio"

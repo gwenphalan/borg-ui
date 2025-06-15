@@ -435,7 +435,7 @@ export function DatePicker({
             if (selected) {
                 dayClasses += ` bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-black`;
             } else if (highlighted) {
-                dayClasses += ` text-status-info text-content-primary`;
+                dayClasses += ` bg-[var(--status-info)] text-[var(--text-light)]`;
             }
 
             if (disabledDay) {
@@ -506,13 +506,11 @@ export function DatePicker({
 
     // Determine state classes  
     const containerClasses = `flex flex-col gap-1 ${className}`;
-    const labelClasses = `label-base ${
-        error ? 'text-status-error' : 'text-content-primary'
-    }`;
-    const inputClasses = `input-base ${
-        error ? 'error-state' :
+    const labelClasses = `label-base ${error ? 'text-status-error' : 'text-content-primary'
+        }`;
+    const inputClasses = `input-base ${error ? 'error-state' :
         isOpen ? 'focus-state' : ''
-    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} input-focus-ring`;
+        } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} input-focus-ring`;
 
     // Ensure picker always opens in date mode
     useEffect(() => {
