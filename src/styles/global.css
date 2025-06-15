@@ -205,7 +205,7 @@
 .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
 
 /* ====================
-   COMPONENT UTILITIES
+   UNIFIED COMPONENT SYSTEM
    ==================== */
 
 /* Button Base */
@@ -231,25 +231,30 @@
   opacity: 0.5;
 }
 
-/* Input Base */
+/* ====================
+   UNIFIED INPUT SYSTEM
+   ==================== */
+
+/* Input Base - Used by ALL input components */
 .input-base {
   width: 100%;
+  min-width: 0;
   background-color: var(--surface-default);
   border: 2px solid var(--border-default);
-  border-radius: 4px;
-  padding: 12px;
+  border-radius: 5px;
+  padding: 11px;
   font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 800;
   font-size: 16px;
   color: var(--content-primary);
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition: all 0.15s ease;
   outline: none;
   display: flex;
   align-items: center;
-  min-width: 0;
+  gap: 8px;
 }
 
-.input-base:focus {
+.input-base:focus-within {
   border-color: var(--content-primary);
 }
 
@@ -258,7 +263,48 @@
   cursor: not-allowed;
 }
 
-/* Label Base */
+/* Input Inner - The actual input field inside input-base */
+.input-inner {
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+/* Text Area Base - For multiline inputs */
+.textarea-base {
+  width: 100%;
+  min-width: 0;
+  background-color: var(--surface-default);
+  border: 2px solid var(--border-default);
+  border-radius: 5px;
+  padding: 11px;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--content-primary);
+  transition: all 0.15s ease;
+  outline: none;
+  resize: none;
+}
+
+.textarea-base:focus {
+  border-color: var(--content-primary);
+}
+
+.textarea-base:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Label Base - Used by ALL components with labels */
 .label-base {
   font-size: 12px;
   font-weight: 900;
@@ -266,7 +312,236 @@
   letter-spacing: 2px;
   font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: var(--content-primary);
+  margin-bottom: 4px;
+  display: block;
 }
+
+/* Focus Ring - Unified focus state */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--interactive-accentfocus);
+  outline-offset: 2px;
+}
+
+/* Input focus-visible ring for input containers */
+.input-focus-ring:focus-visible {
+  outline: 2px solid var(--interactive-accentfocus);
+  outline-offset: -1px;
+}
+
+/* ====================
+   UNIFIED STATE SYSTEM
+   ==================== */
+
+/* Error State */
+.error-state {
+  border-color: var(--status-error) !important;
+}
+
+.error-state .label-base {
+  color: var(--status-error);
+}
+
+/* Warning State */
+.warning-state {
+  border-color: var(--status-warning) !important;
+}
+
+.warning-state .label-base {
+  color: var(--status-warning);
+}
+
+/* Focus State */
+.focus-state {
+  border-color: var(--content-primary) !important;
+}
+
+.focus-state .label-base {
+  color: var(--content-primary);
+}
+
+/* ====================
+   UNIFIED BUTTON SYSTEM
+   ==================== */
+
+/* Clear Button - Used for X close buttons */
+.clear-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: currentColor;
+  transition: all 0.15s ease;
+  padding: 0;
+  margin: 0;
+}
+
+.clear-button:hover {
+  opacity: 0.7;
+}
+
+.clear-button:focus-visible {
+  outline: 2px solid var(--interactive-accentfocus);
+  outline-offset: 2px;
+}
+
+.clear-button svg {
+  width: 10px;
+  height: 10px;
+}
+
+/* Icon Button - Used for trailing icons like calendar/clock */
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--content-secondary);
+  transition: color 0.15s ease;
+  padding: 0;
+  margin: 0;
+}
+
+.icon-button:hover {
+  color: var(--content-primary);
+}
+
+.icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Chevron Button - For dropdowns */
+.chevron-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--content-primary);
+  transition: transform 0.15s ease;
+  padding: 0;
+}
+
+.chevron-button:disabled {
+  color: var(--border-default);
+  cursor: not-allowed;
+}
+
+.chevron-button.open {
+  transform: rotate(180deg);
+}
+
+/* ====================
+   UNIFIED DROPDOWN SYSTEM
+   ==================== */
+
+/* Dropdown Base - Unified dropdown container */
+.dropdown-base {
+  background-color: var(--background-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 50;
+  min-width: 180px;
+}
+
+/* Dropdown Item - Unified dropdown option */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+  color: var(--content-primary);
+  background: transparent;
+  border: none;
+  text-align: left;
+  width: 100%;
+}
+
+.dropdown-item:hover {
+  background-color: var(--background-default);
+}
+
+.dropdown-item-selected {
+  background-color: var(--interactive-accentfocus);
+  color: var(--text-background-default);
+  font-weight: 700;
+}
+
+.dropdown-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: transparent !important;
+}
+
+/* ====================
+   UNIFIED OVERLAY SYSTEM
+   ==================== */
+
+/* Overlay Panel - For date picker, time picker calendars */
+.overlay-panel {
+  background-color: var(--surface-default);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  z-index: 50;
+}
+
+/* ====================
+   UNIFIED HELPER SYSTEM
+   ==================== */
+
+/* Helper Text - For error/warning messages */
+.helper-text {
+  font-size: 12px;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  margin-top: 4px;
+}
+
+.helper-text.error {
+  color: var(--status-error);
+}
+
+.helper-text.warning {
+  color: var(--status-warning);
+}
+
+.helper-text.info {
+  color: var(--content-secondary);
+}
+
+/* Character Count */
+.char-count {
+  font-size: 12px;
+  color: var(--content-secondary);
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  user-select: none;
+  margin-left: 8px;
+}
+
+/* ====================
+   EXISTING UTILITIES (PRESERVED)
+   ==================== */
 
 /* Card Base */
 .card-base {
@@ -278,24 +553,6 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-/* Error State */
-.error-state {
-  border-color: var(--status-error);
-  color: var(--status-error);
-}
-
-/* Warning State */
-.warning-state {
-  border-color: var(--status-warning);
-  color: var(--status-warning);
-}
-
-/* Focus State */
-.focus-ring:focus-visible {
-  outline: 2px solid var(--interactive-accentfocus);
-  outline-offset: 2px;
 }
 
 /* Hover Effects */
@@ -365,44 +622,7 @@
   .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-/* Common Component Patterns */
-.dropdown-base {
-  background-color: var(--background-elevated);
-  border: 1px solid var(--border-default);
-  border-radius: 8px;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 16px;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-  cursor: pointer;
-  color: var(--content-primary);
-}
-
-.dropdown-item:hover {
-  background-color: var(--content-primary);
-  color: var(--background-default);
-}
-
-.dropdown-item-selected {
-  background-color: var(--content-primary);
-  color: var(--background-default);
-  outline: 2px solid var(--interactive-accentfocus);
-  outline-offset: -2px;
-}
-
+/* Modal Utilities */
 .modal-overlay {
   position: fixed;
   top: 0;

@@ -20,11 +20,6 @@ export function Dropdown({
     placeholder = 'Select...',
     label,
     disabled = false,
-    buttonClassName = '',
-    menuClassName = '',
-    itemClassName = '',
-    itemSelectedClassName = '',
-    itemDisabledClassName = '',
     fullWidth = false,
     multiSelect = false,
 }: DropdownProps & { multiSelect?: boolean }) {
@@ -109,26 +104,11 @@ export function Dropdown({
     //         : undefined;
 
     // Classes and styles for congruency with TextInput
-    const buttonBase =
-        'w-full min-w-0 flex items-center bg-surface-default rounded-[5px] outline-2 px-[11px] py-[11px] relative transition-colors duration-150 font-orbitron ' +
-        (disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer');
-    const buttonText =
-        'w-full min-w-0 text-base font-extrabold font-orbitron p-0 m-0 break-words text-left truncate flex-1 text-content-primary';
-    const buttonChevron = 'ml-[14px] flex items-center justify-center';
-    // const buttonRing =
-    //     isOpen ? "ring-2 ring-[var(--content-primary)]" : "";
-    // const buttonWidth = fullWidth ? 'w-full' : '';
-
-    const menuBase =
-        'min-w-[180px] rounded-lg shadow-lg bg-background-elevated border border-default p-2 flex flex-col space-y-1 z-50 font-orbitron ' +
-        menuClassName;
-
-    const itemBase =
-        'flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-content-primary hover:text-content-primary hover:bg-background-default cursor-pointer w-full group';
-    const itemSelected =
-        'outline outline-2 outline-[var(--interactive-accentfocus)] outline-offset-[-2px] text-content-primary bg-background-default';
-    const itemDisabled = 'bg-transparent text-content-secondary opacity-50 cursor-not-allowed !hover:bg-transparent !hover:text-content-secondary';
-    const separatorClass = 'h-px border-default my-1';
+    const containerClasses = `${fullWidth ? 'w-full' : ''}` + (label ? ' flex flex-col gap-1' : '');
+    const labelClasses = "label-base";
+    const buttonClasses = `input-base ${
+        isOpen ? 'focus-state' : ''
+    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} input-focus-ring`;
 
     // Button label
     let buttonLabel: string;
@@ -143,23 +123,16 @@ export function Dropdown({
     }
 
     return (
-        <div className={`${fullWidth ? 'w-full' : ''}` + (label ? ' flex flex-col gap-[5px]' : '')}>
+        <div className={containerClasses}>
             {label && (
-                <label
-                    className="text-xs font-black uppercase tracking-[2px] font-orbitron mb-1 text-content-primary"
-                    id={`dropdown-label-${MENU_ID}`}
-                >
+                <label className={labelClasses} id={`dropdown-label-${MENU_ID}`}>
                     {label}
                 </label>
             )}
             <button
                 ref={buttonRef}
                 type="button"
-                className={[
-                    buttonBase,
-                    isOpen ? 'outline outline-2 outline-[var(--content-primary)] outline-offset-[-1px]' : 'focus-visible:outline-2 focus-visible:outline-[var(--interactive-accentfocus)] outline-offset-[-1px]',
-                    buttonClassName,
-                ].join(' ')}
+                className={buttonClasses}
                 aria-haspopup="listbox"
                 aria-expanded={isOpen}
                 aria-controls={MENU_ID}
@@ -168,22 +141,22 @@ export function Dropdown({
                 disabled={disabled}
                 onClick={handleButtonClick}
                 tabIndex={0}
-                style={{
-                    background: "var(--surface-default)",
-                    outlineColor: isOpen ? "var(--content-primary)" : "var(--border-default)",
-                    outlineOffset: -1,
-                    outlineStyle: 'solid',
-                    outlineWidth: 2,
-                }}
             >
-                <span className={buttonText}>{buttonLabel}</span>
-                <span className={buttonChevron}>
+                <span className="flex-1 text-left truncate font-extrabold">
+                    {buttonLabel}
+                </span>
+                <button
+                    type="button"
+                    className="chevron-button"
+                    tabIndex={-1}
+                    disabled={disabled}
+                >
                     <Icon
                         name={isOpen ? 'chevron-up' : 'chevron-down'}
                         size={20}
                         color={disabled ? "var(--border-default)" : "var(--content-primary)"}
                     />
-                </span>
+                </button>
             </button>
             <Overlay
                 reference={buttonRef.current}
@@ -191,66 +164,45 @@ export function Dropdown({
                 onOpenChange={onOpenChange}
                 placement="bottom-start"
                 matchWidth
-                className={menuBase}
-                style={{
-                    background: "var(--surface-default)",
-                    borderColor: "var(--border-default)",
-                }}
+                className="dropdown-base"
             >
                 {options.length === 0 && (
                     <div className="px-4 py-2 text-content-secondary text-sm">No options</div>
                 )}
                 {options.map((opt, idx) => {
                     if (opt.isSeparator) {
-                        return <div key={`separator-${idx}`} className={separatorClass} role="separator" />;
+                        return <div key={`separator-${idx}`} className="h-px border-default my-1" role="separator" />;
                     }
-                    // const focusIdx = focusableOptions.findIndex((f) => f.idx === idx);
                     const isSelected = isMulti
                         ? typeof opt.value === 'string' && selectedValues.includes(opt.value)
                         : !opt.disabled && typeof opt.value === 'string' && value !== null && opt.value === value;
                     return (
-                        <div
-                            id={`dropdown-option-${idx}`}
+                        <button
                             key={opt.value || idx}
+                            className={`dropdown-item ${
+                                isSelected ? 'dropdown-item-selected' : ''
+                            } ${
+                                opt.disabled ? 'opacity-50 cursor-not-allowed' : ''
+                            }`}
+                            onClick={() => handleOptionClick(opt)}
+                            onMouseEnter={() => handleOptionMouseEnter()}
+                            onMouseDown={(e) => e.preventDefault()}
+                            disabled={opt.disabled}
                             role="option"
                             aria-selected={isSelected}
                             aria-disabled={opt.disabled}
                             tabIndex={-1}
-                            className={
-                                opt.disabled
-                                    ? [
-                                        'flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-content-secondary opacity-50 cursor-not-allowed w-full',
-                                        itemDisabled,
-                                        itemDisabledClassName,
-                                    ].join(' ')
-                                    : [
-                                        itemBase,
-                                        itemClassName,
-                                        isSelected ? [itemSelected, itemSelectedClassName].join(' ') : '',
-                                    ].join(' ')
-                            }
-                            onClick={() => handleOptionClick(opt)}
-                            onMouseEnter={() => handleOptionMouseEnter()}
-                            onMouseDown={(e) => e.preventDefault()}
                         >
                             {opt.icon && (
-                                opt.disabled ? (
-                                    <Icon
-                                        name={opt.icon}
-                                        size={16}
-                                        color={"var(--content-secondary)"}
-                                        className="shrink-0 mr-2"
-                                    />
-                                ) : (
-                                    <Icon
-                                        name={opt.icon}
-                                        size={16}
-                                        className="shrink-0 mr-2 text-content-primary group-hover:bg-background-default"
-                                    />
-                                )
+                                <Icon
+                                    name={opt.icon}
+                                    size={16}
+                                    color={opt.disabled ? "var(--content-secondary)" : "var(--content-primary)"}
+                                    className="shrink-0 mr-2"
+                                />
                             )}
                             <span className="truncate flex-1">{opt.label}</span>
-                        </div>
+                        </button>
                     );
                 })}
             </Overlay>

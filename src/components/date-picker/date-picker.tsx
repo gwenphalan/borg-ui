@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import type { CSSProperties } from "react";
 import { Overlay } from "../overlay/Overlay";
+import { Icon } from "../icon/icon";
 
 
 // Types
@@ -124,7 +125,7 @@ export function DatePicker({
     highlightDates,
     dateFormat = "yyyy-MM-dd",
     pickerType = "single",
-    calendarIcon,
+    // calendarIcon,
     clearable = false,
     onClear,
     defaultValue = null,
@@ -133,7 +134,6 @@ export function DatePicker({
     locale = "default",
     className = "",
     style = {},
-    inputClassName = "",
     calendarClassName = "",
     error = false,
     helperText,
@@ -502,46 +502,17 @@ export function DatePicker({
         return "";
     };
 
-    const calendarIconNode = calendarIcon || (
-        <svg
-            width="20"
-            height="20"
-            fill="none"
-            viewBox="0 0 20 20"
-            style={{ color: "var(--content-secondary)" }}
-        >
-            <rect
-                x="3"
-                y="5"
-                width="14"
-                height="12"
-                rx="2"
-                stroke="currentColor"
-                strokeWidth="1.5"
-            />
-            <path
-                d="M7 2v2M13 2v2"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-            />
-            <rect x="7" y="9" width="2" height="2" rx="1" fill="currentColor" />
-        </svg>
-    );
-
     const displayedValue = getDisplayValue();
 
-    const mainInputStyle: CSSProperties = {
-        backgroundColor: "var(--surface-default)",
-        color: "var(--content-primary)",
-    };
-    if (isOpen) {
-        mainInputStyle.borderColor = "var(--content-primary)";
-    } else if (error) {
-        mainInputStyle.borderColor = "var(--status-error)";
-    } else {
-        mainInputStyle.borderColor = "var(--border-default)";
-    }
+    // Determine state classes  
+    const containerClasses = `flex flex-col gap-1 ${className}`;
+    const labelClasses = `label-base ${
+        error ? 'text-status-error' : 'text-content-primary'
+    }`;
+    const inputClasses = `input-base ${
+        error ? 'error-state' :
+        isOpen ? 'focus-state' : ''
+    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} input-focus-ring`;
 
     // Ensure picker always opens in date mode
     useEffect(() => {
@@ -567,8 +538,8 @@ export function DatePicker({
                 const newYear = viewMonth === 0 ? viewYear - 1 : viewYear;
                 setViewMonth(newMonth);
                 setViewYear(newYear);
-            }} className="p-1 rounded-full hover:bg-background-default">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+            }} className="icon-button p-1 rounded-full hover:bg-background-default">
+                <Icon name="arrow-left" size={20} />
             </button>
             <div className="flex-grow text-center">
                 <button onClick={() => setMode('month')} className="font-bold hover:text-[var(--interactive-accentfocus)]">{new Date(viewYear, viewMonth).toLocaleString(locale, { month: 'long' })}</button>
@@ -579,8 +550,8 @@ export function DatePicker({
                 const newYear = viewMonth === 11 ? viewYear + 1 : viewYear;
                 setViewMonth(newMonth);
                 setViewYear(newYear);
-            }} className="p-1 rounded-full hover:bg-background-default">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+            }} className="icon-button p-1 rounded-full hover:bg-background-default">
+                <Icon name="arrow-right" size={20} />
             </button>
         </div>
     );
@@ -626,24 +597,16 @@ export function DatePicker({
     };
 
     return (
-        <div className={`flex flex-col gap-1 ${className}`} style={style}>
+        <div className={containerClasses} style={style}>
             {label && (
-                <label
-                    className="text-xs font-black uppercase tracking-[2px] font-orbitron mb-1"
-                    style={
-                        error
-                            ? { color: "var(--status-error)" }
-                            : { color: "var(--content-primary)" }
-                    }
-                >
+                <label className={labelClasses}>
                     {label}
                 </label>
             )}
             <div className="relative w-full">
                 <div
                     ref={inputRef}
-                    className={`w-full flex items-center gap-2 border-2 rounded-[5px] px-[11px] py-[11px] font-orbitron text-base font-extrabold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[${"var(--interactive-accentfocus)"}] ${inputClassName} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
-                    style={mainInputStyle}
+                    className={inputClasses}
                     role="button"
                     tabIndex={0}
                     aria-haspopup="dialog"
@@ -658,7 +621,7 @@ export function DatePicker({
                 >
                     <span className="flex-1 text-left truncate">
                         {displayedValue || (
-                            <span style={{ color: "var(--content-secondary)" }}>
+                            <span className="text-content-secondary">
                                 {placeholder}
                             </span>
                         )}
@@ -666,30 +629,17 @@ export function DatePicker({
                     {showClearButton && (
                         <button
                             type="button"
-                            className={`ml-1 flex items-center justify-center w-5 h-5 rounded-full focus:outline-none focus:ring-2 focus:ring-[${"var(--interactive-accentfocus)"}] cursor-pointer`}
+                            className="clear-button"
                             aria-label="Clear date"
                             tabIndex={0}
                             onClick={handleClear}
                         >
-                            <svg
-                                width="10"
-                                height="10"
-                                viewBox="0 0 10 10"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M2 2L8 8M8 2L2 8"
-                                    stroke="currentColor"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                />
-                            </svg>
+                            <Icon name="close" size={10} />
                         </button>
                     )}
                     <button
                         type="button"
-                        className="ml-1 flex items-center justify-center"
+                        className="icon-button"
                         tabIndex={-1}
                         aria-label="Open calendar"
                         disabled={disabled || readOnly}
@@ -698,7 +648,7 @@ export function DatePicker({
                             if (!disabled && !readOnly) setIsOpen(!isOpen);
                         }}
                     >
-                        {calendarIconNode}
+                        <Icon name="calendar" size={20} />
                     </button>
                 </div>
                 {isOpen && (
@@ -707,11 +657,7 @@ export function DatePicker({
                         open={isOpen}
                         onOpenChange={setIsOpen}
                         placement="bottom-start"
-                        className={`z-50 p-4 bg-background-elevated border border-default rounded-lg shadow-xl ${calendarClassName}`}
-                        style={{
-                            background: "var(--surface-default)",
-                            borderColor: "var(--border-default)",
-                        }}
+                        className={`overlay-panel ${calendarClassName}`}
                     >
                         {mode === 'calendar' && <><div className="flex flex-col gap-2">{renderCalendarHeader()}{renderWeekdays()}{renderDays()}</div></>}
                         {mode === 'month' && <><div className="flex flex-col gap-2">{renderCalendarHeader()}{renderMonthPicker()}</div></>}
@@ -720,22 +666,12 @@ export function DatePicker({
                 )}
             </div>
             {helperText && (
-                <div
-                    className="text-xs mt-1 font-orbitron"
-                    style={
-                        error
-                            ? { color: "var(--status-error)" }
-                            : { color: "var(--content-secondary)" }
-                    }
-                >
+                <div className={`helper-text ${error ? 'error' : 'info'}`}>
                     {helperText}
                 </div>
             )}
             {pickerType === "range" && tempRange && (
-                <div
-                    className="text-xs mt-1 font-orbitron"
-                    style={{ color: "var(--content-secondary)" }}
-                >
+                <div className="helper-text info">
                     {tempRange[0]
                         ? formatDate(tempRange[0], dateFormat, locale)
                         : "..."}

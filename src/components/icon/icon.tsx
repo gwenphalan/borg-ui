@@ -94,6 +94,52 @@ const icons: Record<string, SVGComponent> = {
       <path d="M3 10L8 5L13 10" stroke={color} strokeWidth="1.2" />
     </svg>
   ),
+  // Calendar icon
+  "calendar": ({ color, size }) => (
+    <svg width={size} height={size} fill="none" viewBox="0 0 20 20" style={{ color }}>
+      <rect
+        x="3"
+        y="5"
+        width="14"
+        height="12"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M7 2v2M13 2v2"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <rect x="7" y="9" width="2" height="2" rx="1" fill="currentColor" />
+    </svg>
+  ),
+  // Clock icon
+  "clock": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  ),
+  // Close/X icon
+  "close": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 10 10" fill="none">
+      <path d="M2 2L8 8M8 2L2 8" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+  // Left arrow for navigation
+  "arrow-left": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m15 18-6-6 6-6" />
+    </svg>
+  ),
+  // Right arrow for navigation  
+  "arrow-right": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m9 18 6-6-6-6" />
+    </svg>
+  ),
 };
 
 async function loadIcon(name: string): Promise<React.ComponentType<React.SVGProps<SVGSVGElement>>> {

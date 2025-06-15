@@ -6,6 +6,7 @@ import React, {
     useMemo,
 } from "react";
 import { Overlay } from "../overlay/Overlay";
+import { Icon } from "../icon/icon";
 
 
 export interface TimePickerProps {
@@ -104,7 +105,7 @@ export function TimePicker({
     defaultValue = null,
     open: controlledOpen,
     onOpenChange,
-    className, style, inputClassName, panelClassName, error, helperText, id
+    className, style, /*inputClassName,*/ panelClassName, error, helperText, id
 }: TimePickerProps) {
     const is12Hour = /a|A/.test(format);
     const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
@@ -271,10 +272,7 @@ export function TimePicker({
 
 
     const panelContent = (
-        <div
-            className={`flex flex-col bg-background-elevated text-content-primary shadow-lg rounded-lg border border-default ${panelClassName}`}
-            style={{ width: showSeconds ? (is12Hour ? 290 : 220) : (is12Hour ? 220 : 150) }}
-        >
+        <div className={`overlay-panel ${panelClassName}`} style={{ width: showSeconds ? (is12Hour ? 290 : 220) : (is12Hour ? 220 : 150) }}>
             <div className="flex p-2">
                 {renderColumn(hours, pendingHour, val => setPendingHour(val as number), isHourDisabled, hourColRef, itemRefs.current[0])}
                 {renderColumn(minutes, pendingMinute, val => setPendingMinute(val as number), isMinuteDisabled, minuteColRef, itemRefs.current[1])}
@@ -292,41 +290,31 @@ export function TimePicker({
         </div>
     );
 
-    const mainInputStyle: React.CSSProperties = {
-        backgroundColor: "var(--surface-default)",
-        color: "var(--content-primary)",
-    };
-    if (isOpen) {
-        mainInputStyle.borderColor = "var(--content-primary)";
-    } else if (error) {
-        mainInputStyle.borderColor = "var(--status-error)";
-    } else {
-        mainInputStyle.borderColor = "var(--border-default)";
-    }
+    // Determine state classes
+    const containerClasses = `flex flex-col gap-1 w-full ${className ?? ''}`;
+    const labelClasses = `label-base ${
+        error ? 'text-status-error' : 'text-content-primary'
+    }`;
+    const inputClasses = `input-base ${
+        error ? 'error-state' :
+        isOpen ? 'focus-state' : ''
+    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} input-focus-ring`;
 
     return (
-        <div className={`flex flex-col gap-1 w-full ${className ?? ''}`} style={style} id={id}>
+        <div className={containerClasses} style={style} id={id}>
             {label && (
-                <label
-                    className="text-xs font-black uppercase tracking-[2px] font-orbitron mb-1"
-                    style={
-                        error
-                            ? { color: "var(--status-error)" }
-                            : { color: "var(--content-primary)" }
-                    }
-                >
+                <label className={labelClasses}>
                     {label}
                 </label>
             )}
             <div
                 ref={inputRef}
-                className={`w-full flex items-center gap-2 border-2 rounded-[5px] px-[11px] py-[11px] font-orbitron text-base font-extrabold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[${"var(--interactive-accentfocus)"}] ${inputClassName} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
-                style={mainInputStyle}
+                className={inputClasses}
                 onClick={() => !disabled && !readOnly && setIsOpen(true)}
             >
                 <span className="flex-1 text-left truncate">
                     {inputValue || (
-                        <span style={{ color: "var(--content-secondary)" }}>
+                        <span className="text-content-secondary">
                             {placeholder}
                         </span>
                     )}
@@ -334,30 +322,17 @@ export function TimePicker({
                 {clearable && inputValue && !disabled && !readOnly && (
                     <button
                         type="button"
-                        className={`ml-1 flex items-center justify-center w-5 h-5 rounded-full focus:outline-none focus:ring-2 focus:ring-[${"var(--interactive-accentfocus)"}] cursor-pointer`}
+                        className="clear-button"
                         aria-label="Clear time"
                         tabIndex={0}
                         onClick={handleClear}
                     >
-                        <svg
-                            width="10"
-                            height="10"
-                            viewBox="0 0 10 10"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M2 2L8 8M8 2L2 8"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                            />
-                        </svg>
+                        <Icon name="close" size={10} />
                     </button>
                 )}
                 <button
                     type="button"
-                    className="ml-1 flex items-center justify-center"
+                    className="icon-button"
                     tabIndex={-1}
                     aria-label="Open time picker"
                     disabled={disabled || readOnly}
@@ -366,17 +341,17 @@ export function TimePicker({
                         if (!disabled && !readOnly) setIsOpen(true);
                     }}
                 >
-                    <svg style={{ color: "var(--content-secondary)" }} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                    <Icon name="clock" size={20} />
                 </button>
             </div>
-            {helperText && <p className={`mt-1 text-sm ${error ? "text-status-error" : "text-content-secondary"}`}>{helperText}</p>}
+            {helperText && <p className={`helper-text ${error ? 'error' : 'info'}`}>{helperText}</p>}
 
             <Overlay
                 reference={inputRef.current}
                 open={isOpen}
                 onOpenChange={setIsOpen}
                 placement="bottom-start"
-                className={`z-50`}
+                className="z-50"
             >
                 {panelContent}
             </Overlay>
