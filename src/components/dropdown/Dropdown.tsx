@@ -1,9 +1,8 @@
 import React, {
     useRef,
-    useEffect,
     useCallback,
+    useEffect,
     useMemo,
-    useState,
 } from 'react';
 import type { DropdownProps, DropdownOption } from './types';
 import { Icon } from '../icon/icon';
@@ -30,7 +29,7 @@ export function Dropdown({
     multiSelect = false,
 }: DropdownProps & { multiSelect?: boolean }) {
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+    // const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
     // Multi-select logic
     const isMulti = !!multiSelect;
@@ -63,9 +62,9 @@ export function Dropdown({
             if (idx === -1) {
                 idx = focusableOptions.findIndex((opt) => !opt.disabled);
             }
-            setFocusedIndex(idx === -1 ? null : idx);
+            // setFocusedIndex(idx === -1 ? null : idx);
         } else {
-            setFocusedIndex(null);
+            // setFocusedIndex(null);
         }
     }, [isOpen, value, focusableOptions]);
 
@@ -97,17 +96,17 @@ export function Dropdown({
 
     // Option mouse enter handler
     const handleOptionMouseEnter = useCallback(
-        (idx: number) => {
-            setFocusedIndex(idx);
+        (/*idx: number*/) => {
+            // setFocusedIndex(idx);
         },
         []
     );
 
     // ARIA: active descendant id
-    const activeDescendantId =
-        isOpen && focusedIndex !== null && focusableOptions[focusedIndex]
-            ? `dropdown-option-${focusableOptions[focusedIndex]?.idx}`
-            : undefined;
+    // const activeDescendantId =
+    //     isOpen && focusedIndex !== null && focusableOptions[focusedIndex]
+    //         ? `dropdown-option-${focusableOptions[focusedIndex]?.idx}`
+    //         : undefined;
 
     // Classes and styles for congruency with TextInput
     const buttonBase =
@@ -116,11 +115,9 @@ export function Dropdown({
     const buttonText =
         'w-full min-w-0 text-base font-extrabold font-orbitron p-0 m-0 break-words text-left truncate flex-1 text-content-primary';
     const buttonChevron = 'ml-[14px] flex items-center justify-center';
-    const buttonRing =
-        isOpen
-            ? 'outline outline-2 outline-[var(--content-primary)] outline-offset-[-1px]'
-            : 'focus-visible:outline-2 focus-visible:outline-[var(--interactive-accentfocus)] outline-offset-[-1px]';
-    const buttonWidth = fullWidth ? 'w-full' : '';
+    // const buttonRing =
+    //     isOpen ? "ring-2 ring-[var(--content-primary)]" : "";
+    // const buttonWidth = fullWidth ? 'w-full' : '';
 
     const menuBase =
         'min-w-[180px] rounded-lg shadow-lg bg-background-elevated border border-default p-2 flex flex-col space-y-1 z-50 font-orbitron ' +
@@ -207,7 +204,7 @@ export function Dropdown({
                     if (opt.isSeparator) {
                         return <div key={`separator-${idx}`} className={separatorClass} role="separator" />;
                     }
-                    const focusIdx = focusableOptions.findIndex((f) => f.idx === idx);
+                    // const focusIdx = focusableOptions.findIndex((f) => f.idx === idx);
                     const isSelected = isMulti
                         ? typeof opt.value === 'string' && selectedValues.includes(opt.value)
                         : !opt.disabled && typeof opt.value === 'string' && value !== null && opt.value === value;
@@ -233,7 +230,7 @@ export function Dropdown({
                                     ].join(' ')
                             }
                             onClick={() => handleOptionClick(opt)}
-                            onMouseEnter={() => handleOptionMouseEnter(focusIdx)}
+                            onMouseEnter={() => handleOptionMouseEnter()}
                             onMouseDown={(e) => e.preventDefault()}
                         >
                             {opt.icon && (

@@ -1,9 +1,9 @@
-import { useEffect, useRef, useMemo, useContext } from "react";
+import { useEffect, useRef, useContext } from "react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { Button } from "../button/button"; // Your Button component
+// import { Button } from "../button/button"; // Your Button component
 import { Icon } from "../icon/icon";       // Your Icon component
-import clsx from "clsx";
+// import clsx from "clsx";
 import { HologramEffect } from "../container/hologram-container";
 import { HologramContext } from "../container/hologram-context";
 import { twMerge } from "tailwind-merge";
@@ -11,47 +11,43 @@ import { twMerge } from "tailwind-merge";
 export interface ModalAction {
     label: string;
     onClick: () => void;
-    style?: "primary" | "secondary" | "destructive" | "info" | "warn";
-    iconName?: string;
-    iconPosition?: "left" | "right" | "off";
-    autoFocus?: boolean;
+    variant?: "primary" | "secondary" | "destructive";
     disabled?: boolean;
 }
 
 export interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
-    title?: string;
+    title: string;
     children: ReactNode;
     actions?: ModalAction[];
+    status?: "info" | "warning" | "error" | "success";
     icon?: string;
-    status?: "error" | "info" | "success" | "warning";
     className?: string;
     style?: React.CSSProperties;
 }
 
-
-const statusIconNameMap: Record<string, string> = {
-    error: "error-state",
-    info: "info-state",
-    success: "success-state",
-    warning: "warning-state",
-};
+// const statusIconNameMap: Record<string, string> = {
+//     error: "error-state",
+//     info: "info-state",
+//     success: "success-state",
+//     warning: "warning-state",
+// };
 
 export function Modal({
     isOpen,
     onClose,
     title,
     children,
-    actions = [],
-    icon,
-    status,
+    // actions = [],
+    // status,
+    // icon,
     className = "",
-    style
+    style = {},
 }: ModalProps) {
     const modalRef = useRef<HTMLDivElement>(null);
     const previouslyFocusedElement = useRef<HTMLElement | null>(null);
-    const titleId = useMemo(() => `modal-title-${Math.random().toString(36).substr(2, 9)}`, []);
+    // const titleId = useMemo(() => `modal-title-${Math.random().toString(36).substr(2, 9)}`, []);
     const isHologram = useContext(HologramContext);
 
     useEffect(() => {
@@ -102,7 +98,8 @@ export function Modal({
         };
     }, [isOpen, onClose]);
 
-    const modalActualIconName = status ? statusIconNameMap[status] : icon;
+    // Determine the actual icon name to display
+    // const modalActualIconName = status ? statusIconNameMap[status] : icon;
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, MouseEvent } from "react";
+import React, { useState, useRef, MouseEvent } from "react";
 import type { ReactNode } from "react";
 import { Icon } from "../icon/icon";
 import { Overlay } from "../overlay/Overlay";
@@ -29,10 +29,6 @@ export interface MenuProps {
     menuVariant?: string;
     currentPath?: string;
     style?: React.CSSProperties;
-}
-
-function isIconElement(element: ReactNode): element is React.ReactElement<{ color?: string; size?: number | string }> {
-    return React.isValidElement(element) && (element.type as { displayName?: string })?.displayName === 'Icon';
 }
 
 export function Menu({

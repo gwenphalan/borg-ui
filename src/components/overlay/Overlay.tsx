@@ -8,6 +8,7 @@ import {
     shift,
     size,
     Placement,
+    Middleware,
 } from "@floating-ui/react";
 import { HologramPortal } from "../hologram/hologram-portal";
 
@@ -52,7 +53,7 @@ export function Overlay({
                     },
                 })
                 : undefined,
-        ].filter(Boolean) as any,
+        ].filter(Boolean) as Middleware[],
     });
 
     // Attach external reference

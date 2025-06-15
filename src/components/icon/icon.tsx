@@ -96,7 +96,7 @@ const icons: Record<string, SVGComponent> = {
   ),
 };
 
-async function loadIcon(name: string): Promise<React.ComponentType<any>> {
+async function loadIcon(name: string): Promise<React.ComponentType<React.SVGProps<SVGSVGElement>>> {
   // Try loading from project's src/assets/icons first
   try {
     const projectIcon = await import(`../../assets/icons/${name}.svg?react`);
@@ -114,7 +114,7 @@ async function loadIcon(name: string): Promise<React.ComponentType<any>> {
 }
 
 function DynamicSvgIcon({ name, className = "", color = "currentColor", size = 24 }: IconProps) {
-  const [IconComponent, setIconComponent] = React.useState<React.ComponentType<any> | null>(null);
+  const [IconComponent, setIconComponent] = React.useState<React.ComponentType<React.SVGProps<SVGSVGElement>> | null>(null);
 
   React.useEffect(() => {
     let mounted = true;

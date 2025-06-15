@@ -553,7 +553,7 @@ export function DatePicker({
     const handleClear = (e: React.MouseEvent) => {
         e.stopPropagation();
         const resetValue = pickerType === "multiple" ? [] : null;
-        onChange(resetValue as any);
+        onChange(resetValue as Date | Date[] | [Date, Date] | [Date | null, Date | null] | null);
         if (pickerType === 'range') setTempRange([null, null]);
         if (onClear) onClear();
     };
@@ -590,12 +590,6 @@ export function DatePicker({
             {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => <div key={day}>{day}</div>)}
         </div>
     );
-
-    const isInRange = (date: Date): boolean => {
-        if (pickerType !== 'range' || !tempRange) return false;
-        const [start, end] = tempRange;
-        return !!(start && end && date > start && date < end);
-    }
 
     const renderMonthPicker = () => (
         <div className="grid grid-cols-3 gap-2">

@@ -129,7 +129,7 @@ export function TimePicker({
         if (disabled || readOnly) return;
         if (onOpenChange) onOpenChange(newOpenState);
         else setUncontrolledOpen(newOpenState);
-    }, [onOpenChange, controlledOpen, disabled, readOnly]);
+    }, [onOpenChange, disabled, readOnly]);
 
     useEffect(() => {
         const newDateVal = parseToDate(value, is12Hour);
@@ -243,7 +243,8 @@ export function TimePicker({
         </div>
     );
 
-    const useScrollToSelected = (colRef: React.RefObject<HTMLDivElement>, items: (string | number)[], selectedValue: string | number | null, itemRefArray: (HTMLButtonElement | null)[]) => {
+    // Custom hook for scrolling to selected item
+    function useScrollToSelected(colRef: React.RefObject<HTMLDivElement>, items: (string | number)[], selectedValue: string | number | null, itemRefArray: (HTMLButtonElement | null)[]) {
         useEffect(() => {
             if (isOpen && colRef.current && selectedValue !== null) {
                 const idx = items.findIndex(i => i === selectedValue);
@@ -255,8 +256,8 @@ export function TimePicker({
                     col.scrollTop = itemEl.offsetTop - col.offsetTop - (colRect.height / 2) + (itemRect.height / 2);
                 }
             }
-        }, [isOpen, selectedValue]);
-    };
+        }, [isOpen, selectedValue, colRef, items, itemRefArray]);
+    }
 
     const hourColRef = useRef<HTMLDivElement>(null);
     const minuteColRef = useRef<HTMLDivElement>(null);
@@ -265,8 +266,8 @@ export function TimePicker({
 
     useScrollToSelected(hourColRef, hours, pendingHour, itemRefs.current[0]);
     useScrollToSelected(minuteColRef, minutes, pendingMinute, itemRefs.current[1]);
-    if (showSeconds) useScrollToSelected(secondColRef, seconds, pendingSecond, itemRefs.current[2]);
-    if (is12Hour) useScrollToSelected(ampmColRef, ["AM", "PM"], pendingAmPm, itemRefs.current[3]);
+    useScrollToSelected(secondColRef, seconds, showSeconds ? pendingSecond : null, itemRefs.current[2]);
+    useScrollToSelected(ampmColRef, ["AM", "PM"], is12Hour ? pendingAmPm : null, itemRefs.current[3]);
 
 
     const panelContent = (
