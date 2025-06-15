@@ -7,6 +7,7 @@ import React, {
 import type { DropdownProps, DropdownOption } from './types';
 import { Icon } from '../icon/icon';
 import { Overlay } from '../overlay/Overlay';
+import { Tooltip } from '../tooltip/tooltip';
 
 
 const MENU_ID = 'dropdown-menu-id';
@@ -172,7 +173,8 @@ export function Dropdown({
                     const isSelected = isMulti
                         ? typeof opt.value === 'string' && selectedValues.includes(opt.value)
                         : !opt.disabled && typeof opt.value === 'string' && value !== null && opt.value === value;
-                    return (
+
+                    const optionButton = (
                         <button
                             key={opt.value || idx}
                             className={`flex items-center w-full text-left px-4 py-2 text-sm rounded ${opt.disabled
@@ -201,6 +203,16 @@ export function Dropdown({
                             <span className="truncate flex-1">{opt.label}</span>
                         </button>
                     );
+
+                    if (opt.disabled && opt.disabledReason) {
+                        return (
+                            <Tooltip content={opt.disabledReason} placement="top" delay={100}>
+                                <div>{optionButton}</div>
+                            </Tooltip>
+                        );
+                    }
+
+                    return optionButton;
                 })}
             </Overlay>
         </div>

@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import { ThemeProviderContext } from "./theme-provider-context.tsx";
 import type { Theme, ThemeProviderProps } from "./theme-types";
 import { getThemeProviderValue } from "./theme-provider-value.tsx";
-import { useTheme as useThemeHook } from "./use-theme-hook.tsx";
-
-export { useThemeHook as useTheme };
 
 export function ThemeProvider({
     children,

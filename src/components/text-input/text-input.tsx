@@ -33,6 +33,8 @@ export interface TextInputProps {
             requireSpecial?: boolean;
         };
     };
+    onFocus?: () => void;
+    isClearable?: boolean;
 }
 
 export function TextInput({
@@ -53,6 +55,8 @@ export function TextInput({
     name,
     type = 'text',
     validationRules,
+    onFocus,
+    isClearable = false,
 }: TextInputProps) {
     const [isFocused, setIsFocused] = useState(false);
     const [internalDropdownOpen, setInternalDropdownOpen] = useState(false);
@@ -153,6 +157,9 @@ export function TextInput({
         if (isDropdown && !isDropdownOpen) {
             setInternalDropdownOpen(true);
         }
+        if (onFocus) {
+            onFocus();
+        }
     }
     function handleBlur() {
         setIsFocused(false);
@@ -170,6 +177,11 @@ export function TextInput({
         if (onOptionSelect) onOptionSelect(option);
         onChange(option);
         setInternalDropdownOpen(false);
+    }
+
+    function handleClear() {
+        onChange("");
+        inputRef.current?.focus();
     }
 
     // Character count
@@ -207,6 +219,21 @@ export function TextInput({
                     onBlur={handleBlur}
                     aria-disabled={disabled}
                 />
+                {isClearable && value.length > 0 && isFocused && (
+                    <button
+                        type="button"
+                        tabIndex={-1}
+                        className="ml-2 flex items-center justify-center rounded-full hover:bg-background-default w-6 h-6 transition-colors"
+                        onMouseDown={(e) => {
+                            e.preventDefault();
+                            handleClear();
+                        }}
+                        disabled={disabled}
+                        aria-label="Clear input"
+                    >
+                        <Icon name="close" size={16} color="var(--content-primary)" />
+                    </button>
+                )}
                 {/* Dropdown chevron */}
                 {isDropdown && (
                     <button

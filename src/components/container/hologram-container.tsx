@@ -1,5 +1,6 @@
 import type { ReactNode, CSSProperties } from "react";
 import { HologramContext } from "./hologram-context";
+import { cn } from "@/lib/utils";
 
 // --- HologramEffect Component ---
 // This component provides hologram effects for overlays/modals only
@@ -30,7 +31,7 @@ export function HologramEffect({ children }: { children: ReactNode }) {
   const flickerAnimationDuration = "0.07s";
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", height: '100%' }}>
       <svg width="0" height="0" className="absolute">
         <filter id="content-color-bloom-v6">
           <feColorMatrix
@@ -60,7 +61,7 @@ export function HologramEffect({ children }: { children: ReactNode }) {
           />
         </filter>
       </svg>
-      <div className="hologram-content-wrapper" style={{ filter: "url(#content-color-bloom-v6)", position: "relative", zIndex: 1 }}>
+      <div className="hologram-content-wrapper" style={{ filter: "url(#content-color-bloom-v6)", position: "relative", zIndex: 1, height: '100%' }}>
         {children}
       </div>
       <div className="hologram-overlays">
@@ -87,7 +88,6 @@ export function HologramEffect({ children }: { children: ReactNode }) {
             linear-gradient(to top, ${bgGradientGreen1}, ${bgGradientGreen2});
           background-size: 100% 5px, 100% 2px, cover;
           animation: scanlines-bg ${bgScanlinesAnimationDuration} linear infinite;
-          overflow: hidden;
         }
         @media (min-width: 640px) { .hologram-container { width: 90vw; max-width: 90vw; padding: 2rem; } }
         @media (min-width: 1024px) { .hologram-container { width: 1200px; max-width: 1200px; padding: 2.5rem; } }
@@ -103,6 +103,7 @@ export function HologramEffect({ children }: { children: ReactNode }) {
           left: 0;
           right: 0;
           bottom: 0;
+          /* Elevate overlay so it sits above content wrapper */
           z-index: 2;
           pointer-events: none;
           overflow: hidden;
@@ -159,14 +160,16 @@ export function HologramContainer({
 }: HologramContainerProps) {
   return (
     <HologramContext.Provider value={true}>
-      <HologramEffect>
-        <div
-          className={`hologram-container min-h-screen ${className}`.trim()}
-          style={style}
-        >
-          {children}
-        </div>
-      </HologramEffect>
+      <div className={cn("flex flex-col", className)}>
+        <HologramEffect>
+          <div
+            className="hologram-container min-h-screen overflow-hidden flex-1 flex flex-col"
+            style={style}
+          >
+            {children}
+          </div>
+        </HologramEffect>
+      </div>
     </HologramContext.Provider>
   );
 }

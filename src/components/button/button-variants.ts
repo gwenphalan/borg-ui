@@ -1,25 +1,31 @@
 import { cva } from 'class-variance-authority';
 
 export const buttonVariants = cva(
-    'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer',
+    'inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-content-primary disabled:pointer-events-none disabled:opacity-50 cursor-pointer shadow-md hover:scale-105 hover:shadow-lg active:scale-95',
     {
         variants: {
             variant: {
-                default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-                primary: 'bg-content-primary text-background-default hover:bg-content-primary/90 font-orbitron font-black text-sm leading-normal',
-                secondary: 'bg-border-default text-light hover:bg-border-default/90 font-orbitron font-black text-sm leading-normal',
-                destructive: 'bg-status-error text-light hover:bg-status-error/90 font-orbitron font-black text-sm leading-normal',
-                info: 'bg-status-info text-light hover:bg-status-info/90 font-orbitron font-black text-sm leading-normal',
-                warn: 'bg-status-warning text-background-default hover:bg-status-warning/90 font-orbitron font-black text-sm leading-normal',
-                'outline-primary': 'border-2 border-content-primary text-content-primary bg-transparent hover:bg-content-primary hover:text-background-default font-orbitron font-black text-sm leading-normal',
-                ghost: 'hover:bg-accent hover:text-accent-foreground',
-                link: 'text-primary underline-offset-4 hover:underline',
+                default: 'bg-background-default text-text-light border-2 border-transparent font-orbitron font-semibold text-sm leading-none',
+                primary: 'bg-content-primary text-text-dark border-2 border-transparent font-orbitron font-semibold text-sm leading-none',
+                secondary: 'bg-border-default text-text-light border-2 border-transparent font-orbitron font-semibold text-sm leading-none',
+                destructive: 'bg-status-error text-text-light border-2 border-transparent font-orbitron font-semibold text-sm leading-none',
+                info: 'bg-status-info text-text-light border-2 border-transparent font-orbitron font-semibold text-sm leading-none',
+                warn: 'bg-status-warning text-text-dark border-2 border-transparent font-orbitron font-semibold text-sm leading-none',
+                outline: 'bg-transparent text-text-light border-2 border-background-default font-orbitron font-semibold text-sm leading-none',
+                'outline-primary': 'bg-transparent text-text-light border-2 border-content-primary font-orbitron font-semibold text-sm leading-none',
+                'outline-secondary': 'bg-transparent text-text-light border-2 border-border-default font-orbitron font-semibold text-sm leading-none',
+                'outline-destructive': 'bg-transparent text-text-light border-2 border-status-error font-orbitron font-semibold text-sm leading-none',
+                'outline-info': 'bg-transparent text-text-light border-2 border-status-info font-orbitron font-semibold text-sm leading-none',
+                'outline-warn': 'bg-transparent text-text-light border-2 border-status-warning font-orbitron font-semibold text-sm leading-none',
+                ghost: 'text-content-primary',
+                link: 'text-content-primary underline-offset-4 hover:underline',
             },
             size: {
                 default: 'h-10 px-4 py-2',
-                sm: 'h-9 rounded-md px-3',
-                lg: 'h-11 rounded-md px-8',
-                icon: 'h-10 w-10',
+                sm: 'h-9 px-3 py-1.5',
+                lg: 'h-11 px-8 py-2.5',
+                large: 'h-12 px-10 py-3 text-base',
+                icon: 'h-10 w-10 p-2.5',
             },
         },
         defaultVariants: {

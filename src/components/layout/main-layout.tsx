@@ -8,9 +8,9 @@ interface MainLayoutProps {
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
     return (
-        <div>
+        <div className="flex flex-col flex-1 min-h-0">
             <Header />
-            <main className="container flex-1 py-8">{children}</main>
+            <main className="flex flex-1 overflow-hidden">{children}</main>
             <Footer />
         </div>
     );

@@ -31,8 +31,8 @@ function App() {
       <Router>
         <div className="relative min-h-screen bg-fixed">
           <WarpSpeedBackground />
-          <div className="relative z-10 min-h-screen">
-            <HologramContainer>
+          <div className="relative z-10 flex flex-col">
+            <HologramContainer className="flex-1 min-h-screen">
               <MainLayout>
                 <Routes>
                   <Route path="/" element={<Home styleMap={styleMap} />} />

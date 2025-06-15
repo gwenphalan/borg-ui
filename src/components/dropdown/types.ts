@@ -4,6 +4,7 @@ export interface DropdownOption {
     icon?: string; // Name of the icon from Icon.tsx (e.g., 'check', 'arrow')
     disabled?: boolean;
     isSeparator?: boolean; // To render a line separator
+    disabledReason?: React.ReactNode;
 }
 
 export interface DropdownProps {

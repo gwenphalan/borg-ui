@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Icon } from "../icon/icon";
 
 export interface BreadcrumbItem {
@@ -29,12 +30,12 @@ export function Breadcrumbs({ items, className = "", style }: BreadcrumbsProps) 
                                 </span>
                             )}
                             {item.href && !isLast ? (
-                                <a
-                                    href={item.href}
+                                <Link
+                                    to={item.href}
                                     className="hover:text-content-primary transition-colors focus-visible:outline-hidden focus-visible:underline"
                                 >
                                     {item.label}
-                                </a>
+                                </Link>
                             ) : (
                                 <span className="text-content-primary">{item.label}</span>
                             )}
