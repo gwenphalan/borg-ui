@@ -1,42 +1,10 @@
 import React from "react";
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)",
-    text_dark: "var(--background-default)"
-};
-
-const variantMap: Record<string, { bg: string; border: string; shadow: string }> = {
-    default: {
-        bg: `bg-[${styleMap.surface_default}]`,
-        border: `border-2 border-[${styleMap.border_default}]`,
-        shadow: "shadow-lg",
-    },
-    primary: {
-        bg: `bg-[${styleMap.background_elevated}]`,
-        border: `border-2 border-[${styleMap.content_primary}]`,
-        shadow: "shadow-xl",
-    },
-    outlined: {
-        bg: "bg-transparent",
-        border: `border-2 border-[${styleMap.border_default}]`,
-        shadow: "shadow-none",
-    },
-    secondary: {
-        bg: `bg-[${styleMap.background_default}]`,
-        border: `border border-[${styleMap.border_default}]`,
-        shadow: "shadow-md",
-    },
+const variantMap: Record<string, string> = {
+    default: "card-base",
+    primary: "bg-background-elevated border-2 border-content-primary shadow-xl p-6 transition-all flex flex-col gap-3 rounded-lg",
+    outlined: "bg-transparent border-2 border-default shadow-none p-6 transition-all flex flex-col gap-3 rounded-lg",
+    secondary: "bg-background-default border border-default shadow-md p-6 transition-all flex flex-col gap-3 rounded-lg",
 };
 
 export interface CardProps {
@@ -72,12 +40,18 @@ export function Card({
     padding = "p-6",
     margin = "",
 }: CardProps) {
-    const variantStyles = (variant in variantMap ? variantMap[variant] : variantMap.default) as { bg: string; border: string; shadow: string };
+    const variantStyles = variantMap[variant] || variantMap.default;
     const isInteractive = clickable && !disabled && typeof onClick === "function";
+    
+    // Apply custom padding if provided, otherwise use variant default
+    const paddingClass = padding !== "p-6" ? padding : "";
+    const finalVariantStyles = paddingClass ? variantStyles.replace("p-6", paddingClass) : variantStyles;
+    
     return (
         <section
-            className={`relative flex flex-col gap-3 rounded-lg transition-all duration-150 outline-none focus-visible:ring-2 focus-visible:ring-[${styleMap.interactive_accentfocus}] ${variantStyles.bg} ${variantStyles.border} ${variantStyles.shadow} ${padding} ${margin} ${className} ${isInteractive ? `cursor-pointer hover:shadow-2xl hover:scale-[1.01]` : ""
-                } ${disabled ? "opacity-60 grayscale pointer-events-none" : ""}`}
+            className={`relative outline-none focus-ring ${finalVariantStyles} ${margin} ${className} ${
+                isInteractive ? "cursor-pointer hover-shadow hover-scale" : ""
+            } ${disabled ? "opacity-60 grayscale pointer-events-none" : ""}`}
             style={style}
             tabIndex={isInteractive ? 0 : undefined}
             aria-label={title || undefined}
@@ -92,30 +66,29 @@ export function Card({
             aria-disabled={disabled || undefined}
         >
             {image && (
-                <div className="w-full aspect-[16/9] rounded-md overflow-hidden mb-2 bg-[${styleMap.background_elevated}] flex items-center justify-center">
+                <div className="w-full aspect-video rounded-md overflow-hidden mb-2 bg-background-elevated flex items-center justify-center">
                     <img
                         src={image}
                         alt={imageAlt}
                         loading="lazy"
                         className="object-cover w-full h-full"
-                        style={{ background: styleMap.background_elevated }}
                     />
                 </div>
             )}
             {(title || actions) && (
                 <header className="flex items-start justify-between mb-1">
                     {title && (
-                        <h3 className={`text-[20px] font-black font-[Orbitron] text-[${styleMap.content_primary}] leading-tight`}>{title}</h3>
+                        <h3 className="text-xl font-black font-orbitron text-content-primary leading-tight">{title}</h3>
                     )}
                     {actions && <div className="flex-shrink-0 ml-2">{actions}</div>}
                 </header>
             )}
             {subtitle && (
-                <div className={`text-[14px] font-semibold font-[Orbitron] text-[${styleMap.content_secondary}] mb-1`}>{subtitle}</div>
+                <div className="text-sm font-semibold font-orbitron text-content-secondary mb-1">{subtitle}</div>
             )}
-            <div className={`flex-1 text-[16px] font-[Orbitron] text-[${styleMap.content_primary}]`}>{children}</div>
+            <div className="flex-1 text-base font-orbitron text-content-primary">{children}</div>
             {disabled && (
-                <div className="absolute inset-0 bg-[${styleMap.surface_default}] opacity-40 rounded-lg pointer-events-none" aria-hidden="true" />
+                <div className="absolute inset-0 bg-surface-default opacity-40 rounded-lg pointer-events-none" aria-hidden="true" />
             )}
         </section>
     );

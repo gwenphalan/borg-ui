@@ -5,16 +5,16 @@ import { cn } from '@/lib/utils';
 import { Icon } from "../icon/icon";
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'btn-base focus-ring',
   {
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        primary: 'bg-[var(--content-primary)] text-[var(--background-default)] hover:bg-[var(--content-primary)]/90 font-orbitron font-[900] text-[14.51px] leading-[29.87px]',
-        secondary: 'bg-[var(--border-default)] text-[var(--text-light)] hover:bg-[var(--border-default)]/90 font-orbitron font-[900] text-[14.51px] leading-[29.87px]',
-        destructive: 'bg-[var(--status-error)] text-[var(--text-light)] hover:bg-[var(--status-error)]/90 font-orbitron font-[900] text-[14.51px] leading-[29.87px]',
-        info: 'bg-[var(--status-info)] text-[var(--text-light)] hover:bg-[var(--status-info)]/90 font-orbitron font-[900] text-[14.51px] leading-[29.87px]',
-        warn: 'bg-[var(--status-warning)] text-[var(--background-default)] hover:bg-[var(--status-warning)]/90 font-orbitron font-[900] text-[14.51px] leading-[29.87px]',
+        primary: 'bg-content-primary text-background-default hover:bg-content-primary/90 font-orbitron font-black text-sm leading-normal',
+        secondary: 'bg-border-default text-light hover:bg-border-default/90 font-orbitron font-black text-sm leading-normal',
+        destructive: 'bg-status-error text-light hover:bg-status-error/90 font-orbitron font-black text-sm leading-normal',
+        info: 'bg-status-info text-light hover:bg-status-info/90 font-orbitron font-black text-sm leading-normal',
+        warn: 'bg-status-warning text-background-default hover:bg-status-warning/90 font-orbitron font-black text-sm leading-normal',
         outline: 'border border-input bg-background hover:bg-accent',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
@@ -54,7 +54,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           buttonVariants({ variant, size, className }),
           isIconOnly && "p-2.5",
-          icon !== "off" && iconName && children && "gap-x-2"
+          icon !== "off" && iconName && children && "gap-2"
         )}
         ref={ref}
         {...props}

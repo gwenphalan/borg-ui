@@ -11,25 +11,11 @@ export interface AvatarProps {
     onError?: () => void;
 }
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)",
-};
 
 const statusBorderMap: Record<string, string> = {
-    online: "border-[var(--content-primary)]",
-    offline: "border-[var(--status-error)]",
-    busy: "border-[var(--status-warning)]",
+    online: "text-content-primary",
+    offline: "text-status-error",
+    busy: "text-status-warning",
     away: "border-gray-400",
 };
 
@@ -69,7 +55,7 @@ export function Avatar({
         initials?.slice(0, 2).toUpperCase() ||
         (alt?.[0] ? alt[0].toUpperCase() : "?");
 
-    const borderClass = status ? statusBorderMap[status] : "border-[var(--border-default)]";
+    const borderClass = status ? statusBorderMap[status] : "border-default";
     const shapeClass = rounded ? "rounded-full" : "rounded-md";
 
     return (
@@ -94,7 +80,7 @@ export function Avatar({
             )}
             <div
                 className={[
-                    "relative z-10 bg-[var(--background-elevated)] overflow-hidden flex items-center justify-center",
+                    "relative z-10 bg-background-elevated overflow-hidden flex items-center justify-center",
                     sizeMap[size],
                     shapeClass,
                 ].join(" ")}
@@ -114,7 +100,7 @@ export function Avatar({
                         }}
                     />
                 ) : (
-                    <span className="font-semibold text-[var(--content-primary)] select-none">
+                    <span className="font-semibold text-content-primary select-none">
                         {fallbackInitials}
                     </span>
                 )}

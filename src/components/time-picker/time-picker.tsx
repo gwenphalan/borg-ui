@@ -7,21 +7,6 @@ import React, {
 } from "react";
 import { Overlay } from "../overlay/Overlay";
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)",
-    text_dark: "var(--text-dark)",
-};
 
 export interface TimePickerProps {
     value?: Date | string | number | null;
@@ -248,7 +233,7 @@ export function TimePicker({
                         key={item}
                         ref={el => itemRefArray[index] = el}
                         onClick={() => !disabled && onSelect(item)}
-                        className={`w-full text-center p-1 rounded ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[var(--background-default)]'} ${isSelected ? 'bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-bold' : ''}`}
+                        className={`w-full text-center p-1 rounded ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-background-default'} ${isSelected ? 'bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-bold' : ''}`}
                         disabled={disabled}
                     >
                         {typeof item === 'number' ? item.toString().padStart(2, '0') : item}
@@ -286,7 +271,7 @@ export function TimePicker({
 
     const panelContent = (
         <div
-            className={`flex flex-col bg-[var(--background-elevated)] text-[var(--content-primary)] shadow-lg rounded-lg border border-[var(--border-default)] ${panelClassName}`}
+            className={`flex flex-col bg-background-elevated text-content-primary shadow-lg rounded-lg border border-default ${panelClassName}`}
             style={{ width: showSeconds ? (is12Hour ? 290 : 220) : (is12Hour ? 220 : 150) }}
         >
             <div className="flex p-2">
@@ -295,7 +280,7 @@ export function TimePicker({
                 {showSeconds && renderColumn(seconds, pendingSecond, val => setPendingSecond(val as number), isSecondDisabled, secondColRef, itemRefs.current[2])}
                 {is12Hour && renderColumn(["AM", "PM"], pendingAmPm, val => setPendingAmPm(val as "AM" | "PM"), () => false, ampmColRef, itemRefs.current[3])}
             </div>
-            <div className="p-2 border-t border-[var(--border-default)]">
+            <div className="p-2 border-t border-default">
                 <button
                     onClick={commitPendingTime}
                     className="w-full px-4 py-2 text-sm font-medium text-white bg-[var(--interactive-accentfocus)] rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--interactive-accentfocus)]"
@@ -322,7 +307,7 @@ export function TimePicker({
         <div className={`flex flex-col gap-1 w-full ${className ?? ''}`} style={style} id={id}>
             {label && (
                 <label
-                    className="text-[12px] font-black uppercase tracking-[2px] font-[Orbitron] mb-1"
+                    className="text-xs font-black uppercase tracking-[2px] font-orbitron mb-1"
                     style={
                         error
                             ? { color: styleMap.status_error }
@@ -334,7 +319,7 @@ export function TimePicker({
             )}
             <div
                 ref={inputRef}
-                className={`w-full flex items-center gap-2 border-2 rounded-[5px] px-[11px] py-[11px] font-[Orbitron] text-[16px] font-extrabold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[${styleMap.interactive_accentfocus}] ${inputClassName} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                className={`w-full flex items-center gap-2 border-2 rounded-[5px] px-[11px] py-[11px] font-orbitron text-base font-extrabold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[${styleMap.interactive_accentfocus}] ${inputClassName} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
                 style={mainInputStyle}
                 onClick={() => !disabled && !readOnly && setIsOpen(true)}
             >
@@ -383,7 +368,7 @@ export function TimePicker({
                     <svg style={{ color: styleMap.content_secondary }} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                 </button>
             </div>
-            {helperText && <p className={`mt-1 text-sm ${error ? "text-[var(--status-error)]" : "text-[var(--content-secondary)]"}`}>{helperText}</p>}
+            {helperText && <p className={`mt-1 text-sm ${error ? "text-status-error" : "text-content-secondary"}`}>{helperText}</p>}
 
             <Overlay
                 reference={inputRef.current}

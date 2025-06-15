@@ -1,12 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 
-const styleMap: Record<string, string> = {
-  disabled: "var(--status-error)", // Corresponds to 'off' or 'false' state
-  enabled: "var(--content-primary)", // Corresponds to 'on' or 'true' state
-  handle: "var(--background-default)",
-};
-
 export interface ToggleProps {
   checked: boolean;
   disabled?: boolean;
@@ -78,7 +72,6 @@ export function Toggle({
     handlePosition = 'left-[2px]';
   }
 
-  const innerIconBorderColor = checked ? styleMap.enabled : styleMap.disabled;
   let innerIconSize: string;
   let innerIconPosition: string;
 
@@ -105,48 +98,43 @@ export function Toggle({
       className={clsx(
         'relative flex items-center justify-center',
         'w-[50px] h-[29px] rounded-[22px] overflow-hidden',
-        'transition-colors duration-200 ease-in-out', // Only for background color
+        'transition-colors duration-200 ease-in-out',
         'focus:outline-none',
         trackShadow,
+        checked ? 'bg-content-primary' : 'bg-status-error',
         {
           'cursor-not-allowed opacity-60': disabled,
           'cursor-pointer': !disabled,
         },
         className
       )}
-      style={{
-        backgroundColor: checked ? styleMap.enabled : styleMap.disabled,
-      }}
       disabled={disabled}
     >
       <span className="sr-only">Toggle</span>
       {/* Handle */}
       <div
         className={clsx(
-          'absolute',
+          'absolute bg-background-default',
           'top-[2px]',
           'h-[25px] rounded-[13px]',
-          'transition-all duration-200 ease-in-out', // For width and position changes
+          'transition-all duration-200 ease-in-out',
           handleBaseShadow,
           handleWidth,
           handlePosition
         )}
-        style={{ backgroundColor: styleMap.handle }}
       >
         {/* Inner Icon inside Handle */}
         <div
           className={clsx(
             'absolute',
             'top-[7px] rounded-[13px]',
-            'border-2 border-solid', // Thicker border
-            'transition-all duration-200 ease-in-out', // For size and position changes
+            'border-2 border-solid',
+            'transition-all duration-200 ease-in-out',
+            checked ? 'border-content-primary' : 'border-status-error',
+            checked && !isAnimating ? 'bg-content-primary' : 'bg-transparent',
             innerIconSize,
             innerIconPosition
           )}
-          style={{
-            borderColor: innerIconBorderColor,
-            backgroundColor: checked && !isAnimating ? innerIconBorderColor : 'transparent',
-          }}
         />
       </div>
     </button>

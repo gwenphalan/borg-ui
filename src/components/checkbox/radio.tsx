@@ -1,10 +1,6 @@
 import React, { useId } from "react";
 
 // Using only the necessary colors from your styleMap for clarity
-const styleMap = {
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-};
 
 export interface RadioProps {
     checked: boolean;

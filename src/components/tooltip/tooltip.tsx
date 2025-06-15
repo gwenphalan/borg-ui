@@ -10,11 +10,6 @@ export interface TooltipProps {
     disabled?: boolean;
 }
 
-const styleMap: Record<string, string> = {
-    background_elevated: "var(--background-elevated)",
-    content_primary: "var(--content-primary)",
-    border_default: "var(--border-default)",
-};
 
 export function Tooltip({
     children,

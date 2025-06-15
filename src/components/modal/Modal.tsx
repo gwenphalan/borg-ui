@@ -30,21 +30,6 @@ export interface ModalProps {
     style?: React.CSSProperties;
 }
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_success: "var(--status-success)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)",
-};
 
 const statusIconNameMap: Record<string, string> = {
     error: "error-state",
@@ -139,18 +124,18 @@ export function Modal({
                     <div
                         ref={modalRef}
                         className={twMerge(
-                            "relative w-full max-w-lg rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)]",
+                            "relative w-full max-w-lg rounded-lg shadow-lg bg-background-elevated border border-default",
                             className
                         )}
                         style={style}
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between border-b border-[var(--border-default)] p-4">
-                            <h2 className="text-lg font-bold text-[var(--content-primary)]">{title}</h2>
+                        <div className="flex items-center justify-between border-b border-default p-4">
+                            <h2 className="text-lg font-bold text-content-primary">{title}</h2>
                             <button
                                 onClick={onClose}
-                                className="text-[var(--content-primary)] hover:text-[var(--interactive-accentfocus)] transition-colors"
+                                className="text-content-primary hover:text-[var(--interactive-accentfocus)] transition-colors"
                             >
                                 <Icon name="close" size={24} />
                             </button>
@@ -163,18 +148,18 @@ export function Modal({
                 <div
                     ref={modalRef}
                     className={twMerge(
-                        "relative w-full max-w-lg rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)]",
+                        "relative w-full max-w-lg rounded-lg shadow-lg bg-background-elevated border border-default",
                         className
                     )}
                     style={style}
                     onClick={(e) => e.stopPropagation()}
                 >
                     {/* Header */}
-                    <div className="flex items-center justify-between border-b border-[var(--border-default)] p-4">
-                        <h2 className="text-lg font-bold text-[var(--content-primary)]">{title}</h2>
+                    <div className="flex items-center justify-between border-b border-default p-4">
+                        <h2 className="text-lg font-bold text-content-primary">{title}</h2>
                         <button
                             onClick={onClose}
-                            className="text-[var(--content-primary)] hover:text-[var(--interactive-accentfocus)] transition-colors"
+                            className="text-content-primary hover:text-[var(--interactive-accentfocus)] transition-colors"
                         >
                             <Icon name="close" size={24} />
                         </button>

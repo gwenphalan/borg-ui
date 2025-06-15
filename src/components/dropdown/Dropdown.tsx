@@ -9,20 +9,6 @@ import type { DropdownProps, DropdownOption } from './types';
 import { Icon } from '../icon/icon';
 import { Overlay } from '../overlay/Overlay';
 
-const styleMap: Record<string, string> = {
-    background_default: 'var(--background-default)',
-    background_elevated: 'var(--background-elevated)',
-    border_default: 'var(--border-default)',
-    content_primary: 'var(--content-primary)',
-    content_secondary: 'var(--content-secondary)',
-    interactive_accentfocus: 'var(--interactive-accentfocus)',
-    status_error: 'var(--status-error)',
-    status_info: 'var(--status-info)',
-    status_warning: 'var(--status-warning)',
-    surface_default: 'var(--surface-default)',
-    text_light: 'var(--text-light)',
-    text_background_default: 'var(--text-background-default)',
-};
 
 const MENU_ID = 'dropdown-menu-id';
 
@@ -125,10 +111,10 @@ export function Dropdown({
 
     // Classes and styles for congruency with TextInput
     const buttonBase =
-        'w-full min-w-0 flex items-center bg-[var(--surface-default)] rounded-[5px] outline-2 px-[11px] py-[11px] relative transition-colors duration-150 font-[Orbitron] ' +
+        'w-full min-w-0 flex items-center bg-surface-default rounded-[5px] outline-2 px-[11px] py-[11px] relative transition-colors duration-150 font-orbitron ' +
         (disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer');
     const buttonText =
-        'w-full min-w-0 text-[16px] font-extrabold font-[Orbitron] p-0 m-0 break-words text-left truncate flex-1 text-[var(--content-primary)]';
+        'w-full min-w-0 text-base font-extrabold font-orbitron p-0 m-0 break-words text-left truncate flex-1 text-content-primary';
     const buttonChevron = 'ml-[14px] flex items-center justify-center';
     const buttonRing =
         isOpen
@@ -137,15 +123,15 @@ export function Dropdown({
     const buttonWidth = fullWidth ? 'w-full' : '';
 
     const menuBase =
-        'min-w-[180px] rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)] p-2 flex flex-col space-y-1 z-50 font-[Orbitron] ' +
+        'min-w-[180px] rounded-lg shadow-lg bg-background-elevated border border-default p-2 flex flex-col space-y-1 z-50 font-orbitron ' +
         menuClassName;
 
     const itemBase =
-        'flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-[var(--content-primary)] hover:bg-[var(--content-primary)] hover:text-[var(--background-default)] cursor-pointer w-full group';
+        'flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-content-primary hover:text-content-primary hover:bg-background-default cursor-pointer w-full group';
     const itemSelected =
-        'outline outline-2 outline-[var(--interactive-accentfocus)] outline-offset-[-2px] bg-[var(--content-primary)] text-[var(--background-default)]';
-    const itemDisabled = 'bg-transparent text-[var(--content-secondary)] opacity-50 cursor-not-allowed !hover:bg-transparent !hover:text-[var(--content-secondary)]';
-    const separatorClass = 'h-px bg-[var(--border-default)] my-1';
+        'outline outline-2 outline-[var(--interactive-accentfocus)] outline-offset-[-2px] text-content-primary bg-background-default';
+    const itemDisabled = 'bg-transparent text-content-secondary opacity-50 cursor-not-allowed !hover:bg-transparent !hover:text-content-secondary';
+    const separatorClass = 'h-px border-default my-1';
 
     // Button label
     let buttonLabel: string;
@@ -163,7 +149,7 @@ export function Dropdown({
         <div className={`${fullWidth ? 'w-full' : ''}` + (label ? ' flex flex-col gap-[5px]' : '')}>
             {label && (
                 <label
-                    className="text-[12px] font-black uppercase tracking-[2px] font-[Orbitron] mb-1 text-[var(--content-primary)]"
+                    className="text-xs font-black uppercase tracking-[2px] font-orbitron mb-1 text-content-primary"
                     id={`dropdown-label-${MENU_ID}`}
                 >
                     {label}
@@ -215,7 +201,7 @@ export function Dropdown({
                 }}
             >
                 {options.length === 0 && (
-                    <div className="px-4 py-2 text-[var(--content-secondary)] text-sm">No options</div>
+                    <div className="px-4 py-2 text-content-secondary text-sm">No options</div>
                 )}
                 {options.map((opt, idx) => {
                     if (opt.isSeparator) {
@@ -236,7 +222,7 @@ export function Dropdown({
                             className={
                                 opt.disabled
                                     ? [
-                                        'flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-[var(--content-secondary)] opacity-50 cursor-not-allowed w-full',
+                                        'flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-content-secondary opacity-50 cursor-not-allowed w-full',
                                         itemDisabled,
                                         itemDisabledClassName,
                                     ].join(' ')
@@ -262,7 +248,7 @@ export function Dropdown({
                                     <Icon
                                         name={opt.icon}
                                         size={16}
-                                        className="shrink-0 mr-2 text-[var(--content-primary)] group-hover:text-[var(--background-default)]"
+                                        className="shrink-0 mr-2 text-content-primary group-hover:bg-background-default"
                                     />
                                 )
                             )}

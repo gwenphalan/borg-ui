@@ -7,21 +7,6 @@ import React, {
 import type { CSSProperties } from "react";
 import { Overlay } from "../overlay/Overlay";
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)",
-    text_dark: "var(--text-dark)",
-};
 
 // Types
 export type PickerType = "single" | "range" | "multiple" | "month" | "year";
@@ -445,19 +430,19 @@ export function DatePicker({
 
             const dayStyle: CSSProperties = {};
             let dayClasses =
-                "w-8 h-8 flex items-center justify-center rounded-md font-[Orbitron] text-sm transition-all duration-100";
+                "w-8 h-8 flex items-center justify-center rounded-md font-orbitron text-sm transition-all duration-100";
 
             if (selected) {
                 dayClasses += ` bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-black`;
             } else if (highlighted) {
-                dayClasses += ` bg-[var(--status-info)] text-[var(--content-primary)]`;
+                dayClasses += ` text-status-info text-content-primary`;
             }
 
             if (disabledDay) {
                 dayClasses += " opacity-40 cursor-not-allowed";
             } else if (!selected) {
                 dayClasses +=
-                    " hover:bg-[var(--background-default)] cursor-pointer";
+                    " hover:bg-background-default cursor-pointer";
             }
 
             days.push(
@@ -582,7 +567,7 @@ export function DatePicker({
                 const newYear = viewMonth === 0 ? viewYear - 1 : viewYear;
                 setViewMonth(newMonth);
                 setViewYear(newYear);
-            }} className="p-1 rounded-full hover:bg-[var(--background-default)]">
+            }} className="p-1 rounded-full hover:bg-background-default">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
             </button>
             <div className="flex-grow text-center">
@@ -594,14 +579,14 @@ export function DatePicker({
                 const newYear = viewMonth === 11 ? viewYear + 1 : viewYear;
                 setViewMonth(newMonth);
                 setViewYear(newYear);
-            }} className="p-1 rounded-full hover:bg-[var(--background-default)]">
+            }} className="p-1 rounded-full hover:bg-background-default">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
             </button>
         </div>
     );
 
     const renderWeekdays = () => (
-        <div className="grid grid-cols-7 gap-1 mb-2 text-xs font-bold text-center text-[var(--content-secondary)]">
+        <div className="grid grid-cols-7 gap-1 mb-2 text-xs font-bold text-center text-content-secondary">
             {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => <div key={day}>{day}</div>)}
         </div>
     );
@@ -618,7 +603,7 @@ export function DatePicker({
                 <button
                     key={i}
                     onClick={() => handleMonthSelect(i)}
-                    className="p-2 rounded hover:bg-[var(--background-default)]"
+                    className="p-2 rounded hover:bg-background-default"
                 >
                     {new Date(viewYear, i).toLocaleString(locale, { month: 'short' })}
                 </button>
@@ -637,7 +622,7 @@ export function DatePicker({
                     <button
                         key={year}
                         onClick={() => handleYearSelect(year)}
-                        className="p-2 rounded hover:bg-[var(--background-default)]"
+                        className="p-2 rounded hover:bg-background-default"
                     >
                         {year}
                     </button>
@@ -650,7 +635,7 @@ export function DatePicker({
         <div className={`flex flex-col gap-1 ${className}`} style={style}>
             {label && (
                 <label
-                    className="text-[12px] font-black uppercase tracking-[2px] font-[Orbitron] mb-1"
+                    className="text-xs font-black uppercase tracking-[2px] font-orbitron mb-1"
                     style={
                         error
                             ? { color: styleMap.status_error }
@@ -663,7 +648,7 @@ export function DatePicker({
             <div className="relative w-full">
                 <div
                     ref={inputRef}
-                    className={`w-full flex items-center gap-2 border-2 rounded-[5px] px-[11px] py-[11px] font-[Orbitron] text-[16px] font-extrabold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[${styleMap.interactive_accentfocus}] ${inputClassName} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                    className={`w-full flex items-center gap-2 border-2 rounded-[5px] px-[11px] py-[11px] font-orbitron text-base font-extrabold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[${styleMap.interactive_accentfocus}] ${inputClassName} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
                     style={mainInputStyle}
                     role="button"
                     tabIndex={0}
@@ -728,7 +713,7 @@ export function DatePicker({
                         open={isOpen}
                         onOpenChange={setIsOpen}
                         placement="bottom-start"
-                        className={`z-50 p-4 bg-[var(--background-elevated)] border border-[var(--border-default)] rounded-lg shadow-xl ${calendarClassName}`}
+                        className={`z-50 p-4 bg-background-elevated border border-default rounded-lg shadow-xl ${calendarClassName}`}
                         style={{
                             background: styleMap.surface_default,
                             borderColor: styleMap.border_default,
@@ -742,7 +727,7 @@ export function DatePicker({
             </div>
             {helperText && (
                 <div
-                    className="text-xs mt-1 font-[Orbitron]"
+                    className="text-xs mt-1 font-orbitron"
                     style={
                         error
                             ? { color: styleMap.status_error }
@@ -754,7 +739,7 @@ export function DatePicker({
             )}
             {pickerType === "range" && tempRange && (
                 <div
-                    className="text-xs mt-1 font-[Orbitron]"
+                    className="text-xs mt-1 font-orbitron"
                     style={{ color: styleMap.content_secondary }}
                 >
                     {tempRange[0]

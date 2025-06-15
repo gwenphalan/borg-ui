@@ -1,21 +1,6 @@
 import { useState } from "react";
 import { Icon } from "../icon/icon";
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)",
-    text_dark: "#003D1E"
-};
 
 export interface AccordionItem {
     title: string;
@@ -49,7 +34,7 @@ export function Accordion({ items, className = "", style, defaultOpenIndex = -1 
                     <div key={idx} className="w-full">
                         <button
                             className={
-                                `w-full px-6 py-4 flex items-center gap-2 font-[Orbitron] text-[18px] font-extrabold leading-6 ` +
+                                `w-full px-6 py-4 flex items-center gap-2 font-orbitron text-lg font-extrabold leading-6 ` +
                                 (isOpen ? "rounded-[12px] z-10 relative" : "rounded-none")
                             }
                             style={{
@@ -86,7 +71,7 @@ export function Accordion({ items, className = "", style, defaultOpenIndex = -1 
                                 }}
                             >
                                 <div
-                                    className="flex-1 font-[Orbitron] text-[16px] font-bold leading-6 text-left break-words"
+                                    className="flex-1 font-orbitron text-base font-bold leading-6 text-left break-words"
                                     style={{ color: styleMap.content_secondary, fontWeight: 800 }}
                                 >
                                     {item.content}

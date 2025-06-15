@@ -1,10 +1,6 @@
 import React, { useRef, useEffect, useId } from "react";
 import { Icon } from "../icon/icon"; // Assuming Icon handles its own styling
 
-const styleMap = {
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-};
 
 export interface CheckboxProps {
     checked: boolean;

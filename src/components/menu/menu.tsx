@@ -4,20 +4,6 @@ import { Icon } from "../icon/icon";
 import { Overlay } from "../overlay/Overlay";
 
 // Theming style map (required by project conventions)
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)",
-};
 
 // Menu item interface
 export interface MenuItem {
@@ -132,10 +118,10 @@ function MenuItemComponent({
 
     const baseItemClass = `flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none no-underline group ${itemClassName} ${item.className || ''} ${isVertical ? 'w-full' : ''}`;
 
-    const activeClass = "bg-[var(--content-primary)] text-[var(--background-default)]";
-    const hoverClass = "hover:bg-[var(--content-primary)] hover:text-[var(--background-default)]";
-    const disabledClass = "bg-transparent text-[var(--content-secondary)] opacity-50 cursor-not-allowed";
-    const defaultClass = "bg-transparent text-[var(--content-primary)]";
+    const activeClass = "text-content-primary bg-background-default";
+    const hoverClass = "hover:text-content-primary hover:bg-background-default";
+    const disabledClass = "bg-transparent text-content-secondary opacity-50 cursor-not-allowed";
+    const defaultClass = "bg-transparent text-content-primary";
 
     const itemStateClass = active ? activeClass : (disabled ? disabledClass : `${defaultClass} ${hoverClass}`);
     const finalItemClass = `${baseItemClass} ${itemStateClass}`;
@@ -182,7 +168,7 @@ function MenuItemComponent({
     }
 
     if (item.divider) {
-        return <li className={isVertical ? "my-1 border-t border-[var(--border-default)] w-full" : "mx-2 border-l border-[var(--border-default)] h-6 self-center"} role="separator" />;
+        return <li className={isVertical ? "my-1 border-t border-default w-full" : "mx-2 border-l border-default h-6 self-center"} role="separator" />;
     }
 
     if (item.customComponent) {
@@ -203,7 +189,7 @@ function MenuItemComponent({
                     open={isOpen}
                     onOpenChange={setIsOpen}
                     placement={isVertical ? 'right-start' : 'bottom-start'}
-                    className={`z-50 min-w-[180px] rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)] p-2 flex flex-col space-y-1 ${dropdownClassName}`}
+                    className={`z-50 min-w-[180px] rounded-lg shadow-lg bg-background-elevated border border-default p-2 flex flex-col space-y-1 ${dropdownClassName}`}
                     style={{ background: 'var(--background-elevated)' }}
                 >
                     <ul>
