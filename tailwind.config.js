@@ -42,7 +42,7 @@ export default {
   plugins: [
     function ({ addUtilities }) {
       const newUtilities = {
-        ".all-\\[unset\\]": {
+        ".all-unset": {
           all: "unset",
         },
       };
