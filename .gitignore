@@ -6,9 +6,6 @@
 /dist
 /create-borg-ui/dist
 
-# Template creation tool
-/create-borg-ui
-
 # Testing
 /coverage
 
