@@ -234,7 +234,12 @@ export function TimePicker({
                         key={item}
                         ref={el => itemRefArray[index] = el}
                         onClick={() => !disabled && onSelect(item)}
-                        className={`w-full text-center p-1 rounded ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-background-default'} ${isSelected ? 'bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-bold' : ''}`}
+                        className={`w-full text-center p-1 rounded ${disabled
+                                ? "opacity-50 cursor-not-allowed"
+                                : isSelected
+                                    ? "bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-bold hover:opacity-90"
+                                    : "hover:bg-background-default"
+                            }`}
                         disabled={disabled}
                     >
                         {typeof item === 'number' ? item.toString().padStart(2, '0') : item}
@@ -292,13 +297,11 @@ export function TimePicker({
 
     // Determine state classes
     const containerClasses = `flex flex-col gap-1 w-full ${className ?? ''}`;
-    const labelClasses = `label-base ${
-        error ? 'text-status-error' : 'text-content-primary'
-    }`;
-    const inputClasses = `input-base ${
-        error ? 'error-state' :
-        isOpen ? 'focus-state' : ''
-    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} input-focus-ring`;
+    const labelClasses = `label-base ${error ? 'text-status-error' : 'text-content-primary'
+        }`;
+    const inputClasses = `input-base ${error ? 'error-state' :
+            isOpen ? 'focus-state' : ''
+        } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} input-focus-ring`;
 
     return (
         <div className={containerClasses} style={style} id={id}>

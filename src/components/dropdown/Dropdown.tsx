@@ -106,9 +106,8 @@ export function Dropdown({
     // Classes and styles for congruency with TextInput
     const containerClasses = `${fullWidth ? 'w-full' : ''}` + (label ? ' flex flex-col gap-1' : '');
     const labelClasses = "label-base";
-    const buttonClasses = `input-base ${
-        isOpen ? 'focus-state' : ''
-    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} input-focus-ring`;
+    const buttonClasses = `input-base ${isOpen ? 'focus-state' : ''
+        } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} input-focus-ring`;
 
     // Button label
     let buttonLabel: string;
@@ -179,11 +178,12 @@ export function Dropdown({
                     return (
                         <button
                             key={opt.value || idx}
-                            className={`dropdown-item ${
-                                isSelected ? 'dropdown-item-selected' : ''
-                            } ${
-                                opt.disabled ? 'opacity-50 cursor-not-allowed' : ''
-                            }`}
+                            className={`flex items-center w-full text-left px-4 py-2 text-sm rounded ${opt.disabled
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : isSelected
+                                        ? "bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-bold hover:opacity-90"
+                                        : "hover:bg-background-default"
+                                }`}
                             onClick={() => handleOptionClick(opt)}
                             onMouseEnter={() => handleOptionMouseEnter()}
                             onMouseDown={(e) => e.preventDefault()}

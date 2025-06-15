@@ -10,18 +10,15 @@ import {
     Placement,
     Middleware,
 } from "@floating-ui/react";
-import { HologramPortal } from "../hologram/hologram-portal";
-import { HologramContext } from "../container/hologram-context";
-import { HologramEffect } from "../container/hologram-container";
 import React from "react";
 
 export interface OverlayProps {
-    reference: HTMLElement | null; // reference element to position against
+    reference: HTMLElement | null;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     placement?: Placement;
     offsetPx?: number;
-    matchWidth?: boolean; // whether the overlay width should match the reference width
+    matchWidth?: boolean;
     className?: string;
     style?: CSSProperties;
     children: ReactNode;
@@ -39,6 +36,7 @@ export function Overlay({
     children,
 }: OverlayProps) {
     const { x, y, strategy, refs } = useFloating({
+        strategy: "fixed",
         placement,
         open,
         onOpenChange,
@@ -59,14 +57,12 @@ export function Overlay({
         ].filter(Boolean) as Middleware[],
     });
 
-    // Attach external reference
     useEffect(() => {
         if (reference) {
             refs.setReference(reference);
         }
     }, [reference, refs]);
 
-    // Click-outside to close
     useEffect(() => {
         if (!open) return;
         function handleClick(e: MouseEvent) {
@@ -86,9 +82,7 @@ export function Overlay({
 
     if (!open) return null;
 
-    const isHologram = React.useContext(HologramContext);
-
-    const panel = (
+    return (
         <div
             ref={refs.setFloating}
             className={className}
@@ -96,17 +90,11 @@ export function Overlay({
                 position: strategy,
                 top: y ?? 0,
                 left: x ?? 0,
-                zIndex: 9999,
+                zIndex: 99999,
                 ...style,
             }}
         >
             {children}
         </div>
-    );
-
-    return (
-        <HologramPortal>
-            {isHologram ? <HologramEffect>{panel}</HologramEffect> : panel}
-        </HologramPortal>
     );
 } 
