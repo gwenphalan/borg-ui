@@ -115,14 +115,14 @@ function MenuItemComponent({
     const baseItemClass = `flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none no-underline group ${itemClassName} ${item.className || ''} ${isVertical ? 'w-full' : ''}`;
 
     const activeClass = "text-content-primary bg-background-default";
-    const hoverClass = "hover:text-content-primary hover:bg-background-default";
+    const hoverClass = "hover:bg-content-primary hover:text-[var(--text-dark)]";
     const disabledClass = "bg-transparent text-content-secondary opacity-50 cursor-not-allowed";
     const defaultClass = "bg-transparent text-content-primary";
 
     const itemStateClass = active ? activeClass : (disabled ? disabledClass : `${defaultClass} ${hoverClass}`);
     const finalItemClass = `${baseItemClass} ${itemStateClass}`;
 
-    const iconColor = active || hovered ? 'var(--background-default)' : (disabled ? 'var(--content-secondary)' : 'var(--content-primary)');
+    const iconColor = active || hovered ? 'var(--text-dark)' : (disabled ? 'var(--content-secondary)' : 'var(--content-primary)');
 
     const handleItemClick = (event: MouseEvent<HTMLElement>) => {
         if (disabled) {
