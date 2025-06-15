@@ -84,7 +84,7 @@ export function Overlay({
     if (!open) return null;
 
     return (
-        <HologramPortal isHologramDescendant={false}>
+        <HologramPortal>
             <div
                 ref={refs.setFloating}
                 className={className}
