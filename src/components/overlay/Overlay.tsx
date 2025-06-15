@@ -11,6 +11,9 @@ import {
     Middleware,
 } from "@floating-ui/react";
 import { HologramPortal } from "../hologram/hologram-portal";
+import { HologramContext } from "../container/hologram-context";
+import { HologramEffect } from "../container/hologram-container";
+import React from "react";
 
 export interface OverlayProps {
     reference: HTMLElement | null; // reference element to position against
@@ -83,6 +86,9 @@ export function Overlay({
 
     if (!open) return null;
 
+    const isHologram = React.useContext(HologramContext);
+    const content = isHologram ? <HologramEffect>{children}</HologramEffect> : children;
+
     return (
         <HologramPortal>
             <div
@@ -92,10 +98,11 @@ export function Overlay({
                     position: strategy,
                     top: y ?? 0,
                     left: x ?? 0,
+                    zIndex: 9999,
                     ...style,
                 }}
             >
-                {children}
+                {content}
             </div>
         </HologramPortal>
     );
