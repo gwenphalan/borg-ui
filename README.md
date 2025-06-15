@@ -40,6 +40,7 @@ npm run setup-icons
 ```
 
 This will:
+
 1. Install the package
 2. Set up the theme system
 3. Download default icons
@@ -47,54 +48,55 @@ This will:
 
 ## Usage
 
-First, add the required dependencies to your project:
+First, ensure your project is set up with React and Tailwind CSS. Then, import the main stylesheet in your application's entry point:
 
-```bash
-npm install react react-dom tailwindcss
+```tsx
+import "@unimatrix-01/ui/dist/style.css";
 ```
 
 Then, import the components you need:
 
 ```tsx
-import { Button, Card, Modal } from '@unimatrix-01/ui';
+import { Button, Card, Modal } from "@unimatrix-01/ui";
 
 function App() {
-  return (
-    <Button>Click me</Button>
-  );
+  return <Button>Click me</Button>;
 }
 ```
 
 ### Icon System
 
-The library includes a flexible icon system that supports both package icons and project-specific icons:
+The library includes a flexible icon system that automatically handles two types of icons:
 
-```tsx
-import { Icon } from '@unimatrix-01/ui';
+1.  **Built-in Icons**: A curated set of commonly used icons is included directly in the package for immediate use (e.g., `check`, `arrow`, `calendar`).
+2.  **Project-specific Icons**: You can add your own custom SVG icons to your project, and the `Icon` component will load them dynamically.
 
-// Use package icons (default)
-<Icon name="placeholder" />
+**How to Use Custom Icons:**
 
-// Use project-specific icons
-<Icon name="custom-icon" source="project" />
-```
+To add your own icons, place your SVG files in the `public/icons` directory of your project. The component will automatically find them.
 
-To add your own icons:
-1. Create an `icons` directory in your project
-2. Add your SVG icons
-3. Use them with `source="project"`
+**Example:**
 
-The VS Code extension "Get SVG Icons" is recommended for easy icon management.
+1.  Add `my-custom-icon.svg` to `your-project/public/icons/`.
+2.  Use it in your code:
+
+    ```tsx
+    import { Icon } from "@unimatrix-01/ui";
+
+    <Icon name="my-custom-icon" />;
+    ```
+
+**Important Note:** The dynamic loading of project-specific icons relies on **Vite** and an SVGR plugin (like `vite-plugin-svgr`) to transform SVGs into React components. If you are using a different build tool (e.g., Webpack, Next.js), this feature may not work out of the box and might require additional configuration.
 
 ### Tailwind CSS Setup
 
-Add the following to your `tailwind.config.js`:
+Add the library's component paths to your `tailwind.config.js` file to ensure Tailwind processes the classes used in the components:
 
 ```js
 module.exports = {
   content: [
     // ... your content configuration
-    './node_modules/@unimatrix-01/ui/dist/**/*.{js,ts,jsx,tsx}',
+    "./node_modules/@unimatrix-01/ui/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -102,7 +104,7 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};
 ```
 
 ### Base App Setup with Holographic Effects
@@ -112,7 +114,7 @@ To set up your app with the holographic and warp speed effects, follow these ste
 1. First, import the required components:
 
 ```tsx
-import { HologramContainer, WarpSpeedBackground } from '@unimatrix-01/ui';
+import { HologramContainer, WarpSpeedBackground } from "@unimatrix-01/ui";
 ```
 
 2. Wrap your app's root component with the `WarpSpeedBackground` and `HologramContainer`:
@@ -122,9 +124,7 @@ function App() {
   return (
     <div className="flex items-center justify-center min-h-screen min-w-screen text-[var(--text-light)]">
       <WarpSpeedBackground />
-      <HologramContainer>
-        {/* Your app content goes here */}
-      </HologramContainer>
+      <HologramContainer>{/* Your app content goes here */}</HologramContainer>
     </div>
   );
 }
@@ -142,7 +142,7 @@ function App() {
       <HologramContainer>
         {/* Your app content */}
         <button onClick={() => setIsModalOpen(true)}>Open Modal</button>
-        
+
         {/* Modal will inherit holographic effects when rendered inside HologramContainer */}
         <Modal
           isOpen={isModalOpen}
@@ -178,6 +178,7 @@ function App() {
 ```
 
 The `WarpSpeedBackground` component provides a dynamic, animated background effect, while the `HologramContainer` adds the holographic styling to all content within it. The holographic effect includes:
+
 - Subtle transparency
 - Glowing borders
 - Light refraction effects
@@ -201,16 +202,17 @@ import { Avatar } from '@unimatrix-01/ui';
 <Avatar initials="JD" status="online" size="md" />
 
 // With status
-<Avatar 
-  src="https://example.com/avatar.jpg" 
-  alt="User Name" 
-  status="busy" 
-  size="lg" 
-  rounded={false} 
+<Avatar
+  src="https://example.com/avatar.jpg"
+  alt="User Name"
+  status="busy"
+  size="lg"
+  rounded={false}
 />
 ```
 
 Props:
+
 - `src`: string - Image source URL
 - `alt`: string - Alt text for the image
 - `initials`: string - Initials to display if no image
@@ -244,6 +246,7 @@ import { Badge } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `variant`: 'default' | 'info' | 'success' | 'warning' | 'error'
 - `pill`: boolean - Whether to use pill style
 - `removable`: boolean - Whether the badge can be removed
@@ -272,6 +275,7 @@ import { Button } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `styleType`: 'primary' | 'secondary' | 'destructive' | 'info' | 'warn'
 - `icon`: 'left' | 'right' | 'off'
 - `iconName`: string - Name of the icon to display
@@ -291,9 +295,9 @@ import { Card } from '@unimatrix-01/ui';
 </Card>
 
 // With image
-<Card 
-  title="Card with Image" 
-  subtitle="With thumbnail" 
+<Card
+  title="Card with Image"
+  subtitle="With thumbnail"
   image={imageUrl}
   actions={<Button>Action</Button>}
 >
@@ -305,9 +309,9 @@ import { Card } from '@unimatrix-01/ui';
 <Card variant="outlined" title="Outlined Card">Content</Card>
 
 // Clickable card
-<Card 
-  title="Clickable Card" 
-  clickable 
+<Card
+  title="Clickable Card"
+  clickable
   onClick={() => console.log('clicked')}
 >
   Click me
@@ -315,6 +319,7 @@ import { Card } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `title`: string
 - `subtitle`: string
 - `image`: string - URL of the card image
@@ -332,18 +337,18 @@ A checkbox input component with support for indeterminate state.
 import { Checkbox } from '@unimatrix-01/ui';
 
 // Basic usage
-<Checkbox 
-  checked={checked} 
-  onChange={setChecked} 
-  label="Checkbox Label" 
+<Checkbox
+  checked={checked}
+  onChange={setChecked}
+  label="Checkbox Label"
 />
 
 // Indeterminate state
-<Checkbox 
-  checked={checked} 
-  indeterminate={indeterminate} 
-  onChange={handleChange} 
-  label="Indeterminate Checkbox" 
+<Checkbox
+  checked={checked}
+  indeterminate={indeterminate}
+  onChange={handleChange}
+  label="Indeterminate Checkbox"
 />
 
 // Disabled states
@@ -352,6 +357,7 @@ import { Checkbox } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `checked`: boolean
 - `indeterminate`: boolean
 - `disabled`: boolean
@@ -379,20 +385,21 @@ import { Chip } from '@unimatrix-01/ui';
 <Chip label="Large" size="lg" />
 
 // With icon
-<Chip 
-  label="With Icon" 
-  icon={<Icon name="placeholder" size={16} />} 
+<Chip
+  label="With Icon"
+  icon={<Icon name="placeholder" size={16} />}
 />
 
 // Closable
-<Chip 
-  label="Closable" 
-  closable 
-  onClose={() => console.log('closed')} 
+<Chip
+  label="Closable"
+  closable
+  onClose={() => console.log('closed')}
 />
 ```
 
 Props:
+
 - `label`: string
 - `variant`: 'default' | 'primary' | 'info' | 'warning' | 'error'
 - `size`: 'sm' | 'md' | 'lg'
@@ -440,6 +447,7 @@ import { DatePicker } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `label`: string
 - `value`: Date | [Date, Date] | Date[]
 - `onChange`: (value: Date | [Date, Date] | Date[]) => void
@@ -449,6 +457,20 @@ Props:
 - `disabled`: boolean
 - `error`: boolean
 - `helperText`: string
+- `value`: Date | Date[] | [Date | null, Date | null] | null
+- `onChange`: (value: Date | Date[] | [Date, Date] | [Date | null, Date | null] | null) => void
+- `pickerType?`: 'single' | 'range' | 'multiple' | 'month' | 'year'
+- `placeholder?`: string
+- `disabled?`: boolean
+- `readOnly?`: boolean
+- `minDate?`: Date
+- `maxDate?`: Date
+- `dateFormat?`: string
+- `clearable?`: boolean
+- `open?`: boolean
+- `onOpenChange?`: (open: boolean) => void
+- `error?`: boolean
+- `helperText?`: string
 
 ### Dropdown
 
@@ -483,6 +505,7 @@ import { Dropdown } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `label`: string
 - `options`: DropdownOption[]
 - `value`: string | string[]
@@ -492,6 +515,9 @@ Props:
 - `disabled`: boolean
 - `error`: boolean
 - `helperText`: string
+- `isOpen`: boolean
+- `onOpenChange`: (isOpen: boolean) => void
+- `fullWidth?`: boolean
 
 ### Icon
 
@@ -509,9 +535,11 @@ import { Icon } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `name`: string - Icon name
 - `size`: number - Size in pixels
 - `color`: string - Color value
+- `className?`: string
 
 ### Menu
 
@@ -546,10 +574,16 @@ import { Menu } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `items`: MenuItem[]
 - `orientation`: 'horizontal' | 'vertical'
 - `activePath`: string
 - `onPathChange`: (path: string) => void
+- `className?`: string
+- `onOptionSelect?`: (option: string) => void
+- `maxLength?`: number
+- `autoComplete?`: string
+- `name?`: string
 
 ### Modal
 
@@ -593,6 +627,7 @@ import { Modal } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `isOpen`: boolean
 - `onClose`: () => void
 - `title`: string
@@ -628,6 +663,7 @@ import { Radio } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `name`: string
 - `value`: string
 - `checked`: boolean
@@ -640,26 +676,29 @@ Props:
 A data table component with sorting, filtering, and pagination.
 
 ```tsx
-import { Table } from '@unimatrix-01/ui';
+import { Table } from "@unimatrix-01/ui";
 
 // Basic usage
 <Table
   columns={[
     { key: "name", label: "Name", sortable: true },
     { key: "age", label: "Age", sortable: true },
-    { key: "status", label: "Status", render: (row) => (
-      <Badge variant={row.status}>{row.status}</Badge>
-    )}
+    {
+      key: "status",
+      label: "Status",
+      render: (row) => <Badge variant={row.status}>{row.status}</Badge>,
+    },
   ]}
   data={tableData}
   pageSize={10}
   filterText={filter}
   onFilterTextChange={setFilter}
   showPagination={true}
-/>
+/>;
 ```
 
 Props:
+
 - `columns`: TableColumn[]
 - `data`: any[]
 - `pageSize`: number
@@ -709,6 +748,7 @@ import { TextInput } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `label`: string
 - `value`: string
 - `onChange`: (value: string) => void
@@ -751,6 +791,7 @@ import { TextArea } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `label`: string
 - `value`: string
 - `onChange`: (value: string) => void
@@ -762,6 +803,10 @@ Props:
 - `errorMessage`: string
 - `warningMessage`: string
 - `disabled`: boolean
+- `className?`: string
+- `autoComplete?`: string
+- `name?`: string
+- `validationRules?`: object
 
 ### TimePicker
 
@@ -809,6 +854,7 @@ import { TimePicker } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `label`: string
 - `value`: Date | null
 - `onChange`: (value: Date | null) => void
@@ -822,6 +868,10 @@ Props:
 - `disabled`: boolean
 - `error`: boolean
 - `helperText`: string
+- `readOnly?`: boolean
+- `onClear?`: () => void
+- `open?`: boolean
+- `onOpenChange?`: (open: boolean) => void
 
 ### Toggle
 
@@ -850,6 +900,7 @@ import { Toggle } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `checked`: boolean
 - `onToggle`: (checked: boolean) => void
 - `disabled`: boolean
@@ -879,6 +930,7 @@ import { Tooltip } from '@unimatrix-01/ui';
 ```
 
 Props:
+
 - `content`: ReactNode
 - `placement`: 'top' | 'right' | 'bottom' | 'left'
 - `disabled`: boolean
@@ -892,6 +944,7 @@ npx @unimatrix-01/ui
 ```
 
 This interactive setup script will:
+
 1. Ask for your project name
 2. Let you choose your preferred React setup (Vite, Next.js, or Create React App)
 3. Create a new project with all necessary dependencies
@@ -903,6 +956,7 @@ This interactive setup script will:
 If you prefer to set up Borg UI manually in an existing project:
 
 1. Install the package:
+
 ```bash
 npm install @unimatrix-01/ui
 ```
@@ -1113,11 +1167,13 @@ html {
 ```
 
 3. Import the styles in your main entry file (usually `src/main.tsx` or `src/index.tsx`):
+
 ```typescript
-import './index.css';
+import "./index.css";
 ```
 
 4. Start your development server:
+
 ```bash
 npm run dev
 ```

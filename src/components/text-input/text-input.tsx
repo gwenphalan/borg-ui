@@ -136,18 +136,16 @@ export function TextInput({
     const warningText = warningMessage || internalWarning;
 
     // Determine classes based on state
-    const labelClasses = `label-base ${
-        isFocused || isDropdownOpen ? 'text-content-primary' :
+    const labelClasses = `label-base ${isFocused || isDropdownOpen ? 'text-content-primary' :
         showError ? 'text-status-error' :
-        showWarning ? 'text-status-warning' :
-        'text-content-primary'
-    }`;
+            showWarning ? 'text-status-warning' :
+                'text-content-primary'
+        }`;
 
-    const inputContainerClasses = `input-base ${
-        showError ? 'error-state' :
+    const inputContainerClasses = `input-base ${showError ? 'error-state' :
         showWarning ? 'warning-state' :
-        isFocused || isDropdownOpen ? 'border-content-primary' : ''
-    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text'}`;
+            isFocused || isDropdownOpen ? 'border-content-primary' : ''
+        } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text'}`;
 
     // Handle dropdown open on focus
     function handleFocus() {
@@ -195,7 +193,7 @@ export function TextInput({
                 <input
                     ref={inputRef}
                     type={type}
-                    className="w-full min-w-0 bg-transparent border-none outline-none text-base font-extrabold font-orbitron p-0 m-0 break-words text-content-primary"
+                    className="w-full min-w-0 bg-transparent border-none outline-none text-base font-extrabold font-orbitron p-0 m-0 break-words text-content-primary placeholder:text-content-secondary"
                     value={value}
                     onChange={e => {
                         if (!maxLength || e.target.value.length <= maxLength) onChange(e.target.value);
@@ -224,9 +222,9 @@ export function TextInput({
                             size={20}
                             color={
                                 isFocused || isDropdownOpen ? 'var(--content-primary)' :
-                                showError ? 'var(--status-error)' :
-                                showWarning ? 'var(--status-warning)' :
-                                'var(--content-primary)'
+                                    showError ? 'var(--status-error)' :
+                                        showWarning ? 'var(--status-warning)' :
+                                            'var(--content-primary)'
                             }
                         />
                     </button>
@@ -274,11 +272,9 @@ export function TextInput({
                                 <button
                                     key={option}
                                     type="button"
-                                    className={`dropdown-item w-full ${
-                                        isSelected ? 'dropdown-item-selected' : ''
-                                    } ${
-                                        isDisabled ? 'opacity-50 cursor-not-allowed' : ''
-                                    }`}
+                                    className={`dropdown-item w-full ${isSelected ? 'dropdown-item-selected' : ''
+                                        } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''
+                                        }`}
                                     onClick={() => handleOptionSelect(option)}
                                     role="menuitem"
                                     disabled={isDisabled}
