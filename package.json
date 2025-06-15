@@ -1,6 +1,6 @@
 {
   "name": "@unimatrix-01/ui",
-  "version": "1.0.13",
+  "version": "1.1.0",
   "description": "A modern, holographic UI component library for React applications",
   "type": "module",
   "main": "./dist/index.js",
@@ -22,11 +22,15 @@
     "public"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run prebuild && vite",
     "build": "tsc && vite build",
+    "prebuild": "node scripts/generate-doc-versions.mjs",
     "preview": "vite preview",
     "lint": "eslint . --max-warnings 0",
+    "backfill-tags": "node scripts/backfill-tags.mjs",
     "prepare": "npm run build",
+    "postinstall": "husky install",
+    "release": "standard-version",
     "prepublishOnly": "npm run lint",
     "test": "echo \"Error: no test specified\" && exit 1",
     "setup": "node ./scripts/setup.js"
@@ -49,6 +53,8 @@
     "tailwind-merge": "^2.0.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.29.0",
     "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "^20.11.19",
@@ -62,9 +68,12 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "globals": "^16.2.0",
+    "husky": "^9.1.7",
     "postcss": "^8.4.35",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "simple-git": "^3.15.1",
+    "standard-version": "^9.5.0",
     "tailwindcss": "^4.1.10",
     "typescript": "^5.2.2",
     "typescript-eslint": "^8.34.0",
