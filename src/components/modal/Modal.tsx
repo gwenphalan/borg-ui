@@ -113,7 +113,7 @@ export function Modal({
 
     const modalContent = (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
             onClick={handleBackdropClick}
         >
             {isHologram ? (
@@ -132,7 +132,7 @@ export function Modal({
                             <h2 className="text-lg font-bold text-content-primary">{title}</h2>
                             <button
                                 onClick={onClose}
-                                className="text-content-primary hover:text-(--interactive-accentfocus) transition-colors"
+                                className="text-content-primary cursor-pointer hover:text-interactive-accentfocus transition-colors"
                             >
                                 <Icon name="close" size={24} />
                             </button>
@@ -156,7 +156,7 @@ export function Modal({
                         <h2 className="text-lg font-bold text-content-primary">{title}</h2>
                         <button
                             onClick={onClose}
-                            className="text-content-primary hover:text-(--interactive-accentfocus) transition-colors"
+                            className="text-content-primary cursor-pointer hover:text-interactive-accentfocus transition-colors"
                         >
                             <Icon name="close" size={24} />
                         </button>

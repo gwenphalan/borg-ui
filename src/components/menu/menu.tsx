@@ -104,25 +104,21 @@ function MenuItemComponent({
     isItemActive: (item: MenuItem) => boolean;
 }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [isHovered, setIsHovered] = useState(false);
     const itemRef = useRef<HTMLLIElement>(null);
     const hasChildren = Array.isArray(item.children) && item.children.length > 0;
 
     const active = isItemActive(item);
     const disabled = !!item.disabled;
-    const hovered = isHovered && !disabled && !active;
 
-    const baseItemClass = `flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none no-underline group ${itemClassName} ${item.className || ''} ${isVertical ? 'w-full' : ''}`;
-
-    const activeClass = "text-content-primary bg-background-default";
-    const hoverClass = "hover:bg-content-primary hover:text-(--text-dark)";
-    const disabledClass = "bg-transparent text-content-secondary opacity-50 cursor-not-allowed";
-    const defaultClass = "bg-transparent text-content-primary";
-
-    const itemStateClass = active ? activeClass : (disabled ? disabledClass : `${defaultClass} ${hoverClass}`);
-    const finalItemClass = `${baseItemClass} ${itemStateClass}`;
-
-    const iconColor = active || hovered ? 'var(--text-dark)' : (disabled ? 'var(--content-secondary)' : 'var(--content-primary)');
+    const finalItemClass = `
+        flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base 
+        transition-colors duration-150 ease-in-out text-left select-none no-underline group 
+        text-content-primary cursor-pointer 
+        hover:bg-content-primary
+        disabled:text-content-secondary disabled:opacity-50 disabled:cursor-not-allowed 
+        data-[active=true]:bg-background-default data-[active=true]:text-content-primary
+        ${itemClassName} ${item.className || ''} ${isVertical ? 'w-full' : ''}
+    `;
 
     const handleItemClick = (event: MouseEvent<HTMLElement>) => {
         if (disabled) {
@@ -135,32 +131,31 @@ function MenuItemComponent({
         if (item.onClick) {
             item.onClick(event as MouseEvent<HTMLButtonElement>);
         }
-        if (!hasChildren && item.href) {
-            // Let navigation happen
-        } else {
-            // Could close all menus here if needed
-        }
     };
 
     const content = (
         <>
             {item.icon && (
-                <span className="h-5 w-5 shrink-0 mr-2 flex items-center">
-                    {typeof item.icon === "string" ? <Icon name={item.icon} size={20} color={iconColor} /> : item.icon}
+                <span className="h-5 w-5 shrink-0 mr-2 flex items-center group-hover:text-text-light dark:group-hover:text-text-dark">
+                    {typeof item.icon === "string" ? <Icon name={item.icon} size={20} /> : item.icon}
                 </span>
             )}
-            <span className="flex-1 font-semibold">{item.label}</span>
+            <span className="flex-1 font-semibold group-hover:text-text-light dark:group-hover:text-text-dark">{item.label}</span>
             {hasChildren && (
-                <Icon name="chevron" size={20} color={iconColor} className={`ml-2 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                <Icon
+                    name="chevron"
+                    size={20}
+                    className={`ml-2 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''} group-hover:text-text-light dark:group-hover:text-text-dark`}
+                />
             )}
         </>
     );
 
     let itemNode: ReactNode;
     if (item.href && !disabled) {
-        itemNode = <a href={item.href} className={finalItemClass} onClick={handleItemClick} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}>{content}</a>;
+        itemNode = <a href={item.href} className={finalItemClass} data-active={active} onClick={handleItemClick} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}>{content}</a>;
     } else {
-        itemNode = <button type="button" className={finalItemClass} onClick={handleItemClick} disabled={disabled}>{content}</button>;
+        itemNode = <button type="button" className={finalItemClass} data-active={active} onClick={handleItemClick} disabled={disabled}>{content}</button>;
     }
 
     if (item.divider) {
@@ -175,8 +170,6 @@ function MenuItemComponent({
         <li
             ref={itemRef}
             className={`relative ${isVertical ? 'w-full' : ''}`}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
         >
             {itemNode}
             {hasChildren && (
@@ -186,7 +179,6 @@ function MenuItemComponent({
                     onOpenChange={setIsOpen}
                     placement={isVertical ? 'right-start' : 'bottom-start'}
                     className={`z-50 min-w-[180px] rounded-lg shadow-lg bg-background-elevated border border-default p-2 flex flex-col space-y-1 ${dropdownClassName}`}
-                    style={{ background: 'var(--background-elevated)' }}
                 >
                     <ul>
                         {item.children!.map((child, idx) => (
