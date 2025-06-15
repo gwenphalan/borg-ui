@@ -1,20 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { Icon } from "../icon/icon";
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)"
-};
 
 export interface TextAreaProps {
     label: string;
@@ -102,54 +88,41 @@ export function TextArea({
     const errorText = errorMessage || internalError;
     const warningText = warningMessage || internalWarning;
 
-    // Outline and label color logic
-    let outlineColor = styleMap.border_default;
-    let labelColor = styleMap.content_primary;
-    if (isFocused) {
-        outlineColor = styleMap.content_primary;
-        labelColor = styleMap.content_primary;
-    } else if (showError) {
-        outlineColor = styleMap.status_error;
-        labelColor = styleMap.status_error;
-    } else if (showWarning) {
-        outlineColor = styleMap.status_warning;
-        labelColor = styleMap.status_warning;
-    }
-
-    // Input text color
-    let inputColor = styleMap.content_primary;
-    if (error || warning || internalError || internalWarning) inputColor = styleMap.content_primary;
-
     // Character count
     const charCount = value.length;
 
     // Generate a unique name for autofill if not provided
     const inputName = name || (autoComplete === 'on' ? `textarea-${label.replace(/\s+/g, '-').toLowerCase()}` : undefined);
 
+    // Determine state classes
+    const containerClasses = `w-full flex flex-col gap-1 ${className} relative font-orbitron`;
+    const labelClasses = `label-base ${
+        isFocused ? 'text-content-primary' :
+        showError ? 'text-status-error' :
+        showWarning ? 'text-status-warning' :
+        'text-content-primary'
+    }`;
+    const textareaClasses = `textarea-base ${
+        showError ? 'error-state' :
+        showWarning ? 'warning-state' :
+        isFocused ? 'focus-state' : ''
+    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text'}`;
+
     return (
-        <div className={`w-full flex flex-col gap-[5px] ${className} relative font-[Orbitron]`}>
-            <label className="text-[12px] font-black uppercase tracking-[2px] font-[Orbitron]" style={{ color: labelColor }}>
+        <div className={containerClasses}>
+            <label className={labelClasses}>
                 {label}
             </label>
-            <div
-                className={
-                    `w-full min-w-0 bg-[var(--surface-default)] rounded-[5px] outline-2 px-[11px] py-[11px] relative transition-colors duration-150 font-[Orbitron] ` +
-                    (disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text')
-                }
-                style={{
-                    background: styleMap.surface_default,
-                    outlineColor,
-                    outlineOffset: -1,
-                    outlineStyle: 'solid',
-                    outlineWidth: 2,
-                }}
-                tabIndex={-1}
-                onClick={() => !disabled && textareaRef.current?.focus()}
-            >
+            <div className="relative">
                 <textarea
                     ref={textareaRef}
-                    className="w-full min-w-0 resize-none bg-transparent border-none outline-none text-[16px] font-extrabold font-[Orbitron] p-0 m-0 min-h-0 break-words"
-                    style={{ color: inputColor, minHeight: `${lineHeight * 2}em`, lineHeight: '1.5em', maxHeight: `${lineHeight * 2}em`, overflowY: 'auto' }}
+                    className={textareaClasses}
+                    style={{ 
+                        minHeight: `${lineHeight * 1.5}em`, 
+                        maxHeight: `${lineHeight * 1.5}em`, 
+                        lineHeight: '1.5em',
+                        overflowY: 'auto'
+                    }}
                     value={value}
                     onChange={e => {
                         if (!maxLength || e.target.value.length <= maxLength) onChange(e.target.value);
@@ -166,28 +139,28 @@ export function TextArea({
                 />
                 {/* Error/Warning icons */}
                 {showError && (
-                    <span className="ml-[11px] flex items-center absolute right-3 top-3">
+                    <span className="absolute right-3 top-3 flex items-center">
                         <Icon name="error-state" size={21} />
                     </span>
                 )}
                 {showWarning && (
-                    <span className="ml-[11px] flex items-center absolute right-3 top-3">
+                    <span className="absolute right-3 top-3 flex items-center">
                         <Icon name="warning-state" size={21} />
                     </span>
                 )}
                 {/* Character count */}
                 {maxLength && (
-                    <span className="ml-2 text-xs text-[var(--content-secondary)] select-none font-[Orbitron] absolute right-3 bottom-3">
+                    <span className="char-count absolute right-3 bottom-3">
                         {charCount}/{maxLength}
                     </span>
                 )}
             </div>
             {/* Error/Warning message */}
             {showError && errorText && (
-                <span className="mt-1 text-xs font-[Orbitron]" style={{ color: styleMap.status_error }}>{errorText}</span>
+                <span className="helper-text error">{errorText}</span>
             )}
             {showWarning && warningText && (
-                <span className="mt-1 text-xs font-[Orbitron]" style={{ color: styleMap.status_warning }}>{warningText}</span>
+                <span className="helper-text warning">{warningText}</span>
             )}
         </div>
     );

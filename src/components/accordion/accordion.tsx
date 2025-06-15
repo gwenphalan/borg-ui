@@ -1,21 +1,6 @@
 import { useState } from "react";
 import { Icon } from "../icon/icon";
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)",
-    text_dark: "#003D1E"
-};
 
 export interface AccordionItem {
     title: string;
@@ -34,12 +19,12 @@ export function Accordion({ items, className = "", style, defaultOpenIndex = -1 
 
     return (
         <div
-            className={`inline-flex flex-col rounded-[12px] overflow-hidden w-full max-w-[520px] border-2 border-[${styleMap.border_default}] bg-[${styleMap.surface_default}]` +
+            className={`inline-flex flex-col rounded-[12px] overflow-hidden w-full max-w-[520px] border-2 border-[${"var(--border-default)"}] bg-[${"var(--surface-default)"}]` +
                 (className ? ` ${className}` : "")}
             style={{
-                outline: `2px solid ${styleMap.border_default}`,
+                outline: `2px solid ${"var(--border-default)"}`,
                 outlineOffset: -2,
-                background: styleMap.surface_default,
+                background: "var(--surface-default)",
                 ...style
             }}
         >
@@ -49,12 +34,12 @@ export function Accordion({ items, className = "", style, defaultOpenIndex = -1 
                     <div key={idx} className="w-full">
                         <button
                             className={
-                                `w-full px-6 py-4 flex items-center gap-2 font-[Orbitron] text-[18px] font-extrabold leading-6 ` +
+                                `w-full px-6 py-4 flex items-center gap-2 font-orbitron text-lg font-extrabold leading-6 ` +
                                 (isOpen ? "rounded-[12px] z-10 relative" : "rounded-none")
                             }
                             style={{
-                                background: isOpen ? styleMap.content_primary : styleMap.surface_default,
-                                color: isOpen ? styleMap.text_dark : styleMap.content_primary,
+                                background: isOpen ? "var(--content-primary)" : "var(--surface-default)",
+                                color: isOpen ? "var(--text-dark)" : "var(--content-primary)",
                                 boxShadow: isOpen ? "0px 2px 6px rgba(0,0,0,0.48)" : undefined,
                                 borderRadius: 10,
                                 outline: "none",
@@ -67,9 +52,9 @@ export function Accordion({ items, className = "", style, defaultOpenIndex = -1 
                             <span className="flex-1 text-left break-words" style={{ fontWeight: 900 }}>{item.title}</span>
                             <span className="flex items-center justify-center" style={{ width: 32, height: 32 }}>
                                 <Icon
-                                    name="chevron-down"
+                                    name="chevron"
                                     size={32}
-                                    color={isOpen ? styleMap.text_dark : styleMap.content_primary}
+                                    color={isOpen ? "var(--text-dark)" : "var(--content-primary)"}
                                     className={isOpen ? "rotate-180" : "rotate-0"}
                                 />
                             </span>
@@ -80,14 +65,14 @@ export function Accordion({ items, className = "", style, defaultOpenIndex = -1 
                                 style={{
                                     alignSelf: "stretch",
                                     overflow: "hidden",
-                                    background: styleMap.surface_default,
+                                    background: "var(--surface-default)",
                                     borderRadius: 0,
                                     marginTop: 0
                                 }}
                             >
                                 <div
-                                    className="flex-1 font-[Orbitron] text-[16px] font-bold leading-6 text-left break-words"
-                                    style={{ color: styleMap.content_secondary, fontWeight: 800 }}
+                                    className="flex-1 font-orbitron text-base font-bold leading-6 text-left break-words"
+                                    style={{ color: "var(--content-secondary)", fontWeight: 800 }}
                                 >
                                     {item.content}
                                 </div>

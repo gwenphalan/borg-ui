@@ -2,21 +2,6 @@ import { useRef, useState, useEffect } from "react";
 import { Icon } from "../icon/icon";
 import { Overlay } from "../overlay/Overlay";
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)"
-};
-
 export interface TextInputProps {
     label?: string;
     value: string;
@@ -150,24 +135,19 @@ export function TextInput({
     const errorText = errorMessage || internalError;
     const warningText = warningMessage || internalWarning;
 
-    // Outline and label color logic
-    let outlineColor = styleMap.border_default;
-    let labelColor = styleMap.content_primary;
+    // Determine classes based on state
+    const labelClasses = `label-base ${
+        isFocused || isDropdownOpen ? 'text-content-primary' :
+        showError ? 'text-status-error' :
+        showWarning ? 'text-status-warning' :
+        'text-content-primary'
+    }`;
 
-    if (isFocused || isDropdownOpen) {
-        outlineColor = styleMap.content_primary;
-        labelColor = styleMap.content_primary;
-    } else if (showError) {
-        outlineColor = styleMap.status_error;
-        labelColor = styleMap.status_error;
-    } else if (showWarning) {
-        outlineColor = styleMap.status_warning;
-        labelColor = styleMap.status_warning;
-    }
-
-    // Input text color
-    let inputColor = styleMap.content_primary;
-    if (error || warning || internalError || internalWarning) inputColor = styleMap.content_primary;
+    const inputContainerClasses = `input-base ${
+        showError ? 'error-state' :
+        showWarning ? 'warning-state' :
+        isFocused || isDropdownOpen ? 'border-content-primary' : ''
+    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text'}`;
 
     // Handle dropdown open on focus
     function handleFocus() {
@@ -197,38 +177,25 @@ export function TextInput({
     // Character count
     const charCount = value.length;
 
-    // Click outside to close dropdown is now handled by Overlay component
-
     // Generate a unique name for autofill if not provided
     const inputName = name || (autoComplete === 'on' ? `textinput-${label?.replace(/\s+/g, '-').toLowerCase() || ''}` : undefined);
 
     return (
-        <div ref={rootRef} className={`w-full flex flex-col gap-[5px] ${className} relative font-[Orbitron]`}>
+        <div ref={rootRef} className={`w-full flex flex-col gap-1 ${className} relative font-orbitron`}>
             {label && (
-                <label className="text-[12px] font-black uppercase tracking-[2px] font-[Orbitron]" style={{ color: labelColor }}>
+                <label className={labelClasses}>
                     {label}
                 </label>
             )}
             <div
-                className={
-                    `w-full min-w-0 flex items-center bg-[var(--surface-default)] rounded-[5px] outline-2 px-[11px] py-[11px] relative transition-colors duration-150 font-[Orbitron] ` +
-                    (disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text')
-                }
-                style={{
-                    background: styleMap.surface_default,
-                    outlineColor,
-                    outlineOffset: -1,
-                    outlineStyle: 'solid',
-                    outlineWidth: 2,
-                }}
+                className={inputContainerClasses}
                 tabIndex={-1}
                 onClick={() => !disabled && inputRef.current?.focus()}
             >
                 <input
                     ref={inputRef}
                     type={type}
-                    className="w-full min-w-0 bg-transparent border-none outline-none text-[16px] font-extrabold font-[Orbitron] p-0 m-0 break-words"
-                    style={{ color: inputColor }}
+                    className="w-full min-w-0 bg-transparent border-none outline-none text-base font-extrabold font-orbitron p-0 m-0 break-words text-content-primary"
                     value={value}
                     onChange={e => {
                         if (!maxLength || e.target.value.length <= maxLength) onChange(e.target.value);
@@ -247,42 +214,47 @@ export function TextInput({
                     <button
                         type="button"
                         tabIndex={-1}
-                        className="ml-[14px] flex items-center justify-center"
+                        className={`chevron-button ml-3 ${isDropdownOpen ? 'open' : ''}`}
                         onClick={handleDropdownToggle}
                         disabled={disabled}
                         aria-label="Toggle dropdown"
                     >
                         <Icon
-                            name={isDropdownOpen ? 'chevron-up' : 'chevron-down'}
+                            name="chevron"
                             size={20}
-                            color={labelColor}
+                            color={
+                                isFocused || isDropdownOpen ? 'var(--content-primary)' :
+                                showError ? 'var(--status-error)' :
+                                showWarning ? 'var(--status-warning)' :
+                                'var(--content-primary)'
+                            }
                         />
                     </button>
                 )}
                 {/* Error/Warning icons */}
                 {showError && (
-                    <span className="ml-[11px] flex items-center">
+                    <span className="ml-3 flex items-center">
                         <Icon name="error-state" size={21} />
                     </span>
                 )}
                 {showWarning && (
-                    <span className="ml-[11px] flex items-center">
+                    <span className="ml-3 flex items-center">
                         <Icon name="warning-state" size={21} />
                     </span>
                 )}
                 {/* Character count */}
                 {maxLength && (
-                    <span className="ml-2 text-xs text-[var(--content-secondary)] select-none font-[Orbitron]">
+                    <span className="ml-2 text-xs text-content-secondary select-none font-orbitron">
                         {charCount}/{maxLength}
                     </span>
                 )}
             </div>
             {/* Error/Warning message */}
             {showError && errorText && (
-                <span className="mt-1 text-xs font-[Orbitron]" style={{ color: styleMap.status_error }}>{errorText}</span>
+                <span className="mt-1 text-xs font-orbitron text-status-error">{errorText}</span>
             )}
             {showWarning && warningText && (
-                <span className="mt-1 text-xs font-[Orbitron]" style={{ color: styleMap.status_warning }}>{warningText}</span>
+                <span className="mt-1 text-xs font-orbitron text-status-warning">{warningText}</span>
             )}
             {/* Dropdown options using Overlay */}
             {isDropdown && (
@@ -292,11 +264,7 @@ export function TextInput({
                     onOpenChange={setInternalDropdownOpen}
                     placement="bottom-start"
                     matchWidth
-                    className="z-50 min-w-[180px] rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)] p-2 flex flex-col space-y-1 font-[Orbitron]"
-                    style={{
-                        background: styleMap.background_elevated,
-                        borderColor: styleMap.border_default,
-                    }}
+                    className="dropdown-base z-50 min-w-[180px]"
                 >
                     <div role="menu">
                         {dropdownOptions!.map(option => {
@@ -306,17 +274,15 @@ export function TextInput({
                                 <button
                                     key={option}
                                     type="button"
-                                    className={
-                                        `flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-[var(--content-primary)] hover:bg-[var(--content-primary)] hover:text-[var(--background-default)] w-full group` +
-                                        (isSelected ? ' outline-2 outline-[var(--interactive-accentfocus)] outline-offset-[-2px] bg-[var(--content-primary)] text-[var(--background-default)]' : '') +
-                                        (isDisabled ? ' bg-transparent text-[var(--content-secondary)] opacity-50 cursor-not-allowed !hover:bg-transparent !hover:text-[var(--content-secondary)]' : ' cursor-pointer')
-                                    }
-                                    style={{ fontFamily: 'Orbitron' }}
+                                    className={`dropdown-item w-full ${
+                                        isSelected ? 'dropdown-item-selected' : ''
+                                    } ${
+                                        isDisabled ? 'opacity-50 cursor-not-allowed' : ''
+                                    }`}
                                     onClick={() => handleOptionSelect(option)}
                                     role="menuitem"
                                     disabled={isDisabled}
                                 >
-                                    {/* Future icon slot: <span className=\"mr-2\"></span> */}
                                     <span className="truncate flex-1">{option}</span>
                                 </button>
                             );

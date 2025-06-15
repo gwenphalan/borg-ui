@@ -82,39 +82,123 @@ const icons: Record<string, SVGComponent> = {
       </defs>
     </svg>
   ),
-  // Chevron down
+  // Unified chevron icon (always points down; rotate via CSS for other directions)
+  "chevron": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
+      <path d="M3 6L8 11L13 6" stroke={color} strokeWidth="1.2" />
+    </svg>
+  ),
+  // Aliases for backward compatibility
   "chevron-down": ({ color, size }) => (
     <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
       <path d="M3 6L8 11L13 6" stroke={color} strokeWidth="1.2" />
     </svg>
   ),
-  // Chevron up
   "chevron-up": ({ color, size }) => (
     <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
-      <path d="M3 10L8 5L13 10" stroke={color} strokeWidth="1.2" />
+      <path d="M3 6L8 11L13 6" stroke={color} strokeWidth="1.2" />
+    </svg>
+  ),
+  // Calendar icon
+  "calendar": ({ color, size }) => (
+    <svg width={size} height={size} fill="none" viewBox="0 0 20 20" style={{ color }}>
+      <rect
+        x="3"
+        y="5"
+        width="14"
+        height="12"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M7 2v2M13 2v2"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <rect x="7" y="9" width="2" height="2" rx="1" fill="currentColor" />
+    </svg>
+  ),
+  // Clock icon
+  "clock": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  ),
+  // Close/X icon
+  "close": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 10 10" fill="none">
+      <path d="M2 2L8 8M8 2L2 8" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+  // Left arrow for navigation
+  "arrow-left": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m15 18-6-6 6-6" />
+    </svg>
+  ),
+  // Right arrow for navigation  
+  "arrow-right": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m9 18 6-6-6-6" />
+    </svg>
+  ),
+  // User icon
+  "user": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="7" r="4" />
+      <path d="M5.5 21a9 9 0 0 1 13 0" />
+    </svg>
+  ),
+  // Settings / Cog icon
+  "settings": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="3" />
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09c.7 0 1.31-.4 1.51-1a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+    </svg>
+  ),
+  // Logout icon (simple arrow)
+  "logout": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
     </svg>
   ),
 };
 
-async function loadIcon(name: string): Promise<React.ComponentType<any>> {
-  // Try loading from project's src/assets/icons first
-  try {
-    const projectIcon = await import(`../../assets/icons/${name}.svg?react`);
-    return projectIcon.ReactComponent || projectIcon.default;
-  } catch {
-    // If not found in project, try loading from package's public/icons
-    try {
-      const packageIcon = await import(/* @vite-ignore */ `/icons/${name}.svg?react`);
-      return packageIcon.ReactComponent || packageIcon.default;
-    } catch {
-      // If still not found, return null component
-      return () => null;
+// Preload any user-supplied SVGs that live in src/assets/icons (optional).
+// This uses Vite's glob import so that the dependency scanner is happy even when
+// the directory is missing or empty.
+const projectIconModules: Record<string, () => Promise<any>> = import.meta.glob(
+  "../../assets/icons/**/*.svg"
+);
+
+async function loadIcon(name: string): Promise<React.ComponentType<React.SVGProps<SVGSVGElement>>> {
+  const keyCandidates = [
+    `../../assets/icons/${name}.svg`,
+  ];
+
+  for (const key of keyCandidates) {
+    if (key in projectIconModules) {
+      const mod = await projectIconModules[key]();
+      return (mod as any).ReactComponent || (mod as any).default || (() => null);
     }
+  }
+
+  // Fallback: try to load from public /icons folder in consumer projects.
+  try {
+    const pkgIcon = await import(/* @vite-ignore */ `/icons/${name}.svg?react`);
+    return pkgIcon.ReactComponent || pkgIcon.default;
+  } catch {
+    return () => null;
   }
 }
 
 function DynamicSvgIcon({ name, className = "", color = "currentColor", size = 24 }: IconProps) {
-  const [IconComponent, setIconComponent] = React.useState<React.ComponentType<any> | null>(null);
+  const [IconComponent, setIconComponent] = React.useState<React.ComponentType<React.SVGProps<SVGSVGElement>> | null>(null);
 
   React.useEffect(() => {
     let mounted = true;

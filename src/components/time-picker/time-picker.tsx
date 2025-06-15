@@ -6,22 +6,8 @@ import React, {
     useMemo,
 } from "react";
 import { Overlay } from "../overlay/Overlay";
+import { Icon } from "../icon/icon";
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)",
-    text_dark: "var(--text-dark)",
-};
 
 export interface TimePickerProps {
     value?: Date | string | number | null;
@@ -119,7 +105,7 @@ export function TimePicker({
     defaultValue = null,
     open: controlledOpen,
     onOpenChange,
-    className, style, inputClassName, panelClassName, error, helperText, id
+    className, style, /*inputClassName,*/ panelClassName, error, helperText, id
 }: TimePickerProps) {
     const is12Hour = /a|A/.test(format);
     const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
@@ -144,7 +130,7 @@ export function TimePicker({
         if (disabled || readOnly) return;
         if (onOpenChange) onOpenChange(newOpenState);
         else setUncontrolledOpen(newOpenState);
-    }, [onOpenChange, controlledOpen, disabled, readOnly]);
+    }, [onOpenChange, disabled, readOnly]);
 
     useEffect(() => {
         const newDateVal = parseToDate(value, is12Hour);
@@ -248,7 +234,7 @@ export function TimePicker({
                         key={item}
                         ref={el => itemRefArray[index] = el}
                         onClick={() => !disabled && onSelect(item)}
-                        className={`w-full text-center p-1 rounded ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[var(--background-default)]'} ${isSelected ? 'bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-bold' : ''}`}
+                        className={`w-full text-center p-1 rounded ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-background-default'} ${isSelected ? 'bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-bold' : ''}`}
                         disabled={disabled}
                     >
                         {typeof item === 'number' ? item.toString().padStart(2, '0') : item}
@@ -258,7 +244,8 @@ export function TimePicker({
         </div>
     );
 
-    const useScrollToSelected = (colRef: React.RefObject<HTMLDivElement>, items: (string | number)[], selectedValue: string | number | null, itemRefArray: (HTMLButtonElement | null)[]) => {
+    // Custom hook for scrolling to selected item
+    function useScrollToSelected(colRef: React.RefObject<HTMLDivElement>, items: (string | number)[], selectedValue: string | number | null, itemRefArray: (HTMLButtonElement | null)[]) {
         useEffect(() => {
             if (isOpen && colRef.current && selectedValue !== null) {
                 const idx = items.findIndex(i => i === selectedValue);
@@ -270,8 +257,8 @@ export function TimePicker({
                     col.scrollTop = itemEl.offsetTop - col.offsetTop - (colRect.height / 2) + (itemRect.height / 2);
                 }
             }
-        }, [isOpen, selectedValue]);
-    };
+        }, [isOpen, selectedValue, colRef, items, itemRefArray]);
+    }
 
     const hourColRef = useRef<HTMLDivElement>(null);
     const minuteColRef = useRef<HTMLDivElement>(null);
@@ -280,25 +267,22 @@ export function TimePicker({
 
     useScrollToSelected(hourColRef, hours, pendingHour, itemRefs.current[0]);
     useScrollToSelected(minuteColRef, minutes, pendingMinute, itemRefs.current[1]);
-    if (showSeconds) useScrollToSelected(secondColRef, seconds, pendingSecond, itemRefs.current[2]);
-    if (is12Hour) useScrollToSelected(ampmColRef, ["AM", "PM"], pendingAmPm, itemRefs.current[3]);
+    useScrollToSelected(secondColRef, seconds, showSeconds ? pendingSecond : null, itemRefs.current[2]);
+    useScrollToSelected(ampmColRef, ["AM", "PM"], is12Hour ? pendingAmPm : null, itemRefs.current[3]);
 
 
     const panelContent = (
-        <div
-            className={`flex flex-col bg-[var(--background-elevated)] text-[var(--content-primary)] shadow-lg rounded-lg border border-[var(--border-default)] ${panelClassName}`}
-            style={{ width: showSeconds ? (is12Hour ? 290 : 220) : (is12Hour ? 220 : 150) }}
-        >
+        <div className={`overlay-panel ${panelClassName}`} style={{ width: showSeconds ? (is12Hour ? 290 : 220) : (is12Hour ? 220 : 150) }}>
             <div className="flex p-2">
                 {renderColumn(hours, pendingHour, val => setPendingHour(val as number), isHourDisabled, hourColRef, itemRefs.current[0])}
                 {renderColumn(minutes, pendingMinute, val => setPendingMinute(val as number), isMinuteDisabled, minuteColRef, itemRefs.current[1])}
                 {showSeconds && renderColumn(seconds, pendingSecond, val => setPendingSecond(val as number), isSecondDisabled, secondColRef, itemRefs.current[2])}
                 {is12Hour && renderColumn(["AM", "PM"], pendingAmPm, val => setPendingAmPm(val as "AM" | "PM"), () => false, ampmColRef, itemRefs.current[3])}
             </div>
-            <div className="p-2 border-t border-[var(--border-default)]">
+            <div className="p-2 border-t border-default">
                 <button
                     onClick={commitPendingTime}
-                    className="w-full px-4 py-2 text-sm font-medium text-white bg-[var(--interactive-accentfocus)] rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--interactive-accentfocus)]"
+                    className="w-full px-4 py-2 text-sm font-bold text-[var(--text-dark)] bg-[var(--interactive-accentfocus)] rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--interactive-accentfocus)]"
                 >
                     OK
                 </button>
@@ -306,41 +290,31 @@ export function TimePicker({
         </div>
     );
 
-    const mainInputStyle: React.CSSProperties = {
-        backgroundColor: styleMap.surface_default,
-        color: styleMap.content_primary,
-    };
-    if (isOpen) {
-        mainInputStyle.borderColor = styleMap.content_primary;
-    } else if (error) {
-        mainInputStyle.borderColor = styleMap.status_error;
-    } else {
-        mainInputStyle.borderColor = styleMap.border_default;
-    }
+    // Determine state classes
+    const containerClasses = `flex flex-col gap-1 w-full ${className ?? ''}`;
+    const labelClasses = `label-base ${
+        error ? 'text-status-error' : 'text-content-primary'
+    }`;
+    const inputClasses = `input-base ${
+        error ? 'error-state' :
+        isOpen ? 'focus-state' : ''
+    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} input-focus-ring`;
 
     return (
-        <div className={`flex flex-col gap-1 w-full ${className ?? ''}`} style={style} id={id}>
+        <div className={containerClasses} style={style} id={id}>
             {label && (
-                <label
-                    className="text-[12px] font-black uppercase tracking-[2px] font-[Orbitron] mb-1"
-                    style={
-                        error
-                            ? { color: styleMap.status_error }
-                            : { color: styleMap.content_primary }
-                    }
-                >
+                <label className={labelClasses}>
                     {label}
                 </label>
             )}
             <div
                 ref={inputRef}
-                className={`w-full flex items-center gap-2 border-2 rounded-[5px] px-[11px] py-[11px] font-[Orbitron] text-[16px] font-extrabold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[${styleMap.interactive_accentfocus}] ${inputClassName} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
-                style={mainInputStyle}
+                className={inputClasses}
                 onClick={() => !disabled && !readOnly && setIsOpen(true)}
             >
                 <span className="flex-1 text-left truncate">
                     {inputValue || (
-                        <span style={{ color: styleMap.content_secondary }}>
+                        <span className="text-content-secondary">
                             {placeholder}
                         </span>
                     )}
@@ -348,30 +322,17 @@ export function TimePicker({
                 {clearable && inputValue && !disabled && !readOnly && (
                     <button
                         type="button"
-                        className={`ml-1 flex items-center justify-center w-5 h-5 rounded-full focus:outline-none focus:ring-2 focus:ring-[${styleMap.interactive_accentfocus}] cursor-pointer`}
+                        className="clear-button"
                         aria-label="Clear time"
                         tabIndex={0}
                         onClick={handleClear}
                     >
-                        <svg
-                            width="10"
-                            height="10"
-                            viewBox="0 0 10 10"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M2 2L8 8M8 2L2 8"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                            />
-                        </svg>
+                        <Icon name="close" size={10} />
                     </button>
                 )}
                 <button
                     type="button"
-                    className="ml-1 flex items-center justify-center"
+                    className="icon-button"
                     tabIndex={-1}
                     aria-label="Open time picker"
                     disabled={disabled || readOnly}
@@ -380,17 +341,17 @@ export function TimePicker({
                         if (!disabled && !readOnly) setIsOpen(true);
                     }}
                 >
-                    <svg style={{ color: styleMap.content_secondary }} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                    <Icon name="clock" size={20} />
                 </button>
             </div>
-            {helperText && <p className={`mt-1 text-sm ${error ? "text-[var(--status-error)]" : "text-[var(--content-secondary)]"}`}>{helperText}</p>}
+            {helperText && <p className={`helper-text ${error ? 'error' : 'info'}`}>{helperText}</p>}
 
             <Overlay
                 reference={inputRef.current}
                 open={isOpen}
                 onOpenChange={setIsOpen}
                 placement="bottom-start"
-                className={`z-50`}
+                className="z-50"
             >
                 {panelContent}
             </Overlay>

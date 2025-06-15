@@ -27,15 +27,6 @@ export interface TableProps<T> {
     onSelectedRowsChange?: (selected: number[]) => void;
 }
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    // ... other styles if needed by the component
-};
 
 function getCellValue<T extends Record<string, unknown>>(
     row: T,
@@ -258,7 +249,7 @@ export function Table<T extends Record<string, unknown>>({
     return (
         <div
             className={["w-full", className].join(" ")}
-            style={{ color: styleMap.content_primary }}
+            style={{ color: "var(--content-primary)" }}
         >
             <div className="flex items-center justify-between mb-2">
                 {onFilterTextChange && (
@@ -267,14 +258,14 @@ export function Table<T extends Record<string, unknown>>({
                         value={filterText}
                         onChange={handleFilterChange}
                         placeholder="Filter..."
-                        className="px-3 py-1.5 rounded border-2 border-[var(--border-default)] bg-[var(--background-elevated)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--content_primary)]"
-                        style={{ color: styleMap.content_primary }}
+                        className="px-3 py-1.5 rounded border-2 border-default bg-background-elevated text-sm focus:outline-none focus:ring-2 focus:ring-[var(--content_primary)]"
+                        style={{ color: "var(--content-primary)" }}
                     />
                 )}
                 {showPagination && totalPages > 0 && (
                     <div className="flex items-center gap-2">
                         <button
-                            className="px-2 py-1 rounded border-2 border-[var(--border-default)] bg-[var(--background-elevated)] disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-2 py-1 rounded border-2 border-default bg-background-elevated disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={() => handlePageChange(page - 1)}
                             disabled={page === 1}
                             aria-label="Previous page"
@@ -285,7 +276,7 @@ export function Table<T extends Record<string, unknown>>({
                             Page {page} / {totalPages || 1}
                         </span>
                         <button
-                            className="px-2 py-1 rounded border-2 border-[var(--border-default)] bg-[var(--background-elevated)] disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-2 py-1 rounded border-2 border-default bg-background-elevated disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={() => handlePageChange(page + 1)}
                             disabled={page === totalPages || totalPages === 0}
                             aria-label="Next page"
@@ -295,7 +286,7 @@ export function Table<T extends Record<string, unknown>>({
                     </div>
                 )}
             </div>
-            <div className="overflow-x-auto rounded-lg border-2 border-[var(--border-default)] bg-[var(--background-default)]">
+            <div className="overflow-x-auto rounded-lg border-2 border-default bg-background-default">
                 <table className="min-w-full text-sm table-fixed">
                     <colgroup>
                         {displayColumns.map((col) => (
@@ -325,14 +316,14 @@ export function Table<T extends Record<string, unknown>>({
                                         key={col.key as string}
                                         className={[
                                             col.headerClass || defaultHeaderPadding,
-                                            "border-b border-[var(--border-default)] font-semibold select-none group",
+                                            "border-b border-default font-semibold select-none group",
                                             col.sortable && col.key !== "__select__"
                                                 ? "cursor-pointer"
                                                 : "cursor-default",
                                             col.align ? `text-${col.align}` : "text-left",
                                         ].join(" ")}
                                         onClick={() => handleSort(col)}
-                                        style={{ background: styleMap.background_elevated }}
+                                        style={{ background: "var(--background-elevated)" }}
                                         aria-sort={
                                             col.sortable &&
                                                 col.key !== "__select__" &&
@@ -364,7 +355,7 @@ export function Table<T extends Record<string, unknown>>({
                                                 col.key !== "__select__" &&
                                                 sortKey === col.key && (
                                                     <Icon
-                                                        name="chevron-down"
+                                                        name="chevron"
                                                         size={16}
                                                         className={
                                                             sortDir === "asc" ? "transform rotate-180" : ""
@@ -382,7 +373,7 @@ export function Table<T extends Record<string, unknown>>({
                             <tr>
                                 <td
                                     colSpan={displayColumns.length}
-                                    className="text-center py-6 text-[var(--content-secondary)]"
+                                    className="text-center py-6 text-content-secondary"
                                 >
                                     No data found.
                                 </td>
@@ -391,7 +382,7 @@ export function Table<T extends Record<string, unknown>>({
                             paginatedData.map((row) => (
                                 <tr
                                     key={row.__globalIndex}
-                                    className="even:bg-[var(--background-elevated)] hover:bg-[var(--surface-default)] transition-colors"
+                                    className="even:bg-background-elevated hover:bg-surface-default transition-colors"
                                 >
                                     {displayColumns.map((col, colIndex) => {
                                         const isFirstDataColumnAfterSelect = selectable && colIndex === 1;
@@ -405,15 +396,15 @@ export function Table<T extends Record<string, unknown>>({
                                                 key={col.key as string}
                                                 className={[
                                                     col.cellClass || defaultCellPadding,
-                                                    "border-b border-[var(--border-default)]",
+                                                    "border-b border-default",
                                                     col.align ? `text-${col.align}` : "text-left",
                                                 ].join(" ")}
-                                                style={{ color: styleMap.content_primary }}
+                                                style={{ color: "var(--content-primary)" }}
                                             >
                                                 {col.render
                                                     ? col.render(row, row.__globalIndex)
                                                     : cellValue === true
-                                                        ? <Icon name="check" size={18} color={styleMap.content_primary} />
+                                                        ? <Icon name="check" size={18} color={"var(--content-primary)"} />
                                                         : cellValue === false
                                                             ? ""
                                                             : (cellValue as React.ReactNode)}

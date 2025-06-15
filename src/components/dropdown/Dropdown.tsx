@@ -1,28 +1,13 @@
 import React, {
     useRef,
-    useEffect,
     useCallback,
+    useEffect,
     useMemo,
-    useState,
 } from 'react';
 import type { DropdownProps, DropdownOption } from './types';
 import { Icon } from '../icon/icon';
 import { Overlay } from '../overlay/Overlay';
 
-const styleMap: Record<string, string> = {
-    background_default: 'var(--background-default)',
-    background_elevated: 'var(--background-elevated)',
-    border_default: 'var(--border-default)',
-    content_primary: 'var(--content-primary)',
-    content_secondary: 'var(--content-secondary)',
-    interactive_accentfocus: 'var(--interactive-accentfocus)',
-    status_error: 'var(--status-error)',
-    status_info: 'var(--status-info)',
-    status_warning: 'var(--status-warning)',
-    surface_default: 'var(--surface-default)',
-    text_light: 'var(--text-light)',
-    text_background_default: 'var(--text-background-default)',
-};
 
 const MENU_ID = 'dropdown-menu-id';
 
@@ -35,16 +20,11 @@ export function Dropdown({
     placeholder = 'Select...',
     label,
     disabled = false,
-    buttonClassName = '',
-    menuClassName = '',
-    itemClassName = '',
-    itemSelectedClassName = '',
-    itemDisabledClassName = '',
     fullWidth = false,
     multiSelect = false,
 }: DropdownProps & { multiSelect?: boolean }) {
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+    // const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
     // Multi-select logic
     const isMulti = !!multiSelect;
@@ -77,9 +57,9 @@ export function Dropdown({
             if (idx === -1) {
                 idx = focusableOptions.findIndex((opt) => !opt.disabled);
             }
-            setFocusedIndex(idx === -1 ? null : idx);
+            // setFocusedIndex(idx === -1 ? null : idx);
         } else {
-            setFocusedIndex(null);
+            // setFocusedIndex(null);
         }
     }, [isOpen, value, focusableOptions]);
 
@@ -111,41 +91,24 @@ export function Dropdown({
 
     // Option mouse enter handler
     const handleOptionMouseEnter = useCallback(
-        (idx: number) => {
-            setFocusedIndex(idx);
+        (/*idx: number*/) => {
+            // setFocusedIndex(idx);
         },
         []
     );
 
     // ARIA: active descendant id
-    const activeDescendantId =
-        isOpen && focusedIndex !== null && focusableOptions[focusedIndex]
-            ? `dropdown-option-${focusableOptions[focusedIndex]?.idx}`
-            : undefined;
+    // const activeDescendantId =
+    //     isOpen && focusedIndex !== null && focusableOptions[focusedIndex]
+    //         ? `dropdown-option-${focusableOptions[focusedIndex]?.idx}`
+    //         : undefined;
 
     // Classes and styles for congruency with TextInput
-    const buttonBase =
-        'w-full min-w-0 flex items-center bg-[var(--surface-default)] rounded-[5px] outline-2 px-[11px] py-[11px] relative transition-colors duration-150 font-[Orbitron] ' +
-        (disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer');
-    const buttonText =
-        'w-full min-w-0 text-[16px] font-extrabold font-[Orbitron] p-0 m-0 break-words text-left truncate flex-1 text-[var(--content-primary)]';
-    const buttonChevron = 'ml-[14px] flex items-center justify-center';
-    const buttonRing =
-        isOpen
-            ? 'outline outline-2 outline-[var(--content-primary)] outline-offset-[-1px]'
-            : 'focus-visible:outline-2 focus-visible:outline-[var(--interactive-accentfocus)] outline-offset-[-1px]';
-    const buttonWidth = fullWidth ? 'w-full' : '';
-
-    const menuBase =
-        'min-w-[180px] rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)] p-2 flex flex-col space-y-1 z-50 font-[Orbitron] ' +
-        menuClassName;
-
-    const itemBase =
-        'flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-[var(--content-primary)] hover:bg-[var(--content-primary)] hover:text-[var(--background-default)] cursor-pointer w-full group';
-    const itemSelected =
-        'outline outline-2 outline-[var(--interactive-accentfocus)] outline-offset-[-2px] bg-[var(--content-primary)] text-[var(--background-default)]';
-    const itemDisabled = 'bg-transparent text-[var(--content-secondary)] opacity-50 cursor-not-allowed !hover:bg-transparent !hover:text-[var(--content-secondary)]';
-    const separatorClass = 'h-px bg-[var(--border-default)] my-1';
+    const containerClasses = `${fullWidth ? 'w-full' : ''}` + (label ? ' flex flex-col gap-1' : '');
+    const labelClasses = "label-base";
+    const buttonClasses = `input-base ${
+        isOpen ? 'focus-state' : ''
+    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} input-focus-ring`;
 
     // Button label
     let buttonLabel: string;
@@ -160,23 +123,16 @@ export function Dropdown({
     }
 
     return (
-        <div className={`${fullWidth ? 'w-full' : ''}` + (label ? ' flex flex-col gap-[5px]' : '')}>
+        <div className={containerClasses}>
             {label && (
-                <label
-                    className="text-[12px] font-black uppercase tracking-[2px] font-[Orbitron] mb-1 text-[var(--content-primary)]"
-                    id={`dropdown-label-${MENU_ID}`}
-                >
+                <label className={labelClasses} id={`dropdown-label-${MENU_ID}`}>
                     {label}
                 </label>
             )}
             <button
                 ref={buttonRef}
                 type="button"
-                className={[
-                    buttonBase,
-                    isOpen ? 'outline outline-2 outline-[var(--content-primary)] outline-offset-[-1px]' : 'focus-visible:outline-2 focus-visible:outline-[var(--interactive-accentfocus)] outline-offset-[-1px]',
-                    buttonClassName,
-                ].join(' ')}
+                className={buttonClasses}
                 aria-haspopup="listbox"
                 aria-expanded={isOpen}
                 aria-controls={MENU_ID}
@@ -185,22 +141,22 @@ export function Dropdown({
                 disabled={disabled}
                 onClick={handleButtonClick}
                 tabIndex={0}
-                style={{
-                    background: styleMap.surface_default,
-                    outlineColor: isOpen ? styleMap.content_primary : styleMap.border_default,
-                    outlineOffset: -1,
-                    outlineStyle: 'solid',
-                    outlineWidth: 2,
-                }}
             >
-                <span className={buttonText}>{buttonLabel}</span>
-                <span className={buttonChevron}>
-                    <Icon
-                        name={isOpen ? 'chevron-up' : 'chevron-down'}
-                        size={20}
-                        color={disabled ? styleMap.border_default : styleMap.content_primary}
-                    />
+                <span className="flex-1 text-left truncate font-extrabold">
+                    {buttonLabel}
                 </span>
+                <button
+                    type="button"
+                    className={`chevron-button ${isOpen ? 'open' : ''}`}
+                    tabIndex={-1}
+                    disabled={disabled}
+                >
+                    <Icon
+                        name="chevron"
+                        size={20}
+                        color={disabled ? "var(--border-default)" : "var(--content-primary)"}
+                    />
+                </button>
             </button>
             <Overlay
                 reference={buttonRef.current}
@@ -208,66 +164,45 @@ export function Dropdown({
                 onOpenChange={onOpenChange}
                 placement="bottom-start"
                 matchWidth
-                className={menuBase}
-                style={{
-                    background: styleMap.surface_default,
-                    borderColor: styleMap.border_default,
-                }}
+                className="dropdown-base"
             >
                 {options.length === 0 && (
-                    <div className="px-4 py-2 text-[var(--content-secondary)] text-sm">No options</div>
+                    <div className="px-4 py-2 text-content-secondary text-sm">No options</div>
                 )}
                 {options.map((opt, idx) => {
                     if (opt.isSeparator) {
-                        return <div key={`separator-${idx}`} className={separatorClass} role="separator" />;
+                        return <div key={`separator-${idx}`} className="h-px border-default my-1" role="separator" />;
                     }
-                    const focusIdx = focusableOptions.findIndex((f) => f.idx === idx);
                     const isSelected = isMulti
                         ? typeof opt.value === 'string' && selectedValues.includes(opt.value)
                         : !opt.disabled && typeof opt.value === 'string' && value !== null && opt.value === value;
                     return (
-                        <div
-                            id={`dropdown-option-${idx}`}
+                        <button
                             key={opt.value || idx}
+                            className={`dropdown-item ${
+                                isSelected ? 'dropdown-item-selected' : ''
+                            } ${
+                                opt.disabled ? 'opacity-50 cursor-not-allowed' : ''
+                            }`}
+                            onClick={() => handleOptionClick(opt)}
+                            onMouseEnter={() => handleOptionMouseEnter()}
+                            onMouseDown={(e) => e.preventDefault()}
+                            disabled={opt.disabled}
                             role="option"
                             aria-selected={isSelected}
                             aria-disabled={opt.disabled}
                             tabIndex={-1}
-                            className={
-                                opt.disabled
-                                    ? [
-                                        'flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-[var(--content-secondary)] opacity-50 cursor-not-allowed w-full',
-                                        itemDisabled,
-                                        itemDisabledClassName,
-                                    ].join(' ')
-                                    : [
-                                        itemBase,
-                                        itemClassName,
-                                        isSelected ? [itemSelected, itemSelectedClassName].join(' ') : '',
-                                    ].join(' ')
-                            }
-                            onClick={() => handleOptionClick(opt)}
-                            onMouseEnter={() => handleOptionMouseEnter(focusIdx)}
-                            onMouseDown={(e) => e.preventDefault()}
                         >
                             {opt.icon && (
-                                opt.disabled ? (
-                                    <Icon
-                                        name={opt.icon}
-                                        size={16}
-                                        color={styleMap.content_secondary}
-                                        className="shrink-0 mr-2"
-                                    />
-                                ) : (
-                                    <Icon
-                                        name={opt.icon}
-                                        size={16}
-                                        className="shrink-0 mr-2 text-[var(--content-primary)] group-hover:text-[var(--background-default)]"
-                                    />
-                                )
+                                <Icon
+                                    name={opt.icon}
+                                    size={16}
+                                    color={opt.disabled ? "var(--content-secondary)" : "var(--content-primary)"}
+                                    className="shrink-0 mr-2"
+                                />
                             )}
                             <span className="truncate flex-1">{opt.label}</span>
-                        </div>
+                        </button>
                     );
                 })}
             </Overlay>

@@ -10,27 +10,13 @@ export interface BadgeProps {
     onRemove?: () => void;
 }
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)",
-};
 
 const variantMap: Record<string, string> = {
-    default: `bg-[var(--background-elevated)] text-[var(--content-primary)] border border-[var(--border-default)]`,
-    info: `bg-[var(--status-info)] text-[var(--text-light)]`,
-    success: `bg-[var(--content-primary)] text-[var(--background-default)]`,
-    warning: `bg-[var(--status-warning)] text-[var(--background-default)]`,
-    error: `bg-[var(--status-error)] text-[var(--text-light)]`,
+    default: `bg-background-elevated text-content-primary border border-default`,
+    info: `text-status-info text-light`,
+    success: `text-content-primary bg-background-default`,
+    warning: `text-status-warning bg-background-default`,
+    error: `text-status-error text-light`,
 };
 
 export function Badge({
@@ -51,8 +37,8 @@ export function Badge({
                 className,
             ].join(" ")}
             style={{
-                background: variant === "default" ? styleMap.background_elevated : undefined,
-                color: variant === "default" ? styleMap.content_primary : undefined,
+                background: variant === "default" ? "var(--background-elevated)" : undefined,
+                color: variant === "default" ? "var(--content-primary)" : undefined,
             }}
         >
             {removable && (

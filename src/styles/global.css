@@ -1,0 +1,694 @@
+/* Global Utility Stylesheet */
+/* This file consolidates all styling patterns from across the project into reusable utility classes */
+
+/* ====================
+   TYPOGRAPHY UTILITIES
+   ==================== */
+
+/* Font Family */
+.font-orbitron {
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+/* Font Weights */
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+.font-black { font-weight: 900; }
+
+/* Font Sizes */
+.text-xs { font-size: 12px; }
+.text-sm { font-size: 14px; }
+.text-base { font-size: 16px; }
+.text-lg { font-size: 18px; }
+.text-xl { font-size: 20px; }
+.text-2xl { font-size: 24px; }
+.text-3xl { font-size: 32px; }
+.text-4xl { font-size: 2.25rem; }
+
+/* Line Heights */
+.leading-tight { line-height: 1.1; }
+.leading-normal { line-height: 1.5; }
+.leading-relaxed { line-height: 1.75; }
+
+/* Letter Spacing */
+.tracking-wide { letter-spacing: 2px; }
+
+/* ====================
+   COLOR UTILITIES
+   ==================== */
+
+/* Background Colors */
+.bg-background-default { background-color: var(--background-default); }
+.bg-background-elevated { background-color: var(--background-elevated); }
+.bg-surface-default { background-color: var(--surface-default); }
+.bg-content-primary { background-color: var(--content-primary); }
+.bg-content-secondary { background-color: var(--content-secondary); }
+.bg-status-error { background-color: var(--status-error); }
+.bg-status-info { background-color: var(--status-info); }
+.bg-status-warning { background-color: var(--status-warning); }
+.bg-status-success { background-color: var(--status-success); }
+.bg-interactive-focus { background-color: var(--interactive-accentfocus); }
+
+/* Text Colors */
+.text-content-primary { color: var(--content-primary); }
+.text-content-secondary { color: var(--content-secondary); }
+.text-light { color: var(--text-light); }
+.text-dark { color: var(--text-dark); }
+.text-status-error { color: var(--status-error); }
+.text-status-info { color: var(--status-info); }
+.text-status-warning { color: var(--status-warning); }
+.text-status-success { color: var(--status-success); }
+
+/* Border Colors */
+.border-default { border-color: var(--border-default); }
+.border-content-primary { border-color: var(--content-primary); }
+.border-status-error { border-color: var(--status-error); }
+.border-status-warning { border-color: var(--status-warning); }
+.border-interactive-focus { border-color: var(--interactive-accentfocus); }
+
+/* ====================
+   SPACING UTILITIES
+   ==================== */
+
+/* Padding */
+.p-1 { padding: 4px; }
+.p-2 { padding: 8px; }
+.p-3 { padding: 12px; }
+.p-4 { padding: 16px; }
+.p-5 { padding: 20px; }
+.p-6 { padding: 24px; }
+
+.px-1 { padding-left: 4px; padding-right: 4px; }
+.px-2 { padding-left: 8px; padding-right: 8px; }
+.px-3 { padding-left: 12px; padding-right: 12px; }
+.px-4 { padding-left: 16px; padding-right: 16px; }
+
+.py-1 { padding-top: 4px; padding-bottom: 4px; }
+.py-2 { padding-top: 8px; padding-bottom: 8px; }
+.py-3 { padding-top: 12px; padding-bottom: 12px; }
+
+/* Margin */
+.m-1 { margin: 4px; }
+.m-2 { margin: 8px; }
+.m-3 { margin: 12px; }
+.m-4 { margin: 16px; }
+
+.mb-1 { margin-bottom: 4px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-3 { margin-bottom: 12px; }
+.mb-4 { margin-bottom: 16px; }
+
+.ml-2 { margin-left: 8px; }
+.ml-3 { margin-left: 12px; }
+.mr-2 { margin-right: 8px; }
+
+/* Gap */
+.gap-1 { gap: 4px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.gap-5 { gap: 20px; }
+.gap-6 { gap: 24px; }
+
+/* ====================
+   LAYOUT UTILITIES
+   ==================== */
+
+/* Display */
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.block { display: block; }
+.inline-block { display: inline-block; }
+.hidden { display: none; }
+
+/* Flex Direction */
+.flex-row { flex-direction: row; }
+.flex-col { flex-direction: column; }
+
+/* Flex Alignment */
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-start { justify-content: flex-start; }
+
+/* Flex Grow/Shrink */
+.flex-1 { flex: 1; }
+.flex-shrink-0 { flex-shrink: 0; }
+
+/* Position */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* Width/Height */
+.w-full { width: 100%; }
+.w-fit { width: fit-content; }
+.h-full { height: 100%; }
+.min-h-screen { min-height: 100vh; }
+
+/* ====================
+   BORDER UTILITIES
+   ==================== */
+
+.border { border-width: 1px; border-style: solid; }
+.border-2 { border-width: 2px; border-style: solid; }
+.border-none { border: none; }
+
+.rounded { border-radius: 4px; }
+.rounded-md { border-radius: 6px; }
+.rounded-lg { border-radius: 8px; }
+.rounded-xl { border-radius: 12px; }
+
+/* ====================
+   INTERACTIVE UTILITIES
+   ==================== */
+
+/* Cursor */
+.cursor-pointer { cursor: pointer; }
+.cursor-text { cursor: text; }
+.cursor-not-allowed { cursor: not-allowed; }
+
+/* Transitions */
+.transition-all { transition: all 0.15s ease; }
+.transition-colors { transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
+.transition-transform { transition: transform 0.15s ease; }
+
+/* Transform */
+.scale-101 { transform: scale(1.01); }
+.scale-105 { transform: scale(1.05); }
+
+/* Opacity */
+.opacity-50 { opacity: 0.5; }
+.opacity-60 { opacity: 0.6; }
+.opacity-90 { opacity: 0.9; }
+
+/* ====================
+   SHADOW UTILITIES
+   ==================== */
+
+.shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+.shadow { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
+.shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+.shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+.shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+.shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+
+/* ====================
+   UNIFIED COMPONENT SYSTEM
+   ==================== */
+
+/* Button Base */
+.btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 1.2;
+  border-radius: 6px;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+  padding: 8px 16px;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-base:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ====================
+   UNIFIED INPUT SYSTEM
+   ==================== */
+
+/* Input Base - Used by ALL input components */
+.input-base {
+  width: 100%;
+  min-width: 0;
+  background-color: var(--surface-default);
+  border: 2px solid var(--border-default);
+  border-radius: 5px;
+  padding: 11px;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--content-primary);
+  transition: all 0.15s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-base:focus-within {
+  border-color: var(--content-primary);
+}
+
+.input-base:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Input Inner - The actual input field inside input-base */
+.input-inner {
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+/* Text Area Base - For multiline inputs */
+.textarea-base {
+  width: 100%;
+  min-width: 0;
+  min-height: 120px;
+  background-color: var(--surface-default);
+  border: 2px solid var(--border-default);
+  border-radius: 5px;
+  padding: 11px;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--content-primary);
+  line-height: 1.4;
+  transition: all 0.15s ease;
+  outline: none;
+  resize: vertical;
+}
+
+.textarea-base:focus {
+  border-color: var(--content-primary);
+}
+
+.textarea-base:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Label Base - Used by ALL components with labels */
+.label-base {
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color: var(--content-primary);
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Focus Ring - Unified focus state */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--interactive-accentfocus);
+  outline-offset: 2px;
+}
+
+/* Input focus-visible ring for input containers */
+.input-focus-ring:focus-visible {
+  outline: 2px solid var(--interactive-accentfocus);
+  outline-offset: -1px;
+}
+
+/* ====================
+   UNIFIED STATE SYSTEM
+   ==================== */
+
+/* Error State */
+.error-state {
+  border-color: var(--status-error) !important;
+}
+
+.error-state .label-base {
+  color: var(--status-error);
+}
+
+/* Warning State */
+.warning-state {
+  border-color: var(--status-warning) !important;
+}
+
+.warning-state .label-base {
+  color: var(--status-warning);
+}
+
+/* Focus State */
+.focus-state {
+  border-color: var(--content-primary) !important;
+}
+
+.focus-state .label-base {
+  color: var(--content-primary);
+}
+
+/* ====================
+   UNIFIED BUTTON SYSTEM
+   ==================== */
+
+/* Clear Button - Used for X close buttons */
+.clear-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: currentColor;
+  transition: all 0.15s ease;
+  padding: 0;
+  margin: 0;
+}
+
+.clear-button:hover {
+  opacity: 0.7;
+}
+
+.clear-button:focus-visible {
+  outline: 2px solid var(--interactive-accentfocus);
+  outline-offset: 2px;
+}
+
+.clear-button svg {
+  width: 10px;
+  height: 10px;
+}
+
+/* Icon Button - Used for trailing icons like calendar/clock */
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--content-secondary);
+  transition: color 0.15s ease;
+  padding: 0;
+  margin: 0;
+}
+
+.icon-button:hover {
+  color: var(--content-primary);
+}
+
+.icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Chevron Button - For dropdowns */
+.chevron-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--content-primary);
+  transition: transform 0.15s ease;
+  padding: 0;
+}
+
+.chevron-button:disabled {
+  color: var(--border-default);
+  cursor: not-allowed;
+}
+
+.chevron-button.open {
+  transform: rotate(180deg);
+}
+
+/* ====================
+   UNIFIED DROPDOWN SYSTEM
+   ==================== */
+
+/* Dropdown Base - Unified dropdown container */
+.dropdown-base {
+  background-color: var(--background-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 50;
+  min-width: 180px;
+}
+
+/* Dropdown Item - Unified dropdown option */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+  color: var(--content-primary);
+  background: transparent;
+  border: none;
+  text-align: left;
+  width: 100%;
+}
+
+.dropdown-item:hover {
+  background-color: var(--background-default);
+}
+
+.dropdown-item-selected {
+  background-color: var(--interactive-accentfocus);
+  color: var(--text-background-default);
+  font-weight: 700;
+}
+
+.dropdown-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: transparent !important;
+}
+
+/* ====================
+   UNIFIED OVERLAY SYSTEM
+   ==================== */
+
+/* Overlay Panel - For date picker, time picker calendars */
+.overlay-panel {
+  background-color: var(--surface-default);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  z-index: 50;
+}
+
+/* ====================
+   UNIFIED HELPER SYSTEM
+   ==================== */
+
+/* Helper Text - For error/warning messages */
+.helper-text {
+  font-size: 12px;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  margin-top: 4px;
+}
+
+.helper-text.error {
+  color: var(--status-error);
+}
+
+.helper-text.warning {
+  color: var(--status-warning);
+}
+
+.helper-text.info {
+  color: var(--content-secondary);
+}
+
+/* Character Count */
+.char-count {
+  font-size: 12px;
+  color: var(--content-secondary);
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  user-select: none;
+  margin-left: 8px;
+}
+
+/* ====================
+   EXISTING UTILITIES (PRESERVED)
+   ==================== */
+
+/* Card Base */
+.card-base {
+  background-color: var(--surface-default);
+  border: 2px solid var(--border-default);
+  border-radius: 8px;
+  padding: 24px;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Hover Effects */
+.hover-scale:hover {
+  transform: scale(1.01);
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Background Fixed */
+.bg-fixed {
+  background-attachment: fixed;
+}
+
+/* Z-Index */
+.z-10 { z-index: 10; }
+.z-50 { z-index: 50; }
+
+/* Text Utilities */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.uppercase { text-transform: uppercase; }
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.break-words {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Selection */
+.select-none {
+  user-select: none;
+}
+
+/* Max Width */
+.max-w-2xl { max-width: 42rem; }
+.max-w-full { max-width: 100%; }
+
+/* Space Between */
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 1rem;
+}
+
+.space-y-8 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 2rem;
+}
+
+/* Grid */
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+@media (min-width: 768px) {
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Modal Utilities */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--background-default);
+  opacity: 0.9;
+  z-index: 50;
+}
+
+.modal-content {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 16px;
+}
+
+/* Icon Sizes */
+.icon-sm { width: 16px; height: 16px; }
+.icon-base { width: 20px; height: 20px; }
+.icon-lg { width: 24px; height: 24px; }
+
+/* Specific sizing that was used inline */
+.w-5 { width: 20px; }
+.h-5 { height: 20px; }
+.w-10 { width: 40px; }
+.h-10 { height: 40px; }
+.w-11 { width: 44px; }
+.h-11 { height: 44px; }
+
+/* Aspect Ratios */
+.aspect-video { aspect-ratio: 16 / 9; }
+
+/* Overflow */
+.overflow-hidden { overflow: hidden; }
+.overflow-auto { overflow: auto; }
+.overflow-y-auto { overflow-y: auto; }
+
+/* Min Width */
+.min-w-0 { min-width: 0; }
+
+/* Background Transparent */
+.bg-transparent { background-color: transparent; }
+
+/* Outline */
+.outline-none { outline: none; }
+.outline-2 { outline-width: 2px; }
+.outline-offset-2 { outline-offset: 2px; }
+.outline-interactive-focus { outline-color: var(--interactive-accentfocus); }
+
+/* Pointer Events */
+.pointer-events-none { pointer-events: none; }
+
+/* Grayscale */
+.grayscale { filter: grayscale(100%); }
+
+/* Additional utilities for components */
+.mx-auto { margin-left: auto; margin-right: auto; }
+.col-span-full { grid-column: 1 / -1; }

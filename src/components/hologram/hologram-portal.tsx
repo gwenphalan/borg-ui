@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import type { ReactNode } from "react";
 import { HologramContext } from "../container/hologram-context";
-import { HologramEffect } from "../container/hologram-container";
 import { Portal } from "../../lib/portal";
 
 interface HologramPortalProps {
@@ -15,9 +14,11 @@ export function HologramPortal({
 }: HologramPortalProps) {
     const isHologram = useContext(HologramContext);
 
-    if (isHologramDescendant ?? isHologram) {
-        return <HologramEffect>{children}</HologramEffect>;
-    }
+    const shouldApplyEffect = isHologramDescendant ?? isHologram;
 
-    return <Portal>{children}</Portal>;
+    return (
+        <Portal>
+            {children}
+        </Portal>
+    );
 } 

@@ -1,58 +1,43 @@
 import React from "react";
 
-const styleMap: Record<string, string> = {
-    background_default: "var(--background-default)",
-    background_elevated: "var(--background-elevated)",
-    border_default: "var(--border-default)",
-    content_primary: "var(--content-primary)",
-    content_secondary: "var(--content-secondary)",
-    interactive_accentfocus: "var(--interactive-accentfocus)",
-    status_error: "var(--status-error)",
-    status_info: "var(--status-info)",
-    status_warning: "var(--status-warning)",
-    surface_default: "var(--surface-default)",
-    text_light: "var(--text-light)",
-    text_background_default: "var(--text-background-default)",
-    text_dark: "var(--background-default)"
-};
 
 const variantMap: Record<string, { bg: string; border: string; text: string }> = {
     default: {
-        bg: `bg-[${styleMap.background_elevated}]`,
-        border: `border border-[${styleMap.border_default}]`,
-        text: `text-[${styleMap.content_primary}]`,
+        bg: `bg-[${"var(--background-elevated)"}]`,
+        border: `border border-[${"var(--border-default)"}]`,
+        text: `text-[${"var(--content-primary)"}]`,
     },
     primary: {
-        bg: `bg-[${styleMap.content_primary}]`,
-        border: `border border-[${styleMap.content_primary}]`,
-        text: `text-[${styleMap.text_dark}]`,
+        bg: `bg-[${"var(--content-primary)"}]`,
+        border: `border border-[${"var(--content-primary)"}]`,
+        text: `text-[${"var(--text-dark)"}]`,
     },
     secondary: {
-        bg: `bg-[${styleMap.surface_default}]`,
-        border: `border border-[${styleMap.border_default}]`,
-        text: `text-[${styleMap.content_secondary}]`,
+        bg: `bg-[${"var(--surface-default)"}]`,
+        border: `border border-[${"var(--border-default)"}]`,
+        text: `text-[${"var(--content-secondary)"}]`,
     },
     info: {
-        bg: `bg-[${styleMap.status_info}]`,
-        border: `border border-[${styleMap.status_info}]`,
-        text: `text-[${styleMap.text_light}]`,
+        bg: `bg-[${"var(--status-info)"}]`,
+        border: `border border-[${"var(--status-info)"}]`,
+        text: `text-[${"var(--text-light)"}]`,
     },
     warning: {
-        bg: `bg-[${styleMap.status_warning}]`,
-        border: `border border-[${styleMap.status_warning}]`,
-        text: `text-[${styleMap.background_default}]`,
+        bg: `bg-[${"var(--status-warning)"}]`,
+        border: `border border-[${"var(--status-warning)"}]`,
+        text: `text-[${"var(--background-default)"}]`,
     },
     error: {
-        bg: `bg-[${styleMap.status_error}]`,
-        border: `border border-[${styleMap.status_error}]`,
-        text: `text-[${styleMap.text_light}]`,
+        bg: `bg-[${"var(--status-error)"}]`,
+        border: `border border-[${"var(--status-error)"}]`,
+        text: `text-[${"var(--text-light)"}]`,
     },
 };
 
 const sizeMap: Record<string, string> = {
-    sm: "text-[12px] px-2 py-0.5 h-6 min-h-[24px]",
-    md: "text-[14px] px-3 py-1 h-8 min-h-[32px]",
-    lg: "text-[16px] px-4 py-2 h-10 min-h-[40px]",
+    sm: "text-xs px-2 py-0.5 h-6 min-h-[24px]",
+    md: "text-sm px-3 py-1 h-8 min-h-[32px]",
+    lg: "text-base px-4 py-2 h-10 min-h-[40px]",
 };
 
 export interface ChipProps {
@@ -91,7 +76,7 @@ export function Chip({
     const isInteractive = clickable && !disabled && typeof onClick === "function";
     return (
         <span
-            className={`inline-flex items-center gap-1 rounded-full font-[Orbitron] font-semibold uppercase tracking-[1px] select-none transition-all duration-150 outline-none ${variantStyles.bg
+            className={`inline-flex items-center gap-1 rounded-full font-orbitron font-semibold uppercase tracking-[1px] select-none transition-all duration-150 outline-none ${variantStyles.bg
                 } ${variantStyles.border} ${variantStyles.text} ${sizeStyles} ${isInteractive ? "cursor-pointer hover:shadow-md hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-[var(--interactive-accentfocus)]" : ""
                 } ${disabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""} ${className}`}
             style={style}
@@ -108,7 +93,7 @@ export function Chip({
         >
             {leading && <span className="mr-1 flex items-center">{leading}</span>}
             {icon && <span className="mr-1 flex items-center">{icon}</span>}
-            <span className="whitespace-nowrap font-[Orbitron]">{label}</span>
+            <span className="whitespace-nowrap font-orbitron">{label}</span>
             {trailing && <span className="ml-1 flex items-center">{trailing}</span>}
             {closable && !disabled && (
                 <button

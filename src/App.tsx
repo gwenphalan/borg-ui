@@ -51,22 +51,17 @@ function App() {
   };
 
   return (
-    <div
-      className="relative min-h-screen"
-      style={{
-        backgroundAttachment: 'fixed',
-      }}
-    >
+    <div className="relative min-h-screen bg-fixed">
       <WarpSpeedBackground />
       <div className="relative z-10 flex min-h-screen items-center justify-center">
         <HologramContainer>
           <MainLayout>
             <div className="space-y-8">
               <section className="text-center">
-                <h1 className="text-4xl font-bold text-[var(--content-primary)] mb-4">
+                <h1 className="text-4xl font-bold text-content-primary mb-4">
                   Welcome to Borg UI
                 </h1>
-                <p className="text-[var(--content-secondary)] max-w-2xl mx-auto">
+                <p className="text-content-secondary max-w-2xl mx-auto">
                   A modern, accessible, and customizable UI component library built with React, TypeScript, and Tailwind CSS.
                 </p>
               </section>
@@ -76,7 +71,7 @@ function App() {
                   title="Modern Design"
                   subtitle="Built with modern web standards"
                 >
-                  <p className="text-[var(--content-secondary)]">
+                  <p className="text-content-secondary">
                     Clean, accessible, and responsive components that follow the latest web design trends.
                   </p>
                 </Card>
@@ -85,7 +80,7 @@ function App() {
                   title="TypeScript"
                   subtitle="Fully typed components"
                 >
-                  <p className="text-[var(--content-secondary)]">
+                  <p className="text-content-secondary">
                     Written in TypeScript for better developer experience and type safety.
                   </p>
                 </Card>
@@ -94,14 +89,14 @@ function App() {
                   title="Customizable"
                   subtitle="Theme and style customization"
                 >
-                  <p className="text-[var(--content-secondary)]">
+                  <p className="text-content-secondary">
                     Easily customize the look and feel of components to match your brand.
                   </p>
                 </Card>
               </section>
 
               <section className="space-y-4">
-                <h2 className="col-span-full text-2xl font-bold text-[var(--content-primary)]">Interactive Components</h2>
+                <h2 className="col-span-full text-2xl font-bold text-content-primary">Interactive Components</h2>
                 <Grid>
                   <GridItem>
                     <TextInput
@@ -169,7 +164,7 @@ function App() {
               </section>
 
               <section className="space-y-4">
-                <h2 className="col-span-full text-2xl font-bold text-[var(--content-primary)]">Navigation</h2>
+                <h2 className="col-span-full text-2xl font-bold text-content-primary">Navigation</h2>
                 <GridItem className="col-span-full">
                   <Breadcrumbs
                     items={[
@@ -204,7 +199,7 @@ function App() {
                 onClose={() => setIsModalOpen(false)}
                 title="Welcome to Borg UI"
               >
-                <p className="text-[var(--content-secondary)]">
+                <p className="text-content-secondary">
                   This is a modal dialog showcasing the modal component.
                 </p>
               </Modal>

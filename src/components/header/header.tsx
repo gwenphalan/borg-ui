@@ -21,7 +21,7 @@ export const Header = () => {
                     <h1 className="text-lg font-bold text-[var(--content-primary)]">Borg UI</h1>
                 </a>
                 <div className="flex items-center space-x-4">
-                    <nav className="hidden md:flex">
+                    <nav className="flex">
                         <Menu items={navItems} />
                     </nav>
                     <ThemeToggle />
