@@ -167,3 +167,32 @@ The new system follows these principles:
 ## 🎉 Result
 
 The project now has a clean, maintainable, utility-first CSS architecture that provides consistency, performance, and excellent developer experience while preserving the existing design system and theme functionality.
+
+## 7. Post-launch Fixes (Navigation, Icons & Hologram Overlays)
+
+After the initial roll-out we tackled a handful of regressions and polish tasks that surfaced during manual QA:
+
+### 7.1  Unified Chevron & Icon System
+* Replaced `chevron-up` / `chevron-down` SVGs with a single `chevron` asset – rotation is now handled purely by CSS (`rotate-180`).
+* Added missing built-in icons (`user`, `settings`, `logout`) to `Icon` component so external SVG downloads are no longer required.
+
+### 7.2  Navigation Menu Polish
+* Menu items now use `hover:bg-content-primary hover:text-[var(--text-dark)]` and icons follow the same colour for perfect contrast.
+* Header nav is visible on all break-points (removed `hidden md:flex` gate).
+
+### 7.3  Overlay / Portal Architecture
+| Problem | Fix |
+| ------- | ---- |
+| Opening dropdowns / pickers pushed the page down (DOM insertion) | All overlays are now rendered **inside a Portal** – no layout shift. |
+| Hologram glow present but scan-lines/flicker missing | Overlays detect `HologramContext` and wrap their content in `HologramEffect` *inside* the portal. |
+| Overlays rendered behind main container | Added `z-index: 9999` to floated panel wrapper. |
+
+Result: every floating component (Dropdown, Date-Picker, Time-Picker, Tooltip, Modal) now glows with full hologram treatment while staying above the app and not affecting document flow.
+
+### 7.4  Miscellaneous Tweaks
+* Restored original textarea height (`min-h-120px`) and allowed vertical resize.
+* Time-Picker "OK" button now uses dark text for WCAG contrast.
+* Added placeholder SVG to `src/assets/icons` to silence Vite wildcard-scan when no custom icons are present.
+
+---
+This brings the refactor to full parity with the original visual design while maintaining the new utility-first, single-stylesheet architecture.
