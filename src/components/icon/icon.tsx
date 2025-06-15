@@ -82,16 +82,21 @@ const icons: Record<string, SVGComponent> = {
       </defs>
     </svg>
   ),
-  // Chevron down
+  // Unified chevron icon (always points down; rotate via CSS for other directions)
+  "chevron": ({ color, size }) => (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
+      <path d="M3 6L8 11L13 6" stroke={color} strokeWidth="1.2" />
+    </svg>
+  ),
+  // Aliases for backward compatibility
   "chevron-down": ({ color, size }) => (
     <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
       <path d="M3 6L8 11L13 6" stroke={color} strokeWidth="1.2" />
     </svg>
   ),
-  // Chevron up
   "chevron-up": ({ color, size }) => (
     <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
-      <path d="M3 10L8 5L13 10" stroke={color} strokeWidth="1.2" />
+      <path d="M3 6L8 11L13 6" stroke={color} strokeWidth="1.2" />
     </svg>
   ),
   // Calendar icon
@@ -145,7 +150,7 @@ const icons: Record<string, SVGComponent> = {
 async function loadIcon(name: string): Promise<React.ComponentType<React.SVGProps<SVGSVGElement>>> {
   // Try loading from project's src/assets/icons first
   try {
-    const projectIcon = await import(`../../assets/icons/${name}.svg?react`);
+    const projectIcon = await import(/* @vite-ignore */ `../../assets/icons/${name}.svg?react`);
     return projectIcon.ReactComponent || projectIcon.default;
   } catch {
     // If not found in project, try loading from package's public/icons

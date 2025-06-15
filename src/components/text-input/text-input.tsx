@@ -214,13 +214,13 @@ export function TextInput({
                     <button
                         type="button"
                         tabIndex={-1}
-                        className="ml-3 flex items-center justify-center"
+                        className={`chevron-button ml-3 ${isDropdownOpen ? 'open' : ''}`}
                         onClick={handleDropdownToggle}
                         disabled={disabled}
                         aria-label="Toggle dropdown"
                     >
                         <Icon
-                            name={isDropdownOpen ? 'chevron-up' : 'chevron-down'}
+                            name="chevron"
                             size={20}
                             color={
                                 isFocused || isDropdownOpen ? 'var(--content-primary)' :

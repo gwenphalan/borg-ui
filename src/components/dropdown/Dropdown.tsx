@@ -147,12 +147,12 @@ export function Dropdown({
                 </span>
                 <button
                     type="button"
-                    className="chevron-button"
+                    className={`chevron-button ${isOpen ? 'open' : ''}`}
                     tabIndex={-1}
                     disabled={disabled}
                 >
                     <Icon
-                        name={isOpen ? 'chevron-up' : 'chevron-down'}
+                        name="chevron"
                         size={20}
                         color={disabled ? "var(--border-default)" : "var(--content-primary)"}
                     />

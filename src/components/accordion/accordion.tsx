@@ -52,7 +52,7 @@ export function Accordion({ items, className = "", style, defaultOpenIndex = -1 
                             <span className="flex-1 text-left break-words" style={{ fontWeight: 900 }}>{item.title}</span>
                             <span className="flex items-center justify-center" style={{ width: 32, height: 32 }}>
                                 <Icon
-                                    name="chevron-down"
+                                    name="chevron"
                                     size={32}
                                     color={isOpen ? "var(--text-dark)" : "var(--content-primary)"}
                                     className={isOpen ? "rotate-180" : "rotate-0"}

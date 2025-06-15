@@ -151,7 +151,7 @@ function MenuItemComponent({
             )}
             <span className="flex-1 font-semibold">{item.label}</span>
             {hasChildren && (
-                <Icon name="chevron-down" size={20} color={iconColor} className={`ml-2 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                <Icon name="chevron" size={20} color={iconColor} className={`ml-2 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
             )}
         </>
     );

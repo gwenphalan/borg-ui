@@ -355,7 +355,7 @@ export function Table<T extends Record<string, unknown>>({
                                                 col.key !== "__select__" &&
                                                 sortKey === col.key && (
                                                     <Icon
-                                                        name="chevron-down"
+                                                        name="chevron"
                                                         size={16}
                                                         className={
                                                             sortDir === "asc" ? "transform rotate-180" : ""
