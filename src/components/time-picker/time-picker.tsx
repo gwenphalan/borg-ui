@@ -282,7 +282,7 @@ export function TimePicker({
             <div className="p-2 border-t border-default">
                 <button
                     onClick={commitPendingTime}
-                    className="w-full px-4 py-2 text-sm font-medium text-white bg-[var(--interactive-accentfocus)] rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--interactive-accentfocus)]"
+                    className="w-full px-4 py-2 text-sm font-bold text-[var(--text-dark)] bg-[var(--interactive-accentfocus)] rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--interactive-accentfocus)]"
                 >
                     OK
                 </button>
