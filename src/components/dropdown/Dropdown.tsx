@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import type { DropdownProps, DropdownOption } from './types';
 import { Icon } from '../icon/icon';
+import { Overlay } from '../overlay/Overlay';
 
 const styleMap: Record<string, string> = {
     background_default: 'var(--background-default)',
@@ -43,7 +44,6 @@ export function Dropdown({
     multiSelect = false,
 }: DropdownProps & { multiSelect?: boolean }) {
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const menuRef = useRef<HTMLDivElement>(null);
     const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
     // Multi-select logic
@@ -83,89 +83,11 @@ export function Dropdown({
         }
     }, [isOpen, value, focusableOptions]);
 
-    // Click outside to close
-    useEffect(() => {
-        if (!isOpen) return;
-        function handleClick(e: MouseEvent) {
-            if (
-                !buttonRef.current?.contains(e.target as Node) &&
-                !menuRef.current?.contains(e.target as Node)
-            ) {
-                onOpenChange(false);
-            }
-        }
-        document.addEventListener('mousedown', handleClick);
-        return () => document.removeEventListener('mousedown', handleClick);
-    }, [isOpen, onOpenChange]);
-
-    // Keyboard navigation
-    const handleKeyDown = useCallback(
-        (e: React.KeyboardEvent<HTMLButtonElement | HTMLDivElement>) => {
-            if (!isOpen) return;
-            if (!focusableOptions.length) return;
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                setFocusedIndex((prev) => {
-                    let next =
-                        prev === null
-                            ? 0
-                            : (prev + 1) % focusableOptions.length;
-                    // Skip disabled
-                    while (
-                        focusableOptions[next] && focusableOptions[next]?.disabled
-                    ) {
-                        next = (next + 1) % focusableOptions.length;
-                        if (next === prev) break;
-                    }
-                    return next;
-                });
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                setFocusedIndex((prev) => {
-                    let next =
-                        prev === null
-                            ? focusableOptions.length - 1
-                            : (prev - 1 + focusableOptions.length) %
-                            focusableOptions.length;
-                    // Skip disabled
-                    while (
-                        focusableOptions[next] && focusableOptions[next]?.disabled
-                    ) {
-                        next = (next - 1 + focusableOptions.length) %
-                            focusableOptions.length;
-                        if (next === prev) break;
-                    }
-                    return next;
-                });
-            } else if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                if (
-                    focusedIndex !== null &&
-                    focusableOptions[focusedIndex] &&
-                    !focusableOptions[focusedIndex]?.disabled &&
-                    focusableOptions[focusedIndex]?.value
-                ) {
-                    onChange(focusableOptions[focusedIndex]?.value ?? '');
-                    onOpenChange(false);
-                }
-            } else if (e.key === 'Escape') {
-                e.preventDefault();
-                onOpenChange(false);
-            } else if (e.key === 'Tab') {
-                onOpenChange(false);
-            }
-        },
-        [isOpen, focusableOptions, focusedIndex, onChange, onOpenChange]
-    );
-
-    // Button click handler
-    const handleButtonClick = useCallback(
-        () => {
-            if (disabled) return;
-            onOpenChange(!isOpen);
-        },
-        [disabled, isOpen, onOpenChange]
-    );
+    // Click handler remains unchanged but now toggles open via onOpenChange
+    const handleButtonClick = useCallback(() => {
+        if (disabled) return;
+        onOpenChange(!isOpen);
+    }, [disabled, isOpen, onOpenChange]);
 
     // Option click handler
     const handleOptionClick = useCallback(
@@ -215,7 +137,7 @@ export function Dropdown({
     const buttonWidth = fullWidth ? 'w-full' : '';
 
     const menuBase =
-        'absolute left-0 top-full w-full mt-2 min-w-[180px] rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)] p-2 flex flex-col space-y-1 z-50 font-[Orbitron] ' +
+        'min-w-[180px] rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)] p-2 flex flex-col space-y-1 z-50 font-[Orbitron] ' +
         menuClassName;
 
     const itemBase =
@@ -237,9 +159,8 @@ export function Dropdown({
         buttonLabel = (selectedOption && !Array.isArray(selectedOption) && selectedOption.label) ? selectedOption.label : placeholder;
     }
 
-    // Render
     return (
-        <div className={`relative ${buttonWidth}` + (label ? ' flex flex-col gap-[5px]' : '')}>
+        <div className={`${fullWidth ? 'w-full' : ''}` + (label ? ' flex flex-col gap-[5px]' : '')}>
             {label && (
                 <label
                     className="text-[12px] font-black uppercase tracking-[2px] font-[Orbitron] mb-1 text-[var(--content-primary)]"
@@ -253,7 +174,7 @@ export function Dropdown({
                 type="button"
                 className={[
                     buttonBase,
-                    buttonRing,
+                    isOpen ? 'outline outline-2 outline-[var(--content-primary)] outline-offset-[-1px]' : 'focus-visible:outline-2 focus-visible:outline-[var(--interactive-accentfocus)] outline-offset-[-1px]',
                     buttonClassName,
                 ].join(' ')}
                 aria-haspopup="listbox"
@@ -263,7 +184,6 @@ export function Dropdown({
                 aria-labelledby={label ? `dropdown-label-${MENU_ID}` : undefined}
                 disabled={disabled}
                 onClick={handleButtonClick}
-                onKeyDown={handleKeyDown}
                 tabIndex={0}
                 style={{
                     background: styleMap.surface_default,
@@ -273,104 +193,84 @@ export function Dropdown({
                     outlineWidth: 2,
                 }}
             >
-                <span className={buttonText}>
-                    {buttonLabel}
-                </span>
+                <span className={buttonText}>{buttonLabel}</span>
                 <span className={buttonChevron}>
                     <Icon
                         name={isOpen ? 'chevron-up' : 'chevron-down'}
                         size={20}
-                        color={
-                            disabled
-                                ? styleMap.border_default
-                                : styleMap.content_primary
-                        }
+                        color={disabled ? styleMap.border_default : styleMap.content_primary}
                     />
                 </span>
             </button>
-            {isOpen && (
-                <div
-                    ref={menuRef}
-                    id={MENU_ID}
-                    role="listbox"
-                    aria-activedescendant={activeDescendantId}
-                    className={menuBase}
-                    tabIndex={-1}
-                    onKeyDown={handleKeyDown}
-                    style={{
-                        background: styleMap.surface_default,
-                        outlineColor: styleMap.border_default,
-                        outlineOffset: -1,
-                    }}
-                >
-                    {options.length === 0 && (
-                        <div className="px-4 py-2 text-[var(--content-secondary)] text-sm">
-                            No options
+            <Overlay
+                reference={buttonRef.current}
+                open={isOpen}
+                onOpenChange={onOpenChange}
+                placement="bottom-start"
+                matchWidth
+                className={menuBase}
+                style={{
+                    background: styleMap.surface_default,
+                    borderColor: styleMap.border_default,
+                }}
+            >
+                {options.length === 0 && (
+                    <div className="px-4 py-2 text-[var(--content-secondary)] text-sm">No options</div>
+                )}
+                {options.map((opt, idx) => {
+                    if (opt.isSeparator) {
+                        return <div key={`separator-${idx}`} className={separatorClass} role="separator" />;
+                    }
+                    const focusIdx = focusableOptions.findIndex((f) => f.idx === idx);
+                    const isSelected = isMulti
+                        ? typeof opt.value === 'string' && selectedValues.includes(opt.value)
+                        : !opt.disabled && typeof opt.value === 'string' && value !== null && opt.value === value;
+                    return (
+                        <div
+                            id={`dropdown-option-${idx}`}
+                            key={opt.value || idx}
+                            role="option"
+                            aria-selected={isSelected}
+                            aria-disabled={opt.disabled}
+                            tabIndex={-1}
+                            className={
+                                opt.disabled
+                                    ? [
+                                        'flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-[var(--content-secondary)] opacity-50 cursor-not-allowed w-full',
+                                        itemDisabled,
+                                        itemDisabledClassName,
+                                    ].join(' ')
+                                    : [
+                                        itemBase,
+                                        itemClassName,
+                                        isSelected ? [itemSelected, itemSelectedClassName].join(' ') : '',
+                                    ].join(' ')
+                            }
+                            onClick={() => handleOptionClick(opt)}
+                            onMouseEnter={() => handleOptionMouseEnter(focusIdx)}
+                            onMouseDown={(e) => e.preventDefault()}
+                        >
+                            {opt.icon && (
+                                opt.disabled ? (
+                                    <Icon
+                                        name={opt.icon}
+                                        size={16}
+                                        color={styleMap.content_secondary}
+                                        className="shrink-0 mr-2"
+                                    />
+                                ) : (
+                                    <Icon
+                                        name={opt.icon}
+                                        size={16}
+                                        className="shrink-0 mr-2 text-[var(--content-primary)] group-hover:text-[var(--background-default)]"
+                                    />
+                                )
+                            )}
+                            <span className="truncate flex-1">{opt.label}</span>
                         </div>
-                    )}
-                    {options.map((opt, idx) => {
-                        if (opt.isSeparator) {
-                            return (
-                                <div
-                                    key={`separator-${idx}`}
-                                    className={separatorClass}
-                                    role="separator"
-                                />
-                            );
-                        }
-                        const focusIdx = focusableOptions.findIndex(
-                            (f) => f.idx === idx
-                        );
-                        const isSelected = isMulti ? (typeof opt.value === 'string' && selectedValues.includes(opt.value)) : (!opt.disabled && typeof opt.value === 'string' && value !== null && opt.value === value);
-                        return (
-                            <div
-                                id={`dropdown-option-${idx}`}
-                                key={opt.value || idx}
-                                role="option"
-                                aria-selected={isSelected}
-                                aria-disabled={opt.disabled}
-                                tabIndex={-1}
-                                className={
-                                    opt.disabled
-                                        ? [
-                                            'flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-[var(--content-secondary)] opacity-50 cursor-not-allowed w-full',
-                                            itemDisabled,
-                                            itemDisabledClassName
-                                        ].join(' ')
-                                        : [
-                                            itemBase,
-                                            itemClassName,
-                                            isSelected ? [itemSelected, itemSelectedClassName].join(' ') : ''
-                                        ].join(' ')
-                                }
-                                onClick={() => handleOptionClick(opt)}
-                                onMouseEnter={() => handleOptionMouseEnter(focusIdx)}
-                                onMouseDown={(e) => e.preventDefault()} // Prevent focus loss
-                            >
-                                {opt.icon && (
-                                    opt.disabled ? (
-                                        <Icon
-                                            name={opt.icon}
-                                            size={16}
-                                            color={styleMap.content_secondary}
-                                            className="shrink-0 mr-2"
-                                        />
-                                    ) : (
-                                        <Icon
-                                            name={opt.icon}
-                                            size={16}
-                                            className="shrink-0 mr-2 text-[var(--content-primary)] group-hover:text-[var(--background-default)]"
-                                        />
-                                    )
-                                )}
-                                <span className="truncate flex-1">
-                                    {opt.label}
-                                </span>
-                            </div>
-                        );
-                    })}
-                </div>
-            )}
+                    );
+                })}
+            </Overlay>
         </div>
     );
 } 

@@ -34,8 +34,14 @@ export function ThemeProvider({
 
     useEffect(() => {
         const root = window.document.documentElement;
+        // Remove existing theme classes and data attributes
         root.classList.remove("light", "dark");
-        root.classList.add(theme);
+        root.removeAttribute("data-theme");
+
+        // Set data-theme attribute for light theme, remove for dark (uses :root)
+        if (theme === "light") {
+            root.setAttribute("data-theme", "light");
+        }
     }, [theme]);
 
     const value = {

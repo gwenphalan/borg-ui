@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { Icon } from "../icon/icon";
+import { Overlay } from "../overlay/Overlay";
 
 const styleMap: Record<string, string> = {
     background_default: "var(--background-default)",
@@ -196,17 +197,7 @@ export function TextInput({
     // Character count
     const charCount = value.length;
 
-    // Click outside to close dropdown
-    useEffect(() => {
-        if (!isDropdownOpen) return;
-        function handleClick(e: MouseEvent) {
-            if (!rootRef.current?.contains(e.target as Node)) {
-                setInternalDropdownOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClick);
-        return () => document.removeEventListener("mousedown", handleClick);
-    }, [isDropdownOpen]);
+    // Click outside to close dropdown is now handled by Overlay component
 
     // Generate a unique name for autofill if not provided
     const inputName = name || (autoComplete === 'on' ? `textinput-${label?.replace(/\s+/g, '-').toLowerCase() || ''}` : undefined);
@@ -293,39 +284,45 @@ export function TextInput({
             {showWarning && warningText && (
                 <span className="mt-1 text-xs font-[Orbitron]" style={{ color: styleMap.status_warning }}>{warningText}</span>
             )}
-            {/* Dropdown options as overlay */}
-            {isDropdown && isDropdownOpen && (
-                <div
-                    className="absolute left-0 top-full w-full mt-2 min-w-[180px] rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)] p-2 flex flex-col space-y-1 z-50 font-[Orbitron]"
+            {/* Dropdown options using Overlay */}
+            {isDropdown && (
+                <Overlay
+                    reference={rootRef.current}
+                    open={isDropdownOpen}
+                    onOpenChange={setInternalDropdownOpen}
+                    placement="bottom-start"
+                    matchWidth
+                    className="z-50 min-w-[180px] rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)] p-2 flex flex-col space-y-1 font-[Orbitron]"
                     style={{
                         background: styleMap.background_elevated,
                         borderColor: styleMap.border_default,
                     }}
-                    role="menu"
                 >
-                    {dropdownOptions!.map(option => {
-                        const isSelected = value === option;
-                        const isDisabled = false; // Add support for disabled options if needed in the future
-                        return (
-                            <button
-                                key={option}
-                                type="button"
-                                className={
-                                    `flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-[var(--content-primary)] hover:bg-[var(--content-primary)] hover:text-[var(--background-default)] w-full group` +
-                                    (isSelected ? ' outline-2 outline-[var(--interactive-accentfocus)] outline-offset-[-2px] bg-[var(--content-primary)] text-[var(--background-default)]' : '') +
-                                    (isDisabled ? ' bg-transparent text-[var(--content-secondary)] opacity-50 cursor-not-allowed !hover:bg-transparent !hover:text-[var(--content-secondary)]' : ' cursor-pointer')
-                                }
-                                style={{ fontFamily: 'Orbitron' }}
-                                onClick={() => handleOptionSelect(option)}
-                                role="menuitem"
-                                disabled={isDisabled}
-                            >
-                                {/* Future icon slot: <span className=\"mr-2\"></span> */}
-                                <span className="truncate flex-1">{option}</span>
-                            </button>
-                        );
-                    })}
-                </div>
+                    <div role="menu">
+                        {dropdownOptions!.map(option => {
+                            const isSelected = value === option;
+                            const isDisabled = false; // Add support for disabled options if needed in the future
+                            return (
+                                <button
+                                    key={option}
+                                    type="button"
+                                    className={
+                                        `flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none bg-transparent text-[var(--content-primary)] hover:bg-[var(--content-primary)] hover:text-[var(--background-default)] w-full group` +
+                                        (isSelected ? ' outline-2 outline-[var(--interactive-accentfocus)] outline-offset-[-2px] bg-[var(--content-primary)] text-[var(--background-default)]' : '') +
+                                        (isDisabled ? ' bg-transparent text-[var(--content-secondary)] opacity-50 cursor-not-allowed !hover:bg-transparent !hover:text-[var(--content-secondary)]' : ' cursor-pointer')
+                                    }
+                                    style={{ fontFamily: 'Orbitron' }}
+                                    onClick={() => handleOptionSelect(option)}
+                                    role="menuitem"
+                                    disabled={isDisabled}
+                                >
+                                    {/* Future icon slot: <span className=\"mr-2\"></span> */}
+                                    <span className="truncate flex-1">{option}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </Overlay>
             )}
         </div>
     );

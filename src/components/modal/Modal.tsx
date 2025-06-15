@@ -6,6 +6,7 @@ import { Icon } from "../icon/icon";       // Your Icon component
 import clsx from "clsx";
 import { HologramEffect } from "../container/hologram-container";
 import { HologramContext } from "../container/hologram-context";
+import { twMerge } from "tailwind-merge";
 
 export interface ModalAction {
     label: string;
@@ -26,7 +27,7 @@ export interface ModalProps {
     icon?: string;
     status?: "error" | "info" | "success" | "warning";
     className?: string;
-    modalRootId?: string;
+    style?: React.CSSProperties;
 }
 
 const styleMap: Record<string, string> = {
@@ -61,21 +62,12 @@ export function Modal({
     icon,
     status,
     className = "",
-    modalRootId = "modal-root",
+    style
 }: ModalProps) {
     const modalRef = useRef<HTMLDivElement>(null);
     const previouslyFocusedElement = useRef<HTMLElement | null>(null);
     const titleId = useMemo(() => `modal-title-${Math.random().toString(36).substr(2, 9)}`, []);
     const isHologram = useContext(HologramContext);
-
-    useEffect(() => {
-        let element = document.getElementById(modalRootId);
-        if (!element) {
-            element = document.createElement("div");
-            element.setAttribute("id", modalRootId);
-            document.body.appendChild(element);
-        }
-    }, [modalRootId]);
 
     useEffect(() => {
         if (!isOpen) {
@@ -127,112 +119,73 @@ export function Modal({
 
     const modalActualIconName = status ? statusIconNameMap[status] : icon;
 
-    const modalInner = (
-        <>
-            {/* Header Section */}
-            <div className={clsx(
-                "w-full flex items-center",
-                modalActualIconName ? "gap-[14px]" : "gap-[4px]"
-            )}>
-                {modalActualIconName && (
-                    <Icon name={modalActualIconName} size={21} className="flex-shrink-0" />
-                )}
-                {title && (
-                    <h2
-                        className={clsx(
-                            "flex-1 font-orbitron font-[900] text-[20px] leading-[28px] break-words mt-0",
-                            'text-[' + styleMap.content_primary + ']'
-                        )}
-                        id={titleId}
-                    >
-                        {title}
-                    </h2>
-                )}
-                <button
-                    onClick={onClose}
-                    aria-label="Close modal"
-                    className={clsx(
-                        "w-[26px] h-[26px] p-0 flex items-center justify-center rounded-full transition-colors ml-[4px] mt-[1px]",
-                        'text-[' + styleMap.content_primary + '] hover:bg-[' + styleMap.border_default + '] hover:text-[' + styleMap.text_light + ']'
-                    )}
-                    style={{ minWidth: 26, minHeight: 26 }}
-                >
-                    <Icon name="x-mark" size={26} />
-                </button>
-            </div>
-            {/* Body Section */}
-            <div
-                className={clsx(
-                    "w-full font-orbitron font-[700] text-[16px] leading-[24px] break-words",
-                    'text-[' + styleMap.content_primary + ']'
-                )}
-            >
-                {children}
-            </div>
-            {/* Footer Section */}
-            {actions && actions.length > 0 && (
-                <div className="w-full h-[52px] flex justify-end items-end gap-[8px]">
-                    {actions.map((action) => (
-                        <Button
-                            key={action.label}
-                            onClick={action.onClick}
-                            variant={action.style === "primary" ? "primary" :
-                                action.style === "secondary" ? "secondary" :
-                                    action.style === "destructive" ? "destructive" :
-                                        action.style === "info" ? "info" :
-                                            action.style === "warn" ? "warn" : "default"}
-                            icon={action.iconPosition || (action.iconName ? "left" : "off")}
-                            iconName={action.iconName}
-                            autoFocus={action.autoFocus}
-                            disabled={action.disabled}
-                        >
-                            {action.label}
-                        </Button>
-                    ))}
-                </div>
-            )}
-        </>
-    );
-    const modalBox = (
-        <div
-            ref={modalRef}
-            className={clsx(
-                "relative flex flex-col w-full",
-                "max-w-[540px]",
-                "bg-[" + styleMap.surface_default + "]",
-                "rounded-[15px]",
-                "outline outline-2 outline-offset-[-2px] outline-[" + styleMap.border_default + "]",
-                "shadow-[0px_6px_12px_rgba(0,0,0,0.10)]",
-                "p-[24px]",
-                "gap-[8px]",
-                className
-            )}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={title ? titleId : undefined}
-            tabIndex={-1}
-            onClick={e => e.stopPropagation()}
-        >
-            {modalInner}
-        </div>
-    );
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target === e.currentTarget) {
+            onClose();
+        }
+    };
+
+    if (!isOpen) {
+        return null;
+    }
+
     const modalContent = (
         <div
-            className={clsx(
-                "fixed inset-0 z-50 flex items-center justify-center p-4",
-                "transition-opacity duration-300 ease-out",
-                isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-            )}
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.60)" }}
-            onClick={onClose}
-            role="presentation"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+            onClick={handleBackdropClick}
         >
-            {isHologram ? <HologramEffect>{modalBox}</HologramEffect> : modalBox}
+            {isHologram ? (
+                <HologramEffect>
+                    <div
+                        ref={modalRef}
+                        className={twMerge(
+                            "relative w-full max-w-lg rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)]",
+                            className
+                        )}
+                        style={style}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Header */}
+                        <div className="flex items-center justify-between border-b border-[var(--border-default)] p-4">
+                            <h2 className="text-lg font-bold text-[var(--content-primary)]">{title}</h2>
+                            <button
+                                onClick={onClose}
+                                className="text-[var(--content-primary)] hover:text-[var(--interactive-accentfocus)] transition-colors"
+                            >
+                                <Icon name="close" size={24} />
+                            </button>
+                        </div>
+                        {/* Body */}
+                        <div className="p-4">{children}</div>
+                    </div>
+                </HologramEffect>
+            ) : (
+                <div
+                    ref={modalRef}
+                    className={twMerge(
+                        "relative w-full max-w-lg rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)]",
+                        className
+                    )}
+                    style={style}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    {/* Header */}
+                    <div className="flex items-center justify-between border-b border-[var(--border-default)] p-4">
+                        <h2 className="text-lg font-bold text-[var(--content-primary)]">{title}</h2>
+                        <button
+                            onClick={onClose}
+                            className="text-[var(--content-primary)] hover:text-[var(--interactive-accentfocus)] transition-colors"
+                        >
+                            <Icon name="close" size={24} />
+                        </button>
+                    </div>
+                    {/* Body */}
+                    <div className="p-4">{children}</div>
+                </div>
+            )}
         </div>
     );
 
-    if (typeof document === "undefined") return null;
-    const modalRoot = document.getElementById(modalRootId);
-    if (!isOpen || !modalRoot) return null;
-    return createPortal(modalContent, modalRoot);
+    // Use createPortal to render modal at the document body level
+    return createPortal(modalContent, document.body);
 }

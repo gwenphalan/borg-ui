@@ -14,12 +14,12 @@ const navItems = [
 
 export const Header = () => {
     return (
-        <header className="sticky top-0 z-40 w-full border-b border-[var(--border-default)] bg-[var(--background-default)]/80 backdrop-blur-sm">
-            <div className="container flex h-16 items-center justify-between">
-                <div className="flex items-center space-x-4">
-                    <img src="/icon.png" alt="Borg UI Icon" className="h-8 w-8" />
-                    <h1 className="text-xl font-bold">Borg UI</h1>
-                </div>
+        <header className="w-full">
+            <div className="flex items-center justify-between px-2 mx-auto">
+                <a href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity cursor-pointer">
+                    <img src="/icon.png" alt="Borg UI Icon" className="h-7 w-7" />
+                    <h1 className="text-lg font-bold text-[var(--content-primary)]">Borg UI</h1>
+                </a>
                 <div className="flex items-center space-x-4">
                     <nav className="hidden md:flex">
                         <Menu items={navItems} />

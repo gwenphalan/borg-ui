@@ -58,7 +58,7 @@ function App() {
       }}
     >
       <WarpSpeedBackground />
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="relative z-10 flex min-h-screen items-center justify-center">
         <HologramContainer>
           <MainLayout>
             <div className="space-y-8">

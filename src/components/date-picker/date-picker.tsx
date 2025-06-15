@@ -4,7 +4,8 @@ import React, {
     useEffect,
     useCallback,
 } from "react";
-import type { CSSProperties } from "react"; // Changed to type-only import
+import type { CSSProperties } from "react";
+import { Overlay } from "../overlay/Overlay";
 
 const styleMap: Record<string, string> = {
     background_default: "var(--background-default)",
@@ -19,7 +20,7 @@ const styleMap: Record<string, string> = {
     surface_default: "var(--surface-default)",
     text_light: "var(--text-light)",
     text_background_default: "var(--text-background-default)",
-    text_dark: "var(--background-default)",
+    text_dark: "var(--text-dark)",
 };
 
 // Types
@@ -447,19 +448,16 @@ export function DatePicker({
                 "w-8 h-8 flex items-center justify-center rounded-md font-[Orbitron] text-sm transition-all duration-100";
 
             if (selected) {
-                dayStyle.backgroundColor = styleMap.content_primary;
-                dayStyle.color = styleMap.text_dark;
-                dayClasses += " font-black";
+                dayClasses += ` bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-black`;
             } else if (highlighted) {
-                dayStyle.backgroundColor = styleMap.status_info;
-                dayStyle.color = styleMap.content_primary;
+                dayClasses += ` bg-[var(--status-info)] text-[var(--content-primary)]`;
             }
 
             if (disabledDay) {
                 dayClasses += " opacity-40 cursor-not-allowed";
             } else if (!selected) {
                 dayClasses +=
-                    " hover:bg-[var(--interactive-accentfocus)] hover:text-[var(--background-default)] cursor-pointer";
+                    " hover:bg-[var(--background-default)] cursor-pointer";
             }
 
             days.push(
@@ -478,7 +476,7 @@ export function DatePicker({
                 </button>,
             );
         }
-        return days;
+        return <div className="grid grid-cols-7 gap-1">{days}</div>;
     };
 
     const getDisplayValue = (): string => {
@@ -567,6 +565,87 @@ export function DatePicker({
         }
     }, [isOpen, mode]);
 
+    const handleClear = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        const resetValue = pickerType === "multiple" ? [] : null;
+        onChange(resetValue as any);
+        if (pickerType === 'range') setTempRange([null, null]);
+        if (onClear) onClear();
+    };
+
+    const showClearButton = clearable && !disabled && !readOnly && internalValue && (!Array.isArray(internalValue) || internalValue.length > 0);
+
+    const renderCalendarHeader = () => (
+        <div className="flex items-center justify-between mb-4">
+            <button onClick={() => {
+                const newMonth = viewMonth === 0 ? 11 : viewMonth - 1;
+                const newYear = viewMonth === 0 ? viewYear - 1 : viewYear;
+                setViewMonth(newMonth);
+                setViewYear(newYear);
+            }} className="p-1 rounded-full hover:bg-[var(--background-default)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+            </button>
+            <div className="flex-grow text-center">
+                <button onClick={() => setMode('month')} className="font-bold hover:text-[var(--interactive-accentfocus)]">{new Date(viewYear, viewMonth).toLocaleString(locale, { month: 'long' })}</button>
+                <button onClick={() => setMode('year')} className="font-bold hover:text-[var(--interactive-accentfocus)] ml-2">{viewYear}</button>
+            </div>
+            <button onClick={() => {
+                const newMonth = viewMonth === 11 ? 0 : viewMonth + 1;
+                const newYear = viewMonth === 11 ? viewYear + 1 : viewYear;
+                setViewMonth(newMonth);
+                setViewYear(newYear);
+            }} className="p-1 rounded-full hover:bg-[var(--background-default)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+            </button>
+        </div>
+    );
+
+    const renderWeekdays = () => (
+        <div className="grid grid-cols-7 gap-1 mb-2 text-xs font-bold text-center text-[var(--content-secondary)]">
+            {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => <div key={day}>{day}</div>)}
+        </div>
+    );
+
+    const isInRange = (date: Date): boolean => {
+        if (pickerType !== 'range' || !tempRange) return false;
+        const [start, end] = tempRange;
+        return !!(start && end && date > start && date < end);
+    }
+
+    const renderMonthPicker = () => (
+        <div className="grid grid-cols-3 gap-2">
+            {Array.from({ length: 12 }).map((_, i) => (
+                <button
+                    key={i}
+                    onClick={() => handleMonthSelect(i)}
+                    className="p-2 rounded hover:bg-[var(--background-default)]"
+                >
+                    {new Date(viewYear, i).toLocaleString(locale, { month: 'short' })}
+                </button>
+            ))}
+        </div>
+    );
+
+    const renderYearPicker = () => {
+        const years = [];
+        for (let i = viewYear - 5; i <= viewYear + 6; i++) {
+            years.push(i);
+        }
+        return (
+            <div className="grid grid-cols-4 gap-2">
+                {years.map(year => (
+                    <button
+                        key={year}
+                        onClick={() => handleYearSelect(year)}
+                        className="p-2 rounded hover:bg-[var(--background-default)]"
+                    >
+                        {year}
+                    </button>
+                ))}
+            </div>
+        );
+    };
+
     return (
         <div className={`flex flex-col gap-1 ${className}`} style={style}>
             {label && (
@@ -605,39 +684,30 @@ export function DatePicker({
                             </span>
                         )}
                     </span>
-                    {clearable &&
-                        (internalValue || tempRange) &&
-                        !disabled &&
-                        !readOnly && (
-                            <button
-                                type="button"
-                                className={`ml-1 flex items-center justify-center w-5 h-5 rounded-full focus:outline-none focus:ring-2 focus:ring-[${styleMap.interactive_accentfocus}] cursor-pointer`}
-                                aria-label="Clear date"
-                                tabIndex={0}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setInternalValue(null);
-                                    setTempRange(null);
-                                    onChange(null);
-                                    onClear?.();
-                                }}
+                    {showClearButton && (
+                        <button
+                            type="button"
+                            className={`ml-1 flex items-center justify-center w-5 h-5 rounded-full focus:outline-none focus:ring-2 focus:ring-[${styleMap.interactive_accentfocus}] cursor-pointer`}
+                            aria-label="Clear date"
+                            tabIndex={0}
+                            onClick={handleClear}
+                        >
+                            <svg
+                                width="10"
+                                height="10"
+                                viewBox="0 0 10 10"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
                             >
-                                <svg
-                                    width="10"
-                                    height="10"
-                                    viewBox="0 0 10 10"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M2 2L8 8M8 2L2 8"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                    />
-                                </svg>
-                            </button>
-                        )}
+                                <path
+                                    d="M2 2L8 8M8 2L2 8"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                />
+                            </svg>
+                        </button>
+                    )}
                     <button
                         type="button"
                         className="ml-1 flex items-center justify-center"
@@ -653,302 +723,21 @@ export function DatePicker({
                     </button>
                 </div>
                 {isOpen && (
-                    <div
-                        ref={calendarRef}
-                        className={`absolute z-50 mt-2 left-0 w-[320px] border rounded-lg shadow-lg p-4 ${calendarClassName}`}
+                    <Overlay
+                        reference={inputRef.current}
+                        open={isOpen}
+                        onOpenChange={setIsOpen}
+                        placement="bottom-start"
+                        className={`z-50 p-4 bg-[var(--background-elevated)] border border-[var(--border-default)] rounded-lg shadow-xl ${calendarClassName}`}
                         style={{
-                            backgroundColor: styleMap.background_elevated,
+                            background: styleMap.surface_default,
                             borderColor: styleMap.border_default,
-                            color: styleMap.content_primary,
                         }}
-                        tabIndex={-1}
-                        role="dialog"
-                        aria-modal="true"
                     >
-                        {mode === "calendar" && (
-                            <>
-                                <div className="flex items-center justify-between mb-2">
-                                    <button
-                                        type="button"
-                                        className="p-1 rounded hover:bg-[var(--surface-default)] cursor-pointer"
-                                        onClick={() => {
-                                            if (viewMonth === 0) {
-                                                setViewMonth(11);
-                                                setViewYear((y) => y - 1);
-                                            } else {
-                                                setViewMonth((m) => m - 1);
-                                            }
-                                        }}
-                                        tabIndex={0}
-                                        aria-label="Previous month"
-                                    >
-                                        <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
-                                            <path
-                                                d="M10 12L6 8l4-4"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                        </svg>
-                                    </button>
-                                    <span className="flex gap-1 items-center">
-                                        <span
-                                            className="font-[Orbitron] font-bold text-[16px] cursor-pointer hover:underline"
-                                            onClick={() => setMode("month")}
-                                            tabIndex={0}
-                                            role="button"
-                                            aria-label={`Pick month, current month ${new Date(
-                                                viewYear,
-                                                viewMonth,
-                                            ).toLocaleString(locale, { month: "long" })}`}
-                                        >
-                                            {new Date(viewYear, viewMonth).toLocaleString(locale, {
-                                                month: "long",
-                                            })}
-                                        </span>
-                                        <span
-                                            className="font-[Orbitron] font-bold text-[16px] cursor-pointer hover:underline"
-                                            onClick={() => {
-                                                enteredYearFrom.current = "calendar";
-                                                setMode("year");
-                                            }}
-                                            tabIndex={0}
-                                            role="button"
-                                            aria-label={`Pick year, current year ${viewYear}`}
-                                        >
-                                            {viewYear}
-                                        </span>
-                                    </span>
-                                    <button
-                                        type="button"
-                                        className="p-1 rounded hover:bg-[var(--surface-default)] cursor-pointer"
-                                        onClick={() => {
-                                            if (viewMonth === 11) {
-                                                setViewMonth(0);
-                                                setViewYear((y) => y + 1);
-                                            } else {
-                                                setViewMonth((m) => m + 1);
-                                            }
-                                        }}
-                                        tabIndex={0}
-                                        aria-label="Next month"
-                                    >
-                                        <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
-                                            <path
-                                                d="M6 4l4 4-4 4"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div
-                                    className="grid grid-cols-7 gap-1 mb-1 text-[12px] text-center font-[Orbitron]"
-                                    style={{ color: styleMap.content_secondary }}
-                                >
-                                    {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((d) => (
-                                        <div key={d}>{d}</div>
-                                    ))}
-                                </div>
-                                <div className="grid grid-cols-7 gap-1">{renderDays()}</div>
-                            </>
-                        )}
-                        {mode === "month" && (
-                            <div>
-                                <div className="flex items-center justify-between mb-2">
-                                    <button
-                                        type="button"
-                                        className="p-1 rounded hover:bg-[var(--surface-default)] cursor-pointer"
-                                        onClick={() => setMode("calendar")}
-                                        tabIndex={0}
-                                        aria-label="Back to calendar view"
-                                    >
-                                        <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
-                                            <path
-                                                d="M10 12L6 8l4-4"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                        </svg>
-                                    </button>
-                                    <span
-                                        className="font-[Orbitron] font-bold text-[16px] cursor-pointer hover:underline"
-                                        onClick={() => {
-                                            enteredYearFrom.current = "month";
-                                            setMode("year");
-                                        }}
-                                        tabIndex={0}
-                                        role="button"
-                                        aria-label={`Pick year, current year ${viewYear}`}
-                                    >
-                                        {viewYear}
-                                    </span>
-                                    <span className="w-4" /> {/* Spacer */}
-                                </div>
-                                <div className="grid grid-cols-3 gap-2">
-                                    {Array.from({ length: 12 }).map((_, m) => {
-                                        const monthName = new Date(viewYear, m).toLocaleString(
-                                            locale,
-                                            { month: "short" },
-                                        );
-                                        const monthStyle: CSSProperties = {};
-                                        let monthClasses =
-                                            "py-2 rounded font-[Orbitron] text-sm cursor-pointer";
-                                        if (
-                                            (pickerType === "month" &&
-                                                internalValue instanceof Date &&
-                                                internalValue.getFullYear() === viewYear &&
-                                                internalValue.getMonth() === m) ||
-                                            (pickerType !== "month" && m === viewMonth)
-                                        ) {
-                                            monthStyle.backgroundColor = styleMap.content_primary;
-                                            monthStyle.color = styleMap.text_dark;
-                                            monthClasses += " font-black";
-                                        } else {
-                                            monthClasses +=
-                                                " hover:bg-[var(--interactive-accentfocus)] hover:text-[var(--background-default)]";
-                                            monthStyle.color = styleMap.content_primary;
-                                        }
-
-                                        return (
-                                            <button
-                                                key={m}
-                                                type="button"
-                                                className={monthClasses}
-                                                style={monthStyle}
-                                                onClick={() => handleMonthSelect(m)}
-                                                aria-label={`Select month ${monthName}`}
-                                            >
-                                                {monthName}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )}
-                        {mode === "year" && (
-                            <div>
-                                <div className="flex items-center justify-between mb-2">
-                                    <button
-                                        type="button"
-                                        className="p-1 rounded hover:bg-[var(--surface-default)] cursor-pointer"
-                                        onClick={() =>
-                                            setMode(
-                                                enteredYearFrom.current === "calendar"
-                                                    ? "calendar"
-                                                    : "month",
-                                            )
-                                        }
-                                        tabIndex={0}
-                                        aria-label={
-                                            enteredYearFrom.current === "calendar"
-                                                ? "Back to calendar view"
-                                                : "Back to month picker"
-                                        }
-                                    >
-                                        <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
-                                            <path
-                                                d="M10 12L6 8l4-4"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                        </svg>
-                                    </button>
-                                    <span className="font-[Orbitron] font-bold text-[16px]">
-                                        {viewYear - 6} - {viewYear + 5}
-                                    </span>
-                                    <span className="flex gap-1">
-                                        <button
-                                            type="button"
-                                            className="p-1 rounded hover:bg-[var(--surface-default)] cursor-pointer"
-                                            onClick={() => setViewYear((y) => y - 12)}
-                                            tabIndex={0}
-                                            aria-label="Previous years"
-                                        >
-                                            <svg
-                                                width="16"
-                                                height="16"
-                                                fill="none"
-                                                viewBox="0 0 16 16"
-                                            >
-                                                <path
-                                                    d="M10 12L6 8l4-4"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.5"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
-                                            </svg>
-                                        </button>
-                                        <button
-                                            type="button"
-                                            className="p-1 rounded hover:bg-[var(--surface-default)] cursor-pointer"
-                                            onClick={() => setViewYear((y) => y + 12)}
-                                            tabIndex={0}
-                                            aria-label="Next years"
-                                        >
-                                            <svg
-                                                width="16"
-                                                height="16"
-                                                fill="none"
-                                                viewBox="0 0 16 16"
-                                            >
-                                                <path
-                                                    d="M6 4l4 4-4 4"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.5"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </span>
-                                </div>
-                                <div className="grid grid-cols-3 gap-2">
-                                    {Array.from({ length: 12 }).map((_, i) => {
-                                        const year = viewYear - 6 + i;
-                                        const yearStyle: CSSProperties = {};
-                                        let yearClasses =
-                                            "py-2 rounded font-[Orbitron] text-sm cursor-pointer";
-
-                                        if (
-                                            (pickerType === "year" &&
-                                                internalValue instanceof Date &&
-                                                internalValue.getFullYear() === year) ||
-                                            (pickerType !== "year" && year === viewYear)
-                                        ) {
-                                            yearStyle.backgroundColor = styleMap.content_primary;
-                                            yearStyle.color = styleMap.text_dark;
-                                            yearClasses += " font-black";
-                                        } else {
-                                            yearClasses +=
-                                                " hover:bg-[var(--interactive-accentfocus)] hover:text-[var(--background-default)]";
-                                            yearStyle.color = styleMap.content_primary;
-                                        }
-                                        return (
-                                            <button
-                                                key={year}
-                                                type="button"
-                                                className={yearClasses}
-                                                style={yearStyle}
-                                                onClick={() => handleYearSelect(year)}
-                                                aria-label={`Select year ${year}`}
-                                            >
-                                                {year}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                        {mode === 'calendar' && <><div className="flex flex-col gap-2">{renderCalendarHeader()}{renderWeekdays()}{renderDays()}</div></>}
+                        {mode === 'month' && <><div className="flex flex-col gap-2">{renderCalendarHeader()}{renderMonthPicker()}</div></>}
+                        {mode === 'year' && <><div className="flex flex-col gap-2">{renderCalendarHeader()}{renderYearPicker()}</div></>}
+                    </Overlay>
                 )}
             </div>
             {helperText && (

@@ -1,17 +1,33 @@
-import React, { useState, useRef, useEffect, ReactNode } from "react";
-import { Icon } from "../icon";
-import { isIconElement } from "../../utils/icon-utils";
-import { styleMap } from "../../utils/style-map";
+import React, { useState, useRef, useEffect, MouseEvent } from "react";
+import type { ReactNode } from "react";
+import { Icon } from "../icon/icon";
+import { Overlay } from "../overlay/Overlay";
+
+// Theming style map (required by project conventions)
+const styleMap: Record<string, string> = {
+    background_default: "var(--background-default)",
+    background_elevated: "var(--background-elevated)",
+    border_default: "var(--border-default)",
+    content_primary: "var(--content-primary)",
+    content_secondary: "var(--content-secondary)",
+    interactive_accentfocus: "var(--interactive-accentfocus)",
+    status_error: "var(--status-error)",
+    status_info: "var(--status-info)",
+    status_warning: "var(--status-warning)",
+    surface_default: "var(--surface-default)",
+    text_light: "var(--text-light)",
+    text_background_default: "var(--text-background-default)",
+};
 
 // Menu item interface
 export interface MenuItem {
     label: string;
     href?: string;
-    icon?: ReactNode;
-    children?: MenuItem[];
-    onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-    isActive?: boolean;
+    onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+    icon?: ReactNode | string;
     disabled?: boolean;
+    isActive?: boolean;
+    children?: MenuItem[];
     className?: string;
     divider?: boolean;
     customComponent?: ReactNode;
@@ -29,253 +45,181 @@ export interface MenuProps {
     style?: React.CSSProperties;
 }
 
+function isIconElement(element: ReactNode): element is React.ReactElement<{ color?: string; size?: number | string }> {
+    return React.isValidElement(element) && (element.type as { displayName?: string })?.displayName === 'Icon';
+}
+
 export function Menu({
     items,
     orientation = "horizontal",
     className = "",
     itemClassName = "",
     dropdownClassName = "",
-    menuVariant = "",
     currentPath,
     style,
 }: MenuProps) {
-    // Track open dropdowns by index path (e.g., ['L', 0, 1] for first left item's second child)
-    const [openDropdown, setOpenDropdown] = useState<(string | number)[] | null>(null);
-    const [hoveredIndexPath, setHoveredIndexPath] = useState<(string | number)[] | null>(null);
-    const navMenuRef = useRef<HTMLElement>(null); // Changed from menuRef and type to HTMLElement for <nav>
+    const navMenuRef = useRef<HTMLElement>(null);
 
-    // Split items into left and right groups if align is set, else all left
     const leftItems = items.filter(item => !item.align || item.align === 'left');
     const rightItems = items.filter(item => item.align === 'right');
 
-    // Close dropdowns on outside click
-    useEffect(() => {
-        function handleClickOutside(event: globalThis.MouseEvent) {
-            if (navMenuRef.current && !navMenuRef.current.contains(event.target as Node)) {
-                setOpenDropdown(null);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []); // navMenuRef is stable
-
-    // Helper: is item active?
     function isItemActive(item: MenuItem): boolean {
         if (typeof item.isActive === "boolean") return item.isActive;
         if (item.href && currentPath) return item.href === currentPath;
         return false;
     }
 
-    // Render menu items recursively
-    function renderMenuItems(
-        itemsToRender: MenuItem[],
-        baseIndexPath: (string | number)[],
-        isVerticalLayout: boolean = false
-    ): ReactNode {
-        return itemsToRender.map((item, idx) => {
-            const indexPath = [...baseIndexPath, idx];
-            const hasChildren = Array.isArray(item.children) && item.children.length > 0;
-            const isOpen =
-                openDropdown &&
-                openDropdown.length === indexPath.length &&
-                openDropdown.every((v, i) => v === indexPath[i]);
-            const isActive = isItemActive(item);
-            const isDisabled = !!item.disabled;
-            const isHovered =
-                hoveredIndexPath &&
-                hoveredIndexPath.length === indexPath.length &&
-                hoveredIndexPath.every((v, i) => v === indexPath[i]);
-
-            // --- Menu Item Classes ---
-            let baseItemClass = `flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none`;
-            if (isActive) {
-                baseItemClass += ` bg-[var(--content-primary)] text-[var(--background-default)] cursor-pointer`;
-            } else if (isDisabled) {
-                baseItemClass += ` bg-transparent text-[var(--content-secondary)] opacity-50 cursor-not-allowed`;
-            } else {
-                baseItemClass += ` bg-transparent text-[var(--content-primary)] hover:bg-[var(--content-primary)] hover:text-[var(--background-default)] cursor-pointer`;
-            }
-            if (isVerticalLayout) baseItemClass += " w-full";
-            if (itemClassName) baseItemClass += ` ${itemClassName}`;
-            if (item.className) baseItemClass += ` ${item.className}`;
-
-            // Divider
-            if (item.divider) {
-                return (
-                    <li
-                        key={`divider-${indexPath.join("-")}`}
-                        className={isVerticalLayout ? `my-1 border-t border-[var(--border-default)] w-full` : `mx-2 border-l border-[var(--border-default)] h-6 self-center`}
-                        role="separator"
-                    />
-                );
-            }
-
-            // Custom component
-            if (item.customComponent) {
-                return (
-                    <li key={`custom-${indexPath.join("-")}`}>{item.customComponent}</li>
-                );
-            }
-
-            // --- Icon Classes ---
-            // Icon color: match text color (background_default on active/hover, content_primary otherwise)
-            let iconColor = undefined;
-            if (isActive || isHovered) iconColor = styleMap.background_default;
-            if (isDisabled) iconColor = styleMap.content_secondary;
-            // group-hover for hover state
-            const iconClass = `h-5 w-5 flex-shrink-0 mr-2 flex items-center transition-colors duration-150 group-hover:text-[var(--background-default)]`;
-            // --- Content ---
-            const content = (
-                <>
-                    {item.icon && (
-                        <span className={iconClass}>
-                            {typeof item.icon === "string"
-                                ? <span className={item.icon} />
-                                : isIconElement(item.icon)
-                                    ? React.cloneElement(item.icon, iconColor ? { color: iconColor, size: 20 } : { size: 20 })
-                                    : item.icon}
-                        </span>
-                    )}
-                    <span className="flex-1 font-semibold">{item.label}</span>
-                    {hasChildren && (
-                        <span
-                            className={`ml-2 flex items-center transition-transform duration-200 ${isOpen ? 'rotate-180' : ''} group-hover:text-[var(--background-default)]`}
-                        >
-                            <Icon
-                                name="chevron-down"
-                                size={20}
-                                {...(iconColor ? { color: iconColor } : {})}
-                                className="h-5 w-5"
-                            />
-                        </span>
-                    )}
-                </>
-            );
-
-            const handleItemClick = (event: React.MouseEvent<HTMLElement>) => {
-                if (isDisabled) {
-                    event.preventDefault();
-                    return;
-                }
-
-                if (hasChildren) {
-                    setOpenDropdown(isOpen ? null : indexPath);
-                }
-
-                if (item.onClick) {
-                    if (!hasChildren) { // Only call item.onClick if there are no children
-                        (item.onClick as (e: React.MouseEvent<HTMLElement>) => void)(event);
-                        setOpenDropdown(null); // Close other dropdowns if a terminal item is clicked
-                    }
-                }
-                // If it's an 'a' tag, navigation will happen naturally unless event.preventDefault() was called.
-            };
-
-            // Render as <a> if href and not disabled, else as <button>
-            const commonProps = {
-                className: baseItemClass + ' group no-underline',
-                tabIndex: isDisabled ? -1 : 0,
-                role: 'menuitem',
-                onMouseEnter: () => setHoveredIndexPath(indexPath),
-                onMouseLeave: () => setHoveredIndexPath(null),
-                onClick: handleItemClick, // Use the new handler
-            };
-
-            let itemNode: ReactNode;
-            if (item.href && !isDisabled) {
-                const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
-                    href: item.href,
-                    ...commonProps, // commonProps now includes onClick
-                    target: item.href.startsWith('http') ? '_blank' : undefined,
-                    rel: item.href.startsWith('http') ? 'noopener noreferrer' : undefined,
-                    className:
-                        baseItemClass +
-                        ' group no-underline ' +
-                        (isActive
-                            ? ' text-[var(--background-default)] bg-[var(--content-primary)]'
-                            : ' text-[var(--content-primary)] hover:text-[var(--background-default)] hover:bg-[var(--content-primary)]'),
-                };
-                if (isActive) (anchorProps as React.AriaAttributes)['aria-current'] = 'page';
-                itemNode = (
-                    <a {...anchorProps}>
-                        {content}
-                    </a>
-                );
-            } else {
-                itemNode = (
-                    <button {...commonProps}>
-                        {content}
-                    </button>
-                );
-            }
-
-            // Dropdown menu
-            const dropdownMenu =
-                hasChildren && isOpen ? (
-                    <ul
-                        className={`absolute z-20 mt-2 min-w-[180px] rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)] p-2 flex flex-col space-y-1 ${dropdownClassName}`}
-                        role="menu"
-                        style={{ top: '100%', left: 0, background: `var(--background-elevated)` }}
-                    >
-                        {renderMenuItems(item.children!, indexPath, true)}
-                    </ul>
-                ) : null;
-
-            return (
-                <li
-                    key={indexPath.join("-")}
-                    className={isVerticalLayout ? "w-full relative" : "relative"}
-                    role="none"
-                >
-                    {itemNode}
-                    {dropdownMenu}
-                </li>
-            );
-        });
+    // Render function now uses a dedicated component for each item
+    function renderMenuItems(itemsToRender: MenuItem[], isVerticalLayout: boolean = false): ReactNode {
+        return itemsToRender.map((item, idx) => (
+            <MenuItemComponent
+                key={`${item.label}-${idx}`}
+                item={item}
+                isVertical={isVerticalLayout}
+                itemClassName={itemClassName}
+                dropdownClassName={dropdownClassName}
+                isItemActive={isItemActive}
+            />
+        ));
     }
 
-    // Horizontal menu bar
-    if (orientation === "horizontal") {
-        return (
-            <nav
-                ref={navMenuRef} // Attach ref here
-                className={`flex items-center justify-between px-6 py-3 ${className}`.trim()}
-                style={style}
-                aria-label="Main menu"
-            >
-                {/* Left group */}
-                <ul
-                    // ref={menuRef} // Ref moved to nav
-                    className={`flex items-center space-x-3 ${menuVariant}`}
-                    role="menubar"
-                >
-                    {renderMenuItems(leftItems, ['L'])}
-                </ul>
-                {/* Right group (if any) */}
-                {rightItems.length > 0 && (
-                    <ul className="flex items-center space-x-3">
-                        {renderMenuItems(rightItems, ['R'])}
-                    </ul>
-                )}
-            </nav>
-        );
-    }
+    const menuOrientationClass = orientation === "horizontal"
+        ? "flex items-center justify-between space-x-2"
+        : "flex flex-col space-y-1";
 
-    // Vertical menu
     return (
         <nav
-            ref={navMenuRef} // Attach ref here
-            className={`flex flex-col space-y-1 p-2 ${className}`.trim()}
+            ref={navMenuRef}
+            className={`relative ${menuOrientationClass} ${className}`}
             style={style}
-            aria-label="Main menu"
+            role="menubar"
         >
-            <ul
-                // ref={menuRef} // Ref moved to nav
-                className={`flex flex-col space-y-1 ${menuVariant}`}
-                role="menu"
-            >
-                {renderMenuItems(items, ['V'], true)}
+            <ul className={orientation === 'horizontal' ? 'flex items-center space-x-2' : 'flex flex-col space-y-1'}>
+                {renderMenuItems(leftItems, orientation === "vertical")}
             </ul>
+            {rightItems.length > 0 && (
+                <ul className={orientation === 'horizontal' ? 'flex items-center space-x-2' : 'flex flex-col space-y-1'}>
+                    {renderMenuItems(rightItems, orientation === "vertical")}
+                </ul>
+            )}
         </nav>
+    );
+}
+
+// --- MenuItemComponent ---
+// A dedicated component to handle each menu item's state and rendering
+function MenuItemComponent({
+    item,
+    isVertical,
+    itemClassName,
+    dropdownClassName,
+    isItemActive,
+}: {
+    item: MenuItem;
+    isVertical: boolean;
+    itemClassName: string;
+    dropdownClassName: string;
+    isItemActive: (item: MenuItem) => boolean;
+}) {
+    const [isOpen, setIsOpen] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+    const itemRef = useRef<HTMLLIElement>(null);
+    const hasChildren = Array.isArray(item.children) && item.children.length > 0;
+
+    const active = isItemActive(item);
+    const disabled = !!item.disabled;
+    const hovered = isHovered && !disabled && !active;
+
+    const baseItemClass = `flex items-center justify-start font-semibold py-2 px-4 rounded-md text-base transition-colors duration-150 ease-in-out text-left select-none no-underline group ${itemClassName} ${item.className || ''} ${isVertical ? 'w-full' : ''}`;
+
+    const activeClass = "bg-[var(--content-primary)] text-[var(--background-default)]";
+    const hoverClass = "hover:bg-[var(--content-primary)] hover:text-[var(--background-default)]";
+    const disabledClass = "bg-transparent text-[var(--content-secondary)] opacity-50 cursor-not-allowed";
+    const defaultClass = "bg-transparent text-[var(--content-primary)]";
+
+    const itemStateClass = active ? activeClass : (disabled ? disabledClass : `${defaultClass} ${hoverClass}`);
+    const finalItemClass = `${baseItemClass} ${itemStateClass}`;
+
+    const iconColor = active || hovered ? 'var(--background-default)' : (disabled ? 'var(--content-secondary)' : 'var(--content-primary)');
+
+    const handleItemClick = (event: MouseEvent<HTMLElement>) => {
+        if (disabled) {
+            event.preventDefault();
+            return;
+        }
+        if (hasChildren) {
+            setIsOpen(!isOpen);
+        }
+        if (item.onClick) {
+            item.onClick(event as MouseEvent<HTMLButtonElement>);
+        }
+        if (!hasChildren && item.href) {
+            // Let navigation happen
+        } else {
+            // Could close all menus here if needed
+        }
+    };
+
+    const content = (
+        <>
+            {item.icon && (
+                <span className="h-5 w-5 flex-shrink-0 mr-2 flex items-center">
+                    {typeof item.icon === "string" ? <Icon name={item.icon} size={20} color={iconColor} /> : item.icon}
+                </span>
+            )}
+            <span className="flex-1 font-semibold">{item.label}</span>
+            {hasChildren && (
+                <Icon name="chevron-down" size={20} color={iconColor} className={`ml-2 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+            )}
+        </>
+    );
+
+    let itemNode: ReactNode;
+    if (item.href && !disabled) {
+        itemNode = <a href={item.href} className={finalItemClass} onClick={handleItemClick} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}>{content}</a>;
+    } else {
+        itemNode = <button type="button" className={finalItemClass} onClick={handleItemClick} disabled={disabled}>{content}</button>;
+    }
+
+    if (item.divider) {
+        return <li className={isVertical ? "my-1 border-t border-[var(--border-default)] w-full" : "mx-2 border-l border-[var(--border-default)] h-6 self-center"} role="separator" />;
+    }
+
+    if (item.customComponent) {
+        return <li>{item.customComponent}</li>;
+    }
+
+    return (
+        <li
+            ref={itemRef}
+            className={`relative ${isVertical ? 'w-full' : ''}`}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            {itemNode}
+            {hasChildren && (
+                <Overlay
+                    reference={itemRef.current}
+                    open={isOpen}
+                    onOpenChange={setIsOpen}
+                    placement={isVertical ? 'right-start' : 'bottom-start'}
+                    className={`z-50 min-w-[180px] rounded-lg shadow-lg bg-[var(--background-elevated)] border border-[var(--border-default)] p-2 flex flex-col space-y-1 ${dropdownClassName}`}
+                    style={{ background: 'var(--background-elevated)' }}
+                >
+                    <ul>
+                        {item.children!.map((child, idx) => (
+                            <MenuItemComponent
+                                key={`${child.label}-${idx}`}
+                                item={child}
+                                isVertical={true}
+                                itemClassName={itemClassName}
+                                dropdownClassName={dropdownClassName}
+                                isItemActive={isItemActive}
+                            />
+                        ))}
+                    </ul>
+                </Overlay>
+            )}
+        </li>
     );
 } 

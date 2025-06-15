@@ -2,15 +2,23 @@ import type { ReactNode, CSSProperties } from "react";
 import { HologramContext } from "./hologram-context";
 
 // --- HologramEffect Component ---
-// This component provides the visual effects (bloom, overlays, flicker)
-// and can be used independently. It renders its children and adds the 
-// necessary overlays and filters to the entire wrapped content.
+// This component provides hologram effects for overlays/modals only
+// It should be used to wrap overlay content, not container content
 export function HologramEffect({ children }: { children: ReactNode }) {
   // --- Configurable Bloom Parameters ---
   const bloomStdDeviation = "10";
   const bloomAmplitude = "3.5";
   const bloomExponent = "0.8";
   const bloomOpacity = "0.4";
+  const containerBorderColor = "rgba(94, 255, 148, 0.6)";
+  const containerBoxShadowColor = "rgba(94, 255, 148, 0.15)";
+  const containerBoxShadowBlur = "10px";
+  const bgScanlineColor = "rgba(255,255,255,0.08)";
+  const bgGradientDark1 = "rgba(18, 16, 16, 0)";
+  const bgGradientDark2 = "rgba(0, 0, 0, 0.25)";
+  const bgGradientGreen1 = "rgba(1, 15, 0, 0.8)";
+  const bgGradientGreen2 = "rgba(0, 32, 0, 0.8)";
+  const bgScanlinesAnimationDuration = "8s";
 
   // --- Configurable Overlay Effect Parameters ---
   const overlayGridLineDarkColor = "rgba(18, 16, 16, 0)";
@@ -22,16 +30,13 @@ export function HologramEffect({ children }: { children: ReactNode }) {
   const flickerAnimationDuration = "0.07s";
 
   return (
-    <div className="hologram-effect-wrapper">
-      <svg width="0" height="0" style={{ position: 'absolute' }}>
+    <div style={{ position: "relative" }}>
+      <svg width="0" height="0" className="absolute">
         <filter id="content-color-bloom-v6">
           <feColorMatrix
             in="SourceGraphic"
             type="matrix"
-            values="1 0 0 0 0
-                    0 1 0 0 0
-                    0 0 1 0 0
-                    0.2126 0.7152 0.0722 0 0"
+            values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0.2126 0.7152 0.0722 0 0"
             result="coloredSourceWithLuminanceAlpha"
           />
           <feComponentTransfer in="coloredSourceWithLuminanceAlpha" result="glowMask">
@@ -45,10 +50,7 @@ export function HologramEffect({ children }: { children: ReactNode }) {
           <feColorMatrix
             in="blurredGlowPreOpacity"
             type="matrix"
-            values={`1 0 0 0 0
-                     0 1 0 0 0
-                     0 0 1 0 0
-                     0 0 0 ${bloomOpacity} 0`}
+            values={`1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 ${bloomOpacity} 0`}
             result="blurredColoredGlowWithOpacity"
           />
           <feComposite
@@ -58,7 +60,7 @@ export function HologramEffect({ children }: { children: ReactNode }) {
           />
         </filter>
       </svg>
-      <div className="hologram-content-wrapper">
+      <div className="hologram-content-wrapper" style={{ filter: "url(#content-color-bloom-v6)", position: "relative", zIndex: 1 }}>
         {children}
       </div>
       <div className="hologram-overlays">
@@ -66,20 +68,35 @@ export function HologramEffect({ children }: { children: ReactNode }) {
         <div className="hologram-flicker-overlay"></div>
       </div>
       <style>{`
-        .hologram-effect-wrapper {
-          position: relative;
+        .hologram-container {
+          width: 100%;
+          max-width: 100vw;
+          margin: 0 auto;
+          padding: 1rem;
           display: flex;
           flex-direction: column;
+          align-items: stretch;
+          justify-content: flex-start;
+          border-left: 4px solid ${containerBorderColor};
+          border-right: 4px solid ${containerBorderColor};
+          box-shadow: 0 0 ${containerBoxShadowBlur} ${containerBoxShadowColor};
+          position: relative;
+          background:
+            repeating-linear-gradient(to bottom, ${bgScanlineColor} 0px, ${bgScanlineColor} 1px, transparent 1px, transparent 4px),
+            linear-gradient(to bottom, ${bgGradientDark1} 60%, ${bgGradientDark2} 60%),
+            linear-gradient(to top, ${bgGradientGreen1}, ${bgGradientGreen2});
+          background-size: 100% 5px, 100% 2px, cover;
+          animation: scanlines-bg ${bgScanlinesAnimationDuration} linear infinite;
+          overflow: hidden;
         }
+        @media (min-width: 640px) { .hologram-container { width: 90vw; max-width: 90vw; padding: 2rem; } }
+        @media (min-width: 1024px) { .hologram-container { width: 1200px; max-width: 1200px; padding: 2.5rem; } }
+        @media (min-width: 1280px) { .hologram-container { padding: 3rem; } }
 
         .hologram-content-wrapper {
           position: relative;
           z-index: 1;
-          filter: url(#content-color-bloom-v6);
-          display: flex;
-          flex-direction: column;
         }
-
         .hologram-overlays {
           position: absolute;
           top: 0;
@@ -90,7 +107,6 @@ export function HologramEffect({ children }: { children: ReactNode }) {
           pointer-events: none;
           overflow: hidden;
         }
-
         .hologram-scanlines-overlay {
           position: absolute;
           top: 0;
@@ -100,7 +116,6 @@ export function HologramEffect({ children }: { children: ReactNode }) {
           background: linear-gradient(${overlayGridLineDarkColor} 50%, ${overlayGridLineDarkerColor} 50%), linear-gradient(90deg, ${overlayGridRedTint}, ${overlayGridGreenTint}, ${overlayGridBlueTint});
           background-size: 100% 2px, 3px 100%;
         }
-
         .hologram-flicker-overlay {
           position: absolute;
           top: 0;
@@ -111,7 +126,6 @@ export function HologramEffect({ children }: { children: ReactNode }) {
           opacity: 0;
           animation: flicker ${flickerAnimationDuration} infinite;
         }
-
         @keyframes flicker {
           0% { opacity: 0.6; } 5% { opacity: 0.7; } 10% { opacity: 0.5; }
           15% { opacity: 0.8; } 20% { opacity: 0.4; } 25% { opacity: 0.75; }
@@ -121,15 +135,17 @@ export function HologramEffect({ children }: { children: ReactNode }) {
           75% { opacity: 0.55; } 80% { opacity: 0.75; } 85% { opacity: 0.7; }
           90% { opacity: 0.75; } 95% { opacity: 0.6; } 100% { opacity: 0.5; }
         }
+        @keyframes scanlines-bg {
+          from { background-position: 0 0, 0 0, 0 0; }
+          to { background-position: 0 5px, 0 0, 0 0; }
+        }
       `}</style>
     </div>
   );
 }
 
 // --- HologramContainer Component ---
-// This component provides the main container with background, borders, and shape.
-// The entire container is wrapped with HologramEffect to apply the hologram effect
-// to the container itself, including its borders and background.
+// Simple container with hologram styling, no filter effects
 export interface HologramContainerProps {
   children: ReactNode;
   className?: string;
@@ -141,72 +157,14 @@ export function HologramContainer({
   className = "",
   style,
 }: HologramContainerProps) {
-  // --- Configurable Container Style Parameters ---
-  const containerBorderColor = "rgba(94, 255, 148, 0.6)";
-  const containerBoxShadowColor = "rgba(94, 255, 148, 0.15)";
-  const containerBoxShadowBlur = "10px";
-  const bgScanlineColor = "rgba(255,255,255,0.08)";
-  const bgGradientDark1 = "rgba(18, 16, 16, 0)";
-  const bgGradientDark2 = "rgba(0, 0, 0, 0.25)";
-  const bgGradientGreen1 = "rgba(1, 15, 0, 0.8)";
-  const bgGradientGreen2 = "rgba(0, 32, 0, 0.8)";
-  const bgScanlinesAnimationDuration = "8s";
-
   return (
     <HologramContext.Provider value={true}>
       <HologramEffect>
-        <div className={`hologram-container ${className}`.trim()} style={style}>
+        <div
+          className={`hologram-container ${className}`.trim()}
+          style={style}
+        >
           {children}
-          <style>{`
-            .hologram-container {
-              width: 100%;
-              max-width: 100vw;
-              margin: 0 auto;
-              padding: 1rem;
-              display: flex;
-              flex-direction: column;
-              border-left: 4px solid ${containerBorderColor};
-              border-right: 4px solid ${containerBorderColor};
-              box-shadow: 0 0 ${containerBoxShadowBlur} ${containerBoxShadowColor};
-              position: relative; /* Establishes stacking context */
-              background:
-                repeating-linear-gradient(
-                  to bottom,
-                  ${bgScanlineColor} 0px,
-                  ${bgScanlineColor} 1px,
-                  transparent 1px,
-                  transparent 4px
-                ),
-                linear-gradient(to bottom, ${bgGradientDark1} 60%, ${bgGradientDark2} 60%),
-                linear-gradient(to top, ${bgGradientGreen1}, ${bgGradientGreen2});
-              background-size: 100% 5px, 100% 2px, cover;
-              animation: scanlines-bg ${bgScanlinesAnimationDuration} linear infinite;
-              overflow: hidden;
-            }
-            @media (min-width: 640px) {
-              .hologram-container {
-                width: 90vw;
-                max-width: 90vw;
-                padding: 2rem;
-              }
-            }
-            @media (min-width: 1024px) {
-              .hologram-container {
-                width: 1200px;
-                max-width: 1200px;
-                padding: 2.5rem;
-              }
-            }
-            @media (min-width: 1280px) {
-              .hologram-container {
-                padding: 3rem;
-              }
-            }
-            @keyframes scanlines-bg {
-              from { background-position: 0 0, 0 0, 0 0; }
-              to { background-position: 0 5px, 0 0, 0 0; }
-            }
-          `}</style>
         </div>
       </HologramEffect>
     </HologramContext.Provider>
