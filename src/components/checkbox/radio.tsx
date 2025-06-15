@@ -76,7 +76,7 @@ export function Radio({
 
     if (!disabled) {
         customVisualClasses.push(
-            "peer-focus:outline",
+            "peer-focus:outline-solid",
             "peer-focus:outline-2",
             "peer-focus:outline-offset-1",
             "peer-focus:outline-content-primary",
@@ -90,7 +90,7 @@ export function Radio({
     return (
         <label
             htmlFor={actualId}
-            className={`group inline-flex items-center gap-2 select-none focus:outline-none ${disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer"
+            className={`group inline-flex items-center gap-2 select-none focus:outline-hidden ${disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer"
                 } ${className}`}
         >
             <input

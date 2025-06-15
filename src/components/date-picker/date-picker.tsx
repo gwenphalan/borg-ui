@@ -433,9 +433,9 @@ export function DatePicker({
                 "w-8 h-8 flex items-center justify-center rounded-md font-orbitron text-sm transition-all duration-100";
 
             if (selected) {
-                dayClasses += ` bg-[var(--interactive-accentfocus)] text-[var(--text-background-default)] font-black`;
+                dayClasses += ` bg-(--interactive-accentfocus) text-(--text-background-default) font-black`;
             } else if (highlighted) {
-                dayClasses += ` bg-[var(--status-info)] text-[var(--text-light)]`;
+                dayClasses += ` bg-(--status-info) text-(--text-light)`;
             }
 
             if (disabledDay) {
@@ -539,9 +539,9 @@ export function DatePicker({
             }} className="icon-button p-1 rounded-full hover:bg-background-default">
                 <Icon name="arrow-left" size={20} />
             </button>
-            <div className="flex-grow text-center">
-                <button onClick={() => setMode('month')} className="font-bold hover:text-[var(--interactive-accentfocus)]">{new Date(viewYear, viewMonth).toLocaleString(locale, { month: 'long' })}</button>
-                <button onClick={() => setMode('year')} className="font-bold hover:text-[var(--interactive-accentfocus)] ml-2">{viewYear}</button>
+            <div className="grow text-center">
+                <button onClick={() => setMode('month')} className="font-bold hover:text-(--interactive-accentfocus)">{new Date(viewYear, viewMonth).toLocaleString(locale, { month: 'long' })}</button>
+                <button onClick={() => setMode('year')} className="font-bold hover:text-(--interactive-accentfocus) ml-2">{viewYear}</button>
             </div>
             <button onClick={() => {
                 const newMonth = viewMonth === 11 ? 0 : viewMonth + 1;
@@ -566,7 +566,7 @@ export function DatePicker({
                 <button
                     key={i}
                     onClick={() => handleMonthSelect(i)}
-                    className="p-2 rounded hover:bg-background-default"
+                    className="p-2 rounded-sm hover:bg-background-default"
                 >
                     {new Date(viewYear, i).toLocaleString(locale, { month: 'short' })}
                 </button>
@@ -585,7 +585,7 @@ export function DatePicker({
                     <button
                         key={year}
                         onClick={() => handleYearSelect(year)}
-                        className="p-2 rounded hover:bg-background-default"
+                        className="p-2 rounded-sm hover:bg-background-default"
                     >
                         {year}
                     </button>

@@ -49,7 +49,7 @@ export function Card({
     
     return (
         <section
-            className={`relative outline-none focus-ring ${finalVariantStyles} ${margin} ${className} ${
+            className={`relative outline-hidden focus-ring ${finalVariantStyles} ${margin} ${className} ${
                 isInteractive ? "cursor-pointer hover-shadow hover-scale" : ""
             } ${disabled ? "opacity-60 grayscale pointer-events-none" : ""}`}
             style={style}
@@ -80,7 +80,7 @@ export function Card({
                     {title && (
                         <h3 className="text-xl font-black font-orbitron text-content-primary leading-tight">{title}</h3>
                     )}
-                    {actions && <div className="flex-shrink-0 ml-2">{actions}</div>}
+                    {actions && <div className="shrink-0 ml-2">{actions}</div>}
                 </header>
             )}
             {subtitle && (

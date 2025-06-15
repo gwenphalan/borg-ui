@@ -25,16 +25,24 @@ export default {
       transitionTimingFunction: {
         bouncy: "cubic-bezier(0.68, -0.6, 0.32, 1.6)",
       },
-      fontFamily: { // <-- Add this section
-        sans: ['Orbitron', 'system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'],
-        orbitron: ['Orbitron', 'sans-serif'], // Optional: if you want a specific font-orbitron utility
+      fontFamily: {
+        // <-- Add this section
+        sans: [
+          "Orbitron",
+          "system-ui",
+          "Avenir",
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+        ],
+        orbitron: ["Orbitron", "sans-serif"], // Optional: if you want a specific font-orbitron utility
       },
     },
   },
   plugins: [
     function ({ addUtilities }) {
       const newUtilities = {
-        ".all-\\[unset\\]": {
+        ".all-unset": {
           all: "unset",
         },
       };

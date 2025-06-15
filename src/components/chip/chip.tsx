@@ -1,37 +1,12 @@
 import React from "react";
 
-
-const variantMap: Record<string, { bg: string; border: string; text: string }> = {
-    default: {
-        bg: `bg-[${"var(--background-elevated)"}]`,
-        border: `border border-[${"var(--border-default)"}]`,
-        text: `text-[${"var(--content-primary)"}]`,
-    },
-    primary: {
-        bg: `bg-[${"var(--content-primary)"}]`,
-        border: `border border-[${"var(--content-primary)"}]`,
-        text: `text-[${"var(--text-dark)"}]`,
-    },
-    secondary: {
-        bg: `bg-[${"var(--surface-default)"}]`,
-        border: `border border-[${"var(--border-default)"}]`,
-        text: `text-[${"var(--content-secondary)"}]`,
-    },
-    info: {
-        bg: `bg-[${"var(--status-info)"}]`,
-        border: `border border-[${"var(--status-info)"}]`,
-        text: `text-[${"var(--text-light)"}]`,
-    },
-    warning: {
-        bg: `bg-[${"var(--status-warning)"}]`,
-        border: `border border-[${"var(--status-warning)"}]`,
-        text: `text-[${"var(--background-default)"}]`,
-    },
-    error: {
-        bg: `bg-[${"var(--status-error)"}]`,
-        border: `border border-[${"var(--status-error)"}]`,
-        text: `text-[${"var(--text-light)"}]`,
-    },
+const variantStyles: Record<string, string> = {
+    default: "bg-background-elevated border border-border-default text-content-primary",
+    primary: "bg-content-primary border border-content-primary text-dark",
+    secondary: "bg-surface-default border border-border-default text-content-secondary",
+    info: "bg-status-info border border-status-info text-light",
+    warning: "bg-status-warning border border-status-warning text-background-default",
+    error: "bg-status-error border border-status-error text-light",
 };
 
 const sizeMap: Record<string, string> = {
@@ -43,7 +18,7 @@ const sizeMap: Record<string, string> = {
 export interface ChipProps {
     label: string;
     icon?: React.ReactNode;
-    variant?: keyof typeof variantMap;
+    variant?: keyof typeof variantStyles;
     size?: keyof typeof sizeMap;
     closable?: boolean;
     onClose?: () => void;
@@ -71,17 +46,24 @@ export function Chip({
     leading,
     trailing,
 }: ChipProps) {
-    const variantStyles = (variant in variantMap ? variantMap[variant] : variantMap.default) as { bg: string; border: string; text: string };
-    const sizeStyles = sizeMap[size] || sizeMap.md;
-    const isInteractive = clickable && !disabled && typeof onClick === "function";
+    const isInteractive = clickable && !disabled;
+
+    const finalClassName = `
+        inline-flex items-center gap-1 rounded-full font-orbitron font-semibold uppercase tracking-[1px] 
+        select-none transition-all duration-150 outline-none
+        ${variantStyles[variant] || variantStyles.default}
+        ${sizeMap[size] || sizeMap.md}
+        ${isInteractive ? "cursor-pointer hover:shadow-md hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-interactive-accentfocus" : ""}
+        ${disabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}
+        ${className}
+    `;
+
     return (
         <span
-            className={`inline-flex items-center gap-1 rounded-full font-orbitron font-semibold uppercase tracking-[1px] select-none transition-all duration-150 outline-none ${variantStyles.bg
-                } ${variantStyles.border} ${variantStyles.text} ${sizeStyles} ${isInteractive ? "cursor-pointer hover:shadow-md hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-[var(--interactive-accentfocus)]" : ""
-                } ${disabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""} ${className}`}
+            className={finalClassName}
             style={style}
-            tabIndex={isInteractive ? 0 : undefined}
-            role={isInteractive ? "button" : undefined}
+            tabIndex={isInteractive ? 0 : -1}
+            role={isInteractive ? "button" : "status"}
             aria-disabled={disabled || undefined}
             onClick={isInteractive ? onClick : undefined}
             onKeyDown={isInteractive ? (e) => {
@@ -103,7 +85,7 @@ export function Chip({
                         e.stopPropagation();
                         onClose?.();
                     }}
-                    className="ml-1 flex items-center justify-center w-4 h-4 rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--interactive-accentfocus)] cursor-pointer"
+                    className="ml-1 flex items-center justify-center w-4 h-4 rounded-full focus:outline-none focus:ring-2 focus:ring-interactive-accentfocus cursor-pointer"
                     tabIndex={0}
                 >
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">

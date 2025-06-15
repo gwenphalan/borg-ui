@@ -99,7 +99,7 @@ export function Toggle({
         'relative flex items-center justify-center',
         'w-[50px] h-[29px] rounded-[22px] overflow-hidden',
         'transition-colors duration-200 ease-in-out',
-        'focus:outline-none',
+        'focus:outline-hidden',
         trackShadow,
         checked ? 'bg-content-primary' : 'bg-status-error',
         {

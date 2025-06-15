@@ -96,17 +96,14 @@ export function TextArea({
 
     // Determine state classes
     const containerClasses = `w-full flex flex-col gap-1 ${className} relative font-orbitron`;
-    const labelClasses = `label-base ${
-        isFocused ? 'text-content-primary' :
-        showError ? 'text-status-error' :
-        showWarning ? 'text-status-warning' :
-        'text-content-primary'
-    }`;
-    const textareaClasses = `textarea-base ${
-        showError ? 'error-state' :
-        showWarning ? 'warning-state' :
-        isFocused ? 'focus-state' : ''
-    } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text'}`;
+    const labelClasses = `label-base ${isFocused ? 'text-content-primary' :
+            showError ? 'text-status-error' :
+                showWarning ? 'text-status-warning' :
+                    'text-content-primary'
+        }`;
+    const textareaClasses = `input-base min-h-[80px] ${error ? "error-state" : ""
+        } ${disabled ? "opacity-50 cursor-not-allowed" : ""
+        } input-focus-ring placeholder:text-content-secondary`;
 
     return (
         <div className={containerClasses}>
@@ -117,9 +114,9 @@ export function TextArea({
                 <textarea
                     ref={textareaRef}
                     className={textareaClasses}
-                    style={{ 
-                        minHeight: `${lineHeight * 1.5}em`, 
-                        maxHeight: `${lineHeight * 1.5}em`, 
+                    style={{
+                        minHeight: `${lineHeight * 1.5}em`,
+                        maxHeight: `${lineHeight * 1.5}em`,
                         lineHeight: '1.5em',
                         overflowY: 'auto'
                     }}
