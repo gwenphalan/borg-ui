@@ -147,20 +147,33 @@ const icons: Record<string, SVGComponent> = {
   ),
 };
 
+// Preload any user-supplied SVGs that live in src/assets/icons (optional).
+// This uses Vite's glob import so that the dependency scanner is happy even when
+// the directory is missing or empty.
+const projectIconModules: Record<string, () => Promise<any>> = import.meta.glob(
+  "../../assets/icons/**/*.svg",
+  { query: "?react" }
+);
+
 async function loadIcon(name: string): Promise<React.ComponentType<React.SVGProps<SVGSVGElement>>> {
-  // Try loading from project's src/assets/icons first
-  try {
-    const projectIcon = await import(/* @vite-ignore */ `../../assets/icons/${name}.svg?react`);
-    return projectIcon.ReactComponent || projectIcon.default;
-  } catch {
-    // If not found in project, try loading from package's public/icons
-    try {
-      const packageIcon = await import(/* @vite-ignore */ `/icons/${name}.svg?react`);
-      return packageIcon.ReactComponent || packageIcon.default;
-    } catch {
-      // If still not found, return null component
-      return () => null;
+  const keyCandidates = [
+    `../../assets/icons/${name}.svg`,
+    `../../assets/icons/${name}.svg?react`, // just in case
+  ];
+
+  for (const key of keyCandidates) {
+    if (key in projectIconModules) {
+      const mod = await projectIconModules[key]();
+      return mod.ReactComponent || mod.default || (() => null);
     }
+  }
+
+  // Fallback: try to load from public /icons folder in consumer projects.
+  try {
+    const pkgIcon = await import(/* @vite-ignore */ `/icons/${name}.svg?react`);
+    return pkgIcon.ReactComponent || pkgIcon.default;
+  } catch {
+    return () => null;
   }
 }
 
