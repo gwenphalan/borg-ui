@@ -172,8 +172,8 @@ export function Dropdown({
                 onClick={handleButtonClick}
                 tabIndex={0}
                 style={{
-                    background: styleMap.surface_default,
-                    outlineColor: isOpen ? styleMap.content_primary : styleMap.border_default,
+                    background: "var(--surface-default)",
+                    outlineColor: isOpen ? "var(--content-primary)" : "var(--border-default)",
                     outlineOffset: -1,
                     outlineStyle: 'solid',
                     outlineWidth: 2,
@@ -184,7 +184,7 @@ export function Dropdown({
                     <Icon
                         name={isOpen ? 'chevron-up' : 'chevron-down'}
                         size={20}
-                        color={disabled ? styleMap.border_default : styleMap.content_primary}
+                        color={disabled ? "var(--border-default)" : "var(--content-primary)"}
                     />
                 </span>
             </button>
@@ -196,8 +196,8 @@ export function Dropdown({
                 matchWidth
                 className={menuBase}
                 style={{
-                    background: styleMap.surface_default,
-                    borderColor: styleMap.border_default,
+                    background: "var(--surface-default)",
+                    borderColor: "var(--border-default)",
                 }}
             >
                 {options.length === 0 && (
@@ -241,7 +241,7 @@ export function Dropdown({
                                     <Icon
                                         name={opt.icon}
                                         size={16}
-                                        color={styleMap.content_secondary}
+                                        color={"var(--content-secondary)"}
                                         className="shrink-0 mr-2"
                                     />
                                 ) : (

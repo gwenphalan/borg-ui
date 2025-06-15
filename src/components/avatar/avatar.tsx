@@ -84,7 +84,7 @@ export function Avatar({
                     sizeMap[size],
                     shapeClass,
                 ].join(" ")}
-                style={{ color: styleMap.content_primary }}
+                style={{ color: "var(--content-primary)" }}
                 aria-label={alt || initials || "Avatar"}
                 role="img"
             >

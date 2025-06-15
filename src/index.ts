@@ -71,7 +71,7 @@ export type { AvatarProps } from './components/avatar/avatar';
 export type { BadgeProps } from './components/badge/badge';
 export type { TooltipProps } from './components/tooltip/tooltip';
 export type { TableProps, TableColumn } from './components/table/table';
-export type { BreadcrumbsProps } from './components/breadcrumbs';
+export type { BreadcrumbItem, BreadcrumbsProps } from './components/breadcrumbs';
 export type { CardProps } from './components/card';
 export type { ChipProps } from './components/chip';
 export type { DatePickerProps } from './components/date-picker';

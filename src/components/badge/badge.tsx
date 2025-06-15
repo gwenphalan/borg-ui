@@ -37,8 +37,8 @@ export function Badge({
                 className,
             ].join(" ")}
             style={{
-                background: variant === "default" ? styleMap.background_elevated : undefined,
-                color: variant === "default" ? styleMap.content_primary : undefined,
+                background: variant === "default" ? "var(--background-elevated)" : undefined,
+                color: variant === "default" ? "var(--content-primary)" : undefined,
             }}
         >
             {removable && (

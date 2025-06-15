@@ -60,9 +60,9 @@ export function Tooltip({
                     className,
                 ].join(" ")}
                 style={{
-                    background: styleMap.background_elevated,
-                    color: styleMap.content_primary,
-                    borderColor: styleMap.border_default,
+                    background: "var(--background-elevated)",
+                    color: "var(--content-primary)",
+                    borderColor: "var(--border-default)",
                     pointerEvents: "none",
                     whiteSpace: "pre-line",
                 }}

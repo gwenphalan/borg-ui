@@ -26,6 +26,7 @@
 .text-xl { font-size: 20px; }
 .text-2xl { font-size: 24px; }
 .text-3xl { font-size: 32px; }
+.text-4xl { font-size: 2.25rem; }
 
 /* Line Heights */
 .leading-tight { line-height: 1.1; }
@@ -110,6 +111,7 @@
 .gap-3 { gap: 12px; }
 .gap-4 { gap: 16px; }
 .gap-5 { gap: 20px; }
+.gap-6 { gap: 24px; }
 
 /* ====================
    LAYOUT UTILITIES
@@ -142,6 +144,12 @@
 .relative { position: relative; }
 .absolute { position: absolute; }
 .fixed { position: fixed; }
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 
 /* Width/Height */
 .w-full { width: 100%; }
@@ -202,17 +210,43 @@
 
 /* Button Base */
 .btn-base {
-  @apply inline-flex items-center justify-center font-orbitron font-black text-sm;
-  @apply rounded-md transition-colors cursor-pointer;
-  @apply px-4 py-2 border-none outline-none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  border-radius: 6px;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+  padding: 8px 16px;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-base:disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 /* Input Base */
 .input-base {
-  @apply w-full bg-surface-default border-2 border-default rounded;
-  @apply px-3 py-3 font-orbitron font-extrabold text-base;
-  @apply text-content-primary transition-colors;
-  @apply outline-none;
+  width: 100%;
+  background-color: var(--surface-default);
+  border: 2px solid var(--border-default);
+  border-radius: 4px;
+  padding: 12px;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--content-primary);
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }
 
 .input-base:focus {
@@ -220,43 +254,57 @@
 }
 
 .input-base:disabled {
-  @apply opacity-50 cursor-not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Label Base */
 .label-base {
-  @apply text-xs font-black uppercase tracking-wide font-orbitron;
-  @apply text-content-primary;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color: var(--content-primary);
 }
 
 /* Card Base */
 .card-base {
-  @apply bg-surface-default border-2 border-default rounded-lg;
-  @apply p-6 transition-all flex flex-col gap-3;
+  background-color: var(--surface-default);
+  border: 2px solid var(--border-default);
+  border-radius: 8px;
+  padding: 24px;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* Error State */
 .error-state {
-  @apply border-status-error text-status-error;
+  border-color: var(--status-error);
+  color: var(--status-error);
 }
 
 /* Warning State */
 .warning-state {
-  @apply border-status-warning text-status-warning;
+  border-color: var(--status-warning);
+  color: var(--status-warning);
 }
 
 /* Focus State */
 .focus-ring:focus-visible {
-  @apply outline-2 outline-interactive-focus outline-offset-2;
+  outline: 2px solid var(--interactive-accentfocus);
+  outline-offset: 2px;
 }
 
 /* Hover Effects */
 .hover-scale:hover {
-  @apply scale-101;
+  transform: scale(1.01);
 }
 
 .hover-shadow:hover {
-  @apply shadow-2xl;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 /* Background Fixed */
@@ -319,28 +367,64 @@
 
 /* Common Component Patterns */
 .dropdown-base {
-  @apply bg-background-elevated border border-default rounded-lg;
-  @apply p-2 flex flex-col gap-1 font-orbitron shadow-lg;
+  background-color: var(--background-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: 'Orbitron', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .dropdown-item {
-  @apply flex items-center justify-start font-semibold py-2 px-4;
-  @apply rounded-md text-base transition-colors cursor-pointer;
-  @apply text-content-primary hover:bg-content-primary hover:text-background-default;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+  color: var(--content-primary);
+}
+
+.dropdown-item:hover {
+  background-color: var(--content-primary);
+  color: var(--background-default);
 }
 
 .dropdown-item-selected {
-  @apply bg-content-primary text-background-default;
+  background-color: var(--content-primary);
+  color: var(--background-default);
   outline: 2px solid var(--interactive-accentfocus);
   outline-offset: -2px;
 }
 
 .modal-overlay {
-  @apply fixed inset-0 bg-background-default opacity-90 z-50;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--background-default);
+  opacity: 0.9;
+  z-index: 50;
 }
 
 .modal-content {
-  @apply fixed inset-0 flex items-center justify-center z-50 p-4;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 16px;
 }
 
 /* Icon Sizes */
@@ -372,6 +456,16 @@
 
 /* Outline */
 .outline-none { outline: none; }
+.outline-2 { outline-width: 2px; }
+.outline-offset-2 { outline-offset: 2px; }
+.outline-interactive-focus { outline-color: var(--interactive-accentfocus); }
 
 /* Pointer Events */
 .pointer-events-none { pointer-events: none; }
+
+/* Grayscale */
+.grayscale { filter: grayscale(100%); }
+
+/* Additional utilities for components */
+.mx-auto { margin-left: auto; margin-right: auto; }
+.col-span-full { grid-column: 1 / -1; }

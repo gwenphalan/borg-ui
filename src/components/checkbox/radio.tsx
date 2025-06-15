@@ -4,133 +4,115 @@ import React, { useId } from "react";
 
 export interface RadioProps {
     checked: boolean;
-    onChange: (value: string) => void; // Radio typically emits its value
-    name: string; // Essential for grouping radio buttons
-    value: string; // The value this radio button represents
+    onChange: (isChecked: boolean) => void;
     disabled?: boolean;
-    className?: string; // Applied to the root label element
-    "aria-label"?: string; // For accessibility if no visible label
+    className?: string;
+    "aria-label"?: string;
     label?: string;
-    id?: string; // Allow passing an ID for external label association
+    name: string;
+    value: string;
+    id?: string;
 }
 
 export function Radio({
     checked,
     onChange,
-    name,
-    value,
     disabled = false,
     className = "",
     "aria-label": ariaLabelProp,
     label,
+    name,
+    value,
     id: providedId,
 }: RadioProps) {
     const generatedId = useId();
     const actualId = providedId || generatedId;
 
-    const { border_default, content_primary } = styleMap;
-
-    // Handle change from the native input
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.checked) {
-            onChange(event.target.value); // Emit the value of the selected radio
-        }
+        onChange(event.target.checked);
     };
 
-    // Determine accessible name for the input
-    const accessibleName = ariaLabelProp || (label ? undefined : "Radio button");
+    const accessibleName = ariaLabelProp || (label ? undefined : "Radio option");
 
-    // --- Styling Logic for the Custom Visual ---
     const customVisualClasses: string[] = [
         "w-5",
         "h-5",
-        "rounded-full", // Radio buttons are circular
+        "rounded-full",
         "flex",
         "items-center",
         "justify-center",
-        "border", // All states have a border
+        "border",
         "transition-colors",
         "transition-transform",
         "duration-100",
         "ease-in-out",
     ];
 
-    const innerDotColor = border_default; // Color for the inner dot when checked
-
     if (disabled) {
         customVisualClasses.push(
-            `bg-[${border_default}]`,
-            `border-[${border_default}]`,
+            "bg-border-default",
+            "border-border-default",
         );
-        // innerDotColor remains border_default, blending with the background
     } else if (checked) {
         // CHECKED (enabled)
         customVisualClasses.push(
-            `bg-[${content_primary}]`, // Bright background
-            `border-[${content_primary}]`, // Border matches background
+            "bg-content-primary",
+            "border-content-primary",
         );
-        // innerDotColor is border_default (dark dot on bright background)
-        customVisualClasses.push("group-hover:scale-[1.05]"); // Hover scale
+        customVisualClasses.push("group-hover:scale-[1.05]");
     } else {
         // UNCHECKED (enabled)
         customVisualClasses.push(
-            `bg-[${border_default}]`, // Dark background
-            `border-[${border_default}]`, // Default dark border
+            "bg-border-default",
+            "border-border-default",
         );
-        // Hover for unchecked: border becomes content_primary
         customVisualClasses.push(
-            `group-hover:border-[${content_primary}]`,
+            "group-hover:border-content-primary",
         );
-        // Focus for unchecked: border also becomes content_primary
         customVisualClasses.push(
-            `peer-focus:border-[${content_primary}]`,
+            "peer-focus:border-content-primary",
         );
     }
 
-    // Focus outline (applies if not disabled, for all states)
     if (!disabled) {
         customVisualClasses.push(
-            `peer-focus:outline`,
-            `peer-focus:outline-2`,
-            `peer-focus:outline-offset-1`,
-            `peer-focus:outline-[${content_primary}]`,
+            "peer-focus:outline",
+            "peer-focus:outline-2",
+            "peer-focus:outline-offset-1",
+            "peer-focus:outline-content-primary",
         );
     }
 
-    // Label text color
     const labelTextColorClass = disabled
-        ? `text-[${border_default}]`
-        : `text-[${content_primary}]`;
+        ? "text-border-default"
+        : "text-content-primary";
 
     return (
         <label
             htmlFor={actualId}
-            className={`group inline-flex items-center gap-2 select-none focus:outline-none ${/* Remove label's default focus outline */ ""}
-        ${disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer"}
-        ${className}`}
+            className={`group inline-flex items-center gap-2 select-none focus:outline-none ${
+                disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer"
+            } ${className}`}
         >
             <input
                 type="radio"
                 id={actualId}
-                name={name} // Group radio buttons
-                value={value} // Value of this specific radio
-                className="sr-only peer" // Visually hidden, but accessible and functional
+                name={name}
+                value={value}
+                className="sr-only peer"
                 checked={checked}
                 disabled={disabled}
                 onChange={handleChange}
                 aria-label={accessibleName}
             />
             <span className={customVisualClasses.join(" ")}>
-                {/* Render inner dot only if checked and not disabled */}
-                {checked && !disabled && (
-                    <span
-                        className={`w-2.5 h-2.5 rounded-full bg-[${innerDotColor}]`} // Slightly smaller inner dot
-                    />
+                {!disabled && checked && (
+                    <span className="w-[6px] h-[6px] rounded-full bg-border-default" />
                 )}
             </span>
             {label && (
                 <span
-                    className={`font-semibold font-['Orbitron'] text-sm ${labelTextColorClass}`}
+                    className={`font-semibold font-orbitron text-sm ${labelTextColorClass}`}
                 >
                     {label}
                 </span>

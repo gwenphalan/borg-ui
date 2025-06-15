@@ -19,12 +19,12 @@ export function Accordion({ items, className = "", style, defaultOpenIndex = -1 
 
     return (
         <div
-            className={`inline-flex flex-col rounded-[12px] overflow-hidden w-full max-w-[520px] border-2 border-[${styleMap.border_default}] bg-[${styleMap.surface_default}]` +
+            className={`inline-flex flex-col rounded-[12px] overflow-hidden w-full max-w-[520px] border-2 border-[${"var(--border-default)"}] bg-[${"var(--surface-default)"}]` +
                 (className ? ` ${className}` : "")}
             style={{
-                outline: `2px solid ${styleMap.border_default}`,
+                outline: `2px solid ${"var(--border-default)"}`,
                 outlineOffset: -2,
-                background: styleMap.surface_default,
+                background: "var(--surface-default)",
                 ...style
             }}
         >
@@ -38,8 +38,8 @@ export function Accordion({ items, className = "", style, defaultOpenIndex = -1 
                                 (isOpen ? "rounded-[12px] z-10 relative" : "rounded-none")
                             }
                             style={{
-                                background: isOpen ? styleMap.content_primary : styleMap.surface_default,
-                                color: isOpen ? styleMap.text_dark : styleMap.content_primary,
+                                background: isOpen ? "var(--content-primary)" : "var(--surface-default)",
+                                color: isOpen ? "var(--text-dark)" : "var(--content-primary)",
                                 boxShadow: isOpen ? "0px 2px 6px rgba(0,0,0,0.48)" : undefined,
                                 borderRadius: 10,
                                 outline: "none",
@@ -54,7 +54,7 @@ export function Accordion({ items, className = "", style, defaultOpenIndex = -1 
                                 <Icon
                                     name="chevron-down"
                                     size={32}
-                                    color={isOpen ? styleMap.text_dark : styleMap.content_primary}
+                                    color={isOpen ? "var(--text-dark)" : "var(--content-primary)"}
                                     className={isOpen ? "rotate-180" : "rotate-0"}
                                 />
                             </span>
@@ -65,14 +65,14 @@ export function Accordion({ items, className = "", style, defaultOpenIndex = -1 
                                 style={{
                                     alignSelf: "stretch",
                                     overflow: "hidden",
-                                    background: styleMap.surface_default,
+                                    background: "var(--surface-default)",
                                     borderRadius: 0,
                                     marginTop: 0
                                 }}
                             >
                                 <div
                                     className="flex-1 font-orbitron text-base font-bold leading-6 text-left break-words"
-                                    style={{ color: styleMap.content_secondary, fontWeight: 800 }}
+                                    style={{ color: "var(--content-secondary)", fontWeight: 800 }}
                                 >
                                     {item.content}
                                 </div>

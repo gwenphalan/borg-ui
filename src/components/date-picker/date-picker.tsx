@@ -508,7 +508,7 @@ export function DatePicker({
             height="20"
             fill="none"
             viewBox="0 0 20 20"
-            style={{ color: styleMap.content_secondary }}
+            style={{ color: "var(--content-secondary)" }}
         >
             <rect
                 x="3"
@@ -532,15 +532,15 @@ export function DatePicker({
     const displayedValue = getDisplayValue();
 
     const mainInputStyle: CSSProperties = {
-        backgroundColor: styleMap.surface_default,
-        color: styleMap.content_primary,
+        backgroundColor: "var(--surface-default)",
+        color: "var(--content-primary)",
     };
     if (isOpen) {
-        mainInputStyle.borderColor = styleMap.content_primary;
+        mainInputStyle.borderColor = "var(--content-primary)";
     } else if (error) {
-        mainInputStyle.borderColor = styleMap.status_error;
+        mainInputStyle.borderColor = "var(--status-error)";
     } else {
-        mainInputStyle.borderColor = styleMap.border_default;
+        mainInputStyle.borderColor = "var(--border-default)";
     }
 
     // Ensure picker always opens in date mode
@@ -638,8 +638,8 @@ export function DatePicker({
                     className="text-xs font-black uppercase tracking-[2px] font-orbitron mb-1"
                     style={
                         error
-                            ? { color: styleMap.status_error }
-                            : { color: styleMap.content_primary }
+                            ? { color: "var(--status-error)" }
+                            : { color: "var(--content-primary)" }
                     }
                 >
                     {label}
@@ -648,7 +648,7 @@ export function DatePicker({
             <div className="relative w-full">
                 <div
                     ref={inputRef}
-                    className={`w-full flex items-center gap-2 border-2 rounded-[5px] px-[11px] py-[11px] font-orbitron text-base font-extrabold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[${styleMap.interactive_accentfocus}] ${inputClassName} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                    className={`w-full flex items-center gap-2 border-2 rounded-[5px] px-[11px] py-[11px] font-orbitron text-base font-extrabold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[${"var(--interactive-accentfocus)"}] ${inputClassName} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
                     style={mainInputStyle}
                     role="button"
                     tabIndex={0}
@@ -664,7 +664,7 @@ export function DatePicker({
                 >
                     <span className="flex-1 text-left truncate">
                         {displayedValue || (
-                            <span style={{ color: styleMap.content_secondary }}>
+                            <span style={{ color: "var(--content-secondary)" }}>
                                 {placeholder}
                             </span>
                         )}
@@ -672,7 +672,7 @@ export function DatePicker({
                     {showClearButton && (
                         <button
                             type="button"
-                            className={`ml-1 flex items-center justify-center w-5 h-5 rounded-full focus:outline-none focus:ring-2 focus:ring-[${styleMap.interactive_accentfocus}] cursor-pointer`}
+                            className={`ml-1 flex items-center justify-center w-5 h-5 rounded-full focus:outline-none focus:ring-2 focus:ring-[${"var(--interactive-accentfocus)"}] cursor-pointer`}
                             aria-label="Clear date"
                             tabIndex={0}
                             onClick={handleClear}
@@ -715,8 +715,8 @@ export function DatePicker({
                         placement="bottom-start"
                         className={`z-50 p-4 bg-background-elevated border border-default rounded-lg shadow-xl ${calendarClassName}`}
                         style={{
-                            background: styleMap.surface_default,
-                            borderColor: styleMap.border_default,
+                            background: "var(--surface-default)",
+                            borderColor: "var(--border-default)",
                         }}
                     >
                         {mode === 'calendar' && <><div className="flex flex-col gap-2">{renderCalendarHeader()}{renderWeekdays()}{renderDays()}</div></>}
@@ -730,8 +730,8 @@ export function DatePicker({
                     className="text-xs mt-1 font-orbitron"
                     style={
                         error
-                            ? { color: styleMap.status_error }
-                            : { color: styleMap.content_secondary }
+                            ? { color: "var(--status-error)" }
+                            : { color: "var(--content-secondary)" }
                     }
                 >
                     {helperText}
@@ -740,7 +740,7 @@ export function DatePicker({
             {pickerType === "range" && tempRange && (
                 <div
                     className="text-xs mt-1 font-orbitron"
-                    style={{ color: styleMap.content_secondary }}
+                    style={{ color: "var(--content-secondary)" }}
                 >
                     {tempRange[0]
                         ? formatDate(tempRange[0], dateFormat, locale)

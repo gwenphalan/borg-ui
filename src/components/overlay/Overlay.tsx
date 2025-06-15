@@ -7,6 +7,7 @@ import {
     flip,
     shift,
     size,
+    Placement,
 } from "@floating-ui/react";
 import { HologramPortal } from "../hologram/hologram-portal";
 
@@ -14,7 +15,7 @@ export interface OverlayProps {
     reference: HTMLElement | null; // reference element to position against
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    placement?: Parameters<typeof useFloating>[0]["placement"];
+    placement?: Placement;
     offsetPx?: number;
     matchWidth?: boolean; // whether the overlay width should match the reference width
     className?: string;

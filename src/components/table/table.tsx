@@ -249,7 +249,7 @@ export function Table<T extends Record<string, unknown>>({
     return (
         <div
             className={["w-full", className].join(" ")}
-            style={{ color: styleMap.content_primary }}
+            style={{ color: "var(--content-primary)" }}
         >
             <div className="flex items-center justify-between mb-2">
                 {onFilterTextChange && (
@@ -259,7 +259,7 @@ export function Table<T extends Record<string, unknown>>({
                         onChange={handleFilterChange}
                         placeholder="Filter..."
                         className="px-3 py-1.5 rounded border-2 border-default bg-background-elevated text-sm focus:outline-none focus:ring-2 focus:ring-[var(--content_primary)]"
-                        style={{ color: styleMap.content_primary }}
+                        style={{ color: "var(--content-primary)" }}
                     />
                 )}
                 {showPagination && totalPages > 0 && (
@@ -323,7 +323,7 @@ export function Table<T extends Record<string, unknown>>({
                                             col.align ? `text-${col.align}` : "text-left",
                                         ].join(" ")}
                                         onClick={() => handleSort(col)}
-                                        style={{ background: styleMap.background_elevated }}
+                                        style={{ background: "var(--background-elevated)" }}
                                         aria-sort={
                                             col.sortable &&
                                                 col.key !== "__select__" &&
@@ -399,12 +399,12 @@ export function Table<T extends Record<string, unknown>>({
                                                     "border-b border-default",
                                                     col.align ? `text-${col.align}` : "text-left",
                                                 ].join(" ")}
-                                                style={{ color: styleMap.content_primary }}
+                                                style={{ color: "var(--content-primary)" }}
                                             >
                                                 {col.render
                                                     ? col.render(row, row.__globalIndex)
                                                     : cellValue === true
-                                                        ? <Icon name="check" size={18} color={styleMap.content_primary} />
+                                                        ? <Icon name="check" size={18} color={"var(--content-primary)"} />
                                                         : cellValue === false
                                                             ? ""
                                                             : (cellValue as React.ReactNode)}

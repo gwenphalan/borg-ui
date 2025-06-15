@@ -3,34 +3,34 @@ import React from "react";
 
 const variantMap: Record<string, { bg: string; border: string; text: string }> = {
     default: {
-        bg: `bg-[${styleMap.background_elevated}]`,
-        border: `border border-[${styleMap.border_default}]`,
-        text: `text-[${styleMap.content_primary}]`,
+        bg: `bg-[${"var(--background-elevated)"}]`,
+        border: `border border-[${"var(--border-default)"}]`,
+        text: `text-[${"var(--content-primary)"}]`,
     },
     primary: {
-        bg: `bg-[${styleMap.content_primary}]`,
-        border: `border border-[${styleMap.content_primary}]`,
-        text: `text-[${styleMap.text_dark}]`,
+        bg: `bg-[${"var(--content-primary)"}]`,
+        border: `border border-[${"var(--content-primary)"}]`,
+        text: `text-[${"var(--text-dark)"}]`,
     },
     secondary: {
-        bg: `bg-[${styleMap.surface_default}]`,
-        border: `border border-[${styleMap.border_default}]`,
-        text: `text-[${styleMap.content_secondary}]`,
+        bg: `bg-[${"var(--surface-default)"}]`,
+        border: `border border-[${"var(--border-default)"}]`,
+        text: `text-[${"var(--content-secondary)"}]`,
     },
     info: {
-        bg: `bg-[${styleMap.status_info}]`,
-        border: `border border-[${styleMap.status_info}]`,
-        text: `text-[${styleMap.text_light}]`,
+        bg: `bg-[${"var(--status-info)"}]`,
+        border: `border border-[${"var(--status-info)"}]`,
+        text: `text-[${"var(--text-light)"}]`,
     },
     warning: {
-        bg: `bg-[${styleMap.status_warning}]`,
-        border: `border border-[${styleMap.status_warning}]`,
-        text: `text-[${styleMap.background_default}]`,
+        bg: `bg-[${"var(--status-warning)"}]`,
+        border: `border border-[${"var(--status-warning)"}]`,
+        text: `text-[${"var(--background-default)"}]`,
     },
     error: {
-        bg: `bg-[${styleMap.status_error}]`,
-        border: `border border-[${styleMap.status_error}]`,
-        text: `text-[${styleMap.text_light}]`,
+        bg: `bg-[${"var(--status-error)"}]`,
+        border: `border border-[${"var(--status-error)"}]`,
+        text: `text-[${"var(--text-light)"}]`,
     },
 };
 

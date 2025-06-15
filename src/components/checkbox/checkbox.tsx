@@ -27,7 +27,7 @@ export function Checkbox({
     const generatedId = useId();
     const actualId = providedId || generatedId;
 
-    const { border_default, content_primary } = styleMap;
+    
 
     useEffect(() => {
         if (inputRef.current) {
@@ -59,45 +59,45 @@ export function Checkbox({
         "ease-in-out",
     ];
 
-    const iconColor = border_default;
+    const iconColor = "var(--border-default)";
 
     if (disabled) {
         customVisualClasses.push(
-            `bg-[${border_default}]`,
-            `border-[${border_default}]`,
+            "bg-border-default",
+            "border-border-default",
         );
     } else if (checked || indeterminate) {
         customVisualClasses.push(
-            `bg-[${content_primary}]`,
-            `border-[${content_primary}]`,
+            "bg-content-primary",
+            "border-content-primary",
         );
         customVisualClasses.push("group-hover:scale-[1.05]");
     } else {
         // UNCHECKED (enabled)
         customVisualClasses.push(
-            `bg-[${border_default}]`,
-            `border-[${border_default}]`,
+            "bg-border-default",
+            "border-border-default",
         );
         customVisualClasses.push(
-            `group-hover:border-[${content_primary}]`,
+            "group-hover:border-content-primary",
         );
         customVisualClasses.push(
-            `peer-focus:border-[${content_primary}]`,
+            "peer-focus:border-content-primary",
         );
     }
 
     if (!disabled) {
         customVisualClasses.push(
-            `peer-focus:outline`,
-            `peer-focus:outline-2`,
-            `peer-focus:outline-offset-1`,
-            `peer-focus:outline-[${content_primary}]`,
+            "peer-focus:outline",
+            "peer-focus:outline-2",
+            "peer-focus:outline-offset-1",
+            "peer-focus:outline-content-primary",
         );
     }
 
     const labelTextColorClass = disabled
-        ? `text-[${border_default}]`
-        : `text-[${content_primary}]`;
+        ? "text-border-default"
+        : "text-content-primary";
 
     return (
         <label
@@ -120,7 +120,7 @@ export function Checkbox({
                 {!disabled &&
                     (indeterminate ? (
                         <span
-                            className={`w-[10px] h-[10px] rounded-sm bg-[${iconColor}]`}
+                            className="w-[10px] h-[10px] rounded-sm bg-border-default"
                         />
                     ) : checked ? (
                         <Icon name="check" size={16} color={iconColor} />
@@ -128,7 +128,7 @@ export function Checkbox({
             </span>
             {label && (
                 <span
-                    className={`font-semibold font-['Orbitron'] text-sm ${labelTextColorClass}`}
+                    className={`font-semibold font-orbitron text-sm ${labelTextColorClass}`}
                 >
                     {label}
                 </span>

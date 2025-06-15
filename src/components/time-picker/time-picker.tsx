@@ -292,15 +292,15 @@ export function TimePicker({
     );
 
     const mainInputStyle: React.CSSProperties = {
-        backgroundColor: styleMap.surface_default,
-        color: styleMap.content_primary,
+        backgroundColor: "var(--surface-default)",
+        color: "var(--content-primary)",
     };
     if (isOpen) {
-        mainInputStyle.borderColor = styleMap.content_primary;
+        mainInputStyle.borderColor = "var(--content-primary)";
     } else if (error) {
-        mainInputStyle.borderColor = styleMap.status_error;
+        mainInputStyle.borderColor = "var(--status-error)";
     } else {
-        mainInputStyle.borderColor = styleMap.border_default;
+        mainInputStyle.borderColor = "var(--border-default)";
     }
 
     return (
@@ -310,8 +310,8 @@ export function TimePicker({
                     className="text-xs font-black uppercase tracking-[2px] font-orbitron mb-1"
                     style={
                         error
-                            ? { color: styleMap.status_error }
-                            : { color: styleMap.content_primary }
+                            ? { color: "var(--status-error)" }
+                            : { color: "var(--content-primary)" }
                     }
                 >
                     {label}
@@ -319,13 +319,13 @@ export function TimePicker({
             )}
             <div
                 ref={inputRef}
-                className={`w-full flex items-center gap-2 border-2 rounded-[5px] px-[11px] py-[11px] font-orbitron text-base font-extrabold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[${styleMap.interactive_accentfocus}] ${inputClassName} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                className={`w-full flex items-center gap-2 border-2 rounded-[5px] px-[11px] py-[11px] font-orbitron text-base font-extrabold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[${"var(--interactive-accentfocus)"}] ${inputClassName} ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
                 style={mainInputStyle}
                 onClick={() => !disabled && !readOnly && setIsOpen(true)}
             >
                 <span className="flex-1 text-left truncate">
                     {inputValue || (
-                        <span style={{ color: styleMap.content_secondary }}>
+                        <span style={{ color: "var(--content-secondary)" }}>
                             {placeholder}
                         </span>
                     )}
@@ -333,7 +333,7 @@ export function TimePicker({
                 {clearable && inputValue && !disabled && !readOnly && (
                     <button
                         type="button"
-                        className={`ml-1 flex items-center justify-center w-5 h-5 rounded-full focus:outline-none focus:ring-2 focus:ring-[${styleMap.interactive_accentfocus}] cursor-pointer`}
+                        className={`ml-1 flex items-center justify-center w-5 h-5 rounded-full focus:outline-none focus:ring-2 focus:ring-[${"var(--interactive-accentfocus)"}] cursor-pointer`}
                         aria-label="Clear time"
                         tabIndex={0}
                         onClick={handleClear}
@@ -365,7 +365,7 @@ export function TimePicker({
                         if (!disabled && !readOnly) setIsOpen(true);
                     }}
                 >
-                    <svg style={{ color: styleMap.content_secondary }} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                    <svg style={{ color: "var(--content-secondary)" }} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                 </button>
             </div>
             {helperText && <p className={`mt-1 text-sm ${error ? "text-status-error" : "text-content-secondary"}`}>{helperText}</p>}

@@ -89,22 +89,22 @@ export function TextArea({
     const warningText = warningMessage || internalWarning;
 
     // Outline and label color logic
-    let outlineColor = styleMap.border_default;
-    let labelColor = styleMap.content_primary;
+    let outlineColor = "var(--border-default)";
+    let labelColor = "var(--content-primary)";
     if (isFocused) {
-        outlineColor = styleMap.content_primary;
-        labelColor = styleMap.content_primary;
+        outlineColor = "var(--content-primary)";
+        labelColor = "var(--content-primary)";
     } else if (showError) {
-        outlineColor = styleMap.status_error;
-        labelColor = styleMap.status_error;
+        outlineColor = "var(--status-error)";
+        labelColor = "var(--status-error)";
     } else if (showWarning) {
-        outlineColor = styleMap.status_warning;
-        labelColor = styleMap.status_warning;
+        outlineColor = "var(--status-warning)";
+        labelColor = "var(--status-warning)";
     }
 
     // Input text color
-    let inputColor = styleMap.content_primary;
-    if (error || warning || internalError || internalWarning) inputColor = styleMap.content_primary;
+    let inputColor = "var(--content-primary)";
+    if (error || warning || internalError || internalWarning) inputColor = "var(--content-primary)";
 
     // Character count
     const charCount = value.length;
@@ -123,7 +123,7 @@ export function TextArea({
                     (disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text')
                 }
                 style={{
-                    background: styleMap.surface_default,
+                    background: "var(--surface-default)",
                     outlineColor,
                     outlineOffset: -1,
                     outlineStyle: 'solid',
@@ -170,10 +170,10 @@ export function TextArea({
             </div>
             {/* Error/Warning message */}
             {showError && errorText && (
-                <span className="mt-1 text-xs font-orbitron" style={{ color: styleMap.status_error }}>{errorText}</span>
+                <span className="mt-1 text-xs font-orbitron" style={{ color: "var(--status-error)" }}>{errorText}</span>
             )}
             {showWarning && warningText && (
-                <span className="mt-1 text-xs font-orbitron" style={{ color: styleMap.status_warning }}>{warningText}</span>
+                <span className="mt-1 text-xs font-orbitron" style={{ color: "var(--status-warning)" }}>{warningText}</span>
             )}
         </div>
     );
