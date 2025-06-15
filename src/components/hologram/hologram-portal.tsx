@@ -15,8 +15,10 @@ export function HologramPortal({
 }: HologramPortalProps) {
     const isHologram = useContext(HologramContext);
 
-    if (isHologramDescendant ?? isHologram) {
-        return <HologramEffect>{children}</HologramEffect>;
+    const shouldApplyEffect = isHologramDescendant ?? isHologram;
+
+    if (shouldApplyEffect) {
+        return <Portal><HologramEffect>{children}</HologramEffect></Portal>;
     }
 
     return <Portal>{children}</Portal>;
