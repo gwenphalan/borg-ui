@@ -18,7 +18,13 @@ export function HologramPortal({
     const shouldApplyEffect = isHologramDescendant ?? isHologram;
 
     if (shouldApplyEffect) {
-        return <Portal><HologramEffect>{children}</HologramEffect></Portal>;
+        return (
+            <Portal>
+                <div style={{ position: 'relative', zIndex: 9999 }}>
+                    <HologramEffect>{children}</HologramEffect>
+                </div>
+            </Portal>
+        );
     }
 
     return <Portal>{children}</Portal>;
