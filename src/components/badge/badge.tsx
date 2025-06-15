@@ -13,10 +13,10 @@ export interface BadgeProps {
 
 const variantMap: Record<string, string> = {
     default: `bg-background-elevated text-content-primary border border-default`,
-    info: `text-status-info text-light`,
+    info: `bg-status-info text-light`,
     success: `text-content-primary bg-background-default`,
     warning: `text-status-warning bg-background-default`,
-    error: `text-status-error text-light`,
+    error: `bg-status-error text-light`,
 };
 
 export function Badge({
