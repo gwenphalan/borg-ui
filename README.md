@@ -935,6 +935,196 @@ Props:
 - `placement`: 'top' | 'right' | 'bottom' | 'left'
 - `disabled`: boolean
 
+### Accordion
+
+A collapsible content component for organizing information.
+
+```tsx
+import { Accordion } from "@unimatrix-01/ui";
+
+// Basic usage
+<Accordion
+  items={[
+    { title: "Section 1", content: "Content 1" },
+    { title: "Section 2", content: "Content 2" },
+  ]}
+  defaultOpenIndex={0}
+/>;
+```
+
+Props:
+
+- `items`: AccordionItem[] - Array of items with title and content
+- `defaultOpenIndex`: number - Index of initially open section
+- `className`: string - Additional CSS classes
+- `style`: React.CSSProperties - Custom styles
+
+### Breadcrumbs
+
+A navigation component showing the current page location.
+
+```tsx
+import { Breadcrumbs } from '@unimatrix-01/ui';
+
+// Basic usage
+<Breadcrumbs
+  items={[
+    { label: "Home", href: "/" },
+    { label: "Products", href: "/products" },
+    { label: "Current Page" }
+  ]}
+/>
+
+// With icons
+<Breadcrumbs
+  items={[
+    { label: "Home", href: "/", iconName: "home" },
+    { label: "Settings", href: "/settings", iconName: "settings" },
+    { label: "Profile" }
+  ]}
+/>
+```
+
+Props:
+
+- `items`: BreadcrumbItem[] - Array of navigation items
+- `className`: string - Additional CSS classes
+- `style`: React.CSSProperties - Custom styles
+
+### HologramContainer
+
+A container component that adds holographic effects to its children.
+
+```tsx
+import { HologramContainer } from '@unimatrix-01/ui';
+
+// Basic usage
+<HologramContainer>
+  <div>Your content here</div>
+</HologramContainer>
+
+// With custom styles
+<HologramContainer className="custom-class" style={{ padding: '2rem' }}>
+  Content with holographic effects
+</HologramContainer>
+```
+
+Props:
+
+- `children`: ReactNode - Content to display with holographic effects
+- `className`: string - Additional CSS classes
+- `style`: React.CSSProperties - Custom styles
+
+### WarpSpeedBackground
+
+An animated star field background effect.
+
+```tsx
+import { WarpSpeedBackground } from "@unimatrix-01/ui";
+
+// Basic usage
+<WarpSpeedBackground />;
+```
+
+### Layout Components
+
+A collection of components for page layout and structure.
+
+```tsx
+import { Grid, GridItem, PageWithSidebar, MainLayout } from '@unimatrix-01/ui';
+
+// Grid usage
+<Grid>
+  <GridItem>Content 1</GridItem>
+  <GridItem>Content 2</GridItem>
+</Grid>
+
+// Page with sidebar
+<PageWithSidebar
+  sidebarContent={<nav>Sidebar content</nav>}
+  toolbarLeftContent={<div>Toolbar left</div>}
+  toolbarRightContent={<div>Toolbar right</div>}
+>
+  Main content
+</PageWithSidebar>
+
+// Main layout
+<MainLayout>
+  Your app content
+</MainLayout>
+```
+
+Props (PageWithSidebar):
+
+- `sidebarContent`: ReactNode - Content for the sidebar
+- `children`: ReactNode - Main content
+- `toolbarLeftContent`: ReactNode - Left toolbar content
+- `toolbarRightContent`: ReactNode - Right toolbar content
+- `showToolbarBorder`: boolean - Show border below toolbar
+- `showSidebarBorder`: boolean - Show border on sidebar
+- `showPageBottomBorder`: boolean - Show border at bottom of page
+
+### Overlay
+
+A floating overlay component for dropdowns and popovers.
+
+```tsx
+import { Overlay } from "@unimatrix-01/ui";
+
+// Basic usage
+<Overlay
+  reference={elementRef}
+  open={isOpen}
+  onOpenChange={setIsOpen}
+  placement="bottom-start"
+>
+  Overlay content
+</Overlay>;
+```
+
+Props:
+
+- `reference`: HTMLElement | null - Reference element for positioning
+- `open`: boolean - Whether the overlay is visible
+- `onOpenChange`: (open: boolean) => void - Handle visibility changes
+- `placement`: Placement - Position relative to reference
+- `offsetPx`: number - Offset from reference
+- `matchWidth`: boolean - Match reference width
+- `className`: string - Additional CSS classes
+
+### ThemeToggle
+
+A component for switching between light and dark themes.
+
+```tsx
+import { ThemeToggle } from "@unimatrix-01/ui";
+
+// Basic usage
+<ThemeToggle />;
+```
+
+### Header
+
+An application header component.
+
+```tsx
+import { Header } from "@unimatrix-01/ui";
+
+// Basic usage
+<Header />;
+```
+
+### Footer
+
+An application footer component.
+
+```tsx
+import { Footer } from "@unimatrix-01/ui";
+
+// Basic usage
+<Footer />;
+```
+
 ## Quick Start
 
 Setting up a new Borg UI project is now easier than ever! You can create a new project with just one command:

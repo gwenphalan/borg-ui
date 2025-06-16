@@ -9,7 +9,7 @@ async function backfillTags() {
 
     // 1. Get all existing tags and store them in a Set for quick lookups
     const existingTags = await git.tags();
-    const tagSet = new Set(existingTags.list.map((tag) => tag.name));
+    const tagSet = new Set(existingTags.all || []);
     console.log(`Found ${tagSet.size} existing tags.`);
 
     // 2. Get the commit history of the main branch

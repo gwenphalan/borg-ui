@@ -24,26 +24,18 @@ function git(command) {
   }
 }
 
-/**
- * Checks if there are differences in the docs directory between two refs.
- * @param {string} ref1 The first ref (e.g., a tag).
- * @param {string} ref2 The second ref (e.g., a tag).
- * @returns {boolean} True if there are differences, false otherwise.
- */
-function haveDocsChanged(ref1, ref2) {
+function docsExistAtTag(tag) {
   try {
-    // --quiet exits with 1 if there are differences, 0 otherwise.
-    execSync(`git diff --quiet ${ref1} ${ref2} -- ${DOCS_PATH}`);
-    return false; // Exit code 0, no differences
-  } catch (error) {
-    if (error.status === 1) {
-      return true; // Exit code 1, differences found
-    }
-    // For other errors, log and exit
-    console.error(`Error comparing docs between ${ref1} and ${ref2}:`);
-    console.error(error.stderr || error.message);
-    process.exit(1);
+    execSync(`git ls-tree -d ${tag} -- ${DOCS_PATH}`);
+    return true;
+  } catch {
+    return false;
   }
+}
+
+function getMajorMinor(version) {
+  const match = version.match(/v?(\d+)\.(\d+)/);
+  return match ? `${match[1]}.${match[2]}` : null;
 }
 
 // --- Main Script ---
@@ -51,54 +43,33 @@ function haveDocsChanged(ref1, ref2) {
 function main() {
   console.log("Generating documentation version manifest...");
 
-  // 1. Get all tags, sorted by version number (descending)
   const tags = git("tag --sort=-v:refname").split("\n").filter(Boolean);
   if (tags.length === 0) {
-    console.log("No tags found. Skipping version manifest generation.");
     fs.writeFileSync(OUTPUT_FILE, "[]", "utf-8");
     return;
   }
 
-  const versionManifest = [];
-  let lastTagWithDocs = "HEAD"; // Start by comparing the latest tag to HEAD
+  const seen = new Set();
+  const manifest = [];
 
-  // 2. Iterate through tags to find which ones have unique docs
-  for (let i = 0; i < tags.length; i++) {
-    const currentTag = tags[i];
-    let hasUniqueDocs = false;
-
-    if (i === 0) {
-      // The very first (latest) tag is compared against HEAD
-      hasUniqueDocs = haveDocsChanged(lastTagWithDocs, currentTag);
-    } else {
-      // Subsequent tags are compared against the last tag that had unique docs
-      hasUniqueDocs = haveDocsChanged(lastTagWithDocs, currentTag);
-    }
-
-    if (hasUniqueDocs) {
-      versionManifest.push({
-        version: currentTag,
-        hasDocs: true,
-        // The compare URL shows changes in the docs dir since the last version with docs
-        compareUrl: `${REPO_URL_BASE}/compare/${lastTagWithDocs}...${currentTag}#files_bucket`,
-      });
-      lastTagWithDocs = currentTag; // Update the baseline for the next comparison
-    } else {
-      versionManifest.push({
-        version: currentTag,
-        hasDocs: false,
-        compareUrl: null,
-      });
-    }
+  for (const tag of tags) {
+    const versionMatch = tag.match(/^v?(\d+)\.(\d+)\.(\d+)$/);
+    if (!versionMatch) continue;
+    const [_, major, minor, patch] = versionMatch;
+    if (patch !== "0") continue; // Only include x.y.0 (major/minor)
+    const majorMinor = `${major}.${minor}`;
+    if (seen.has(majorMinor)) continue; // Only latest for each major.minor
+    seen.add(majorMinor);
+    const hasDocs = docsExistAtTag(tag);
+    manifest.push({
+      version: `${major}.${minor}.0`,
+      hasDocs,
+      compareUrl: hasDocs ? `${REPO_URL_BASE}/tree/${tag}/docs` : null,
+    });
   }
 
-  // 3. Write the manifest to the output file
   fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });
-  fs.writeFileSync(
-    OUTPUT_FILE,
-    JSON.stringify(versionManifest, null, 2),
-    "utf-8"
-  );
+  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(manifest, null, 2), "utf-8");
   console.log(`Successfully generated version manifest at ${OUTPUT_FILE}`);
 }
 

@@ -13,6 +13,7 @@ import { PageWithSidebar } from '../components/layout/page-with-sidebar';
 import { Overlay } from '../components/overlay/Overlay';
 import pkg from '../../package.json';
 import versionManifest from '@/data/doc-versions.json';
+import navManifest from '@/data/nav-manifest.json';
 
 interface DocumentationProps {
     styleMap: Record<string, string>;
@@ -174,24 +175,7 @@ export function Documentation({ styleMap }: DocumentationProps) {
         return `version/${version.replace(/\./g, '_')}/${docSlug}`;
     }, [version, docSlug]);
 
-    const docStructure: NavItemData[] = [
-        { title: 'Home', path: '_.md' },
-        { title: 'Quickstart', path: 'quickstart.md' },
-        {
-            title: 'Getting Started',
-            path: 'getting-started/_.md',
-            children: [
-                { title: 'Setup', path: 'getting-started/setup.md' },
-            ]
-        },
-        {
-            title: 'Components',
-            path: 'components/_.md',
-            children: [
-                { title: 'Button', path: 'components/button.md' },
-            ]
-        },
-    ];
+    const docStructure: NavItemData[] = navManifest;
 
     const markdownComponents: Components = {
         h1: ({ ...props }) => <h1 className="text-4xl font-bold mb-6" style={{ color: styleMap.content_primary }} {...props} />,

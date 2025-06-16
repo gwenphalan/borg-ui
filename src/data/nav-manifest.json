@@ -1,0 +1,227 @@
+[
+  {
+    "title": "Docs",
+    "path": "_",
+    "order": 0,
+    "children": [
+      {
+        "title": "Getting Started",
+        "path": "getting-started",
+        "order": 1,
+        "children": [
+          {
+            "title": "Installation",
+            "path": "getting-started/installation",
+            "order": 1
+          },
+          {
+            "title": "Setup",
+            "path": "getting-started/setup",
+            "order": 2
+          },
+          {
+            "title": "Theming",
+            "path": "getting-started/theming",
+            "order": 3
+          }
+        ]
+      },
+      {
+        "title": "Components",
+        "path": "components",
+        "order": 2,
+        "children": [
+          {
+            "title": "Actions",
+            "path": "components/actions",
+            "order": 1,
+            "children": [
+              {
+                "title": "Button",
+                "path": "components/button",
+                "order": 1
+              },
+              {
+                "title": "Toggle Button",
+                "path": "components/toggle-button",
+                "order": 2
+              },
+              {
+                "title": "Theme Toggle",
+                "path": "components/theme-toggle",
+                "order": 3
+              }
+            ]
+          },
+          {
+            "title": "Forms",
+            "path": "components/forms",
+            "order": 2,
+            "children": [
+              {
+                "title": "Text Input",
+                "path": "components/text-input",
+                "order": 1
+              },
+              {
+                "title": "Text Area",
+                "path": "components/text-area",
+                "order": 2
+              },
+              {
+                "title": "Checkbox",
+                "path": "components/checkbox",
+                "order": 3
+              },
+              {
+                "title": "Radio",
+                "path": "components/radio",
+                "order": 4
+              },
+              {
+                "title": "Toggle",
+                "path": "components/toggle",
+                "order": 5
+              },
+              {
+                "title": "Dropdown",
+                "path": "components/dropdown",
+                "order": 6
+              },
+              {
+                "title": "Date Picker",
+                "path": "components/date-picker",
+                "order": 7
+              },
+              {
+                "title": "Time Picker",
+                "path": "components/time-picker",
+                "order": 8
+              }
+            ]
+          },
+          {
+            "title": "Layout",
+            "path": "components/layout",
+            "order": 3,
+            "children": [
+              {
+                "title": "Card",
+                "path": "components/card",
+                "order": 1
+              },
+              {
+                "title": "Grid",
+                "path": "components/grid",
+                "order": 2
+              },
+              {
+                "title": "Layout",
+                "path": "components/layout",
+                "order": 3
+              },
+              {
+                "title": "Header",
+                "path": "components/header",
+                "order": 4
+              },
+              {
+                "title": "Footer",
+                "path": "components/footer",
+                "order": 5
+              },
+              {
+                "title": "Hologram Container",
+                "path": "components/hologram-container",
+                "order": 6
+              }
+            ]
+          },
+          {
+            "title": "Data Display",
+            "path": "components/data-display",
+            "order": 4,
+            "children": [
+              {
+                "title": "Table",
+                "path": "components/table",
+                "order": 1
+              },
+              {
+                "title": "Accordion",
+                "path": "components/accordion",
+                "order": 2
+              },
+              {
+                "title": "Avatar",
+                "path": "components/avatar",
+                "order": 3
+              },
+              {
+                "title": "Badge",
+                "path": "components/badge",
+                "order": 4
+              },
+              {
+                "title": "Chip",
+                "path": "components/chip",
+                "order": 5
+              }
+            ]
+          },
+          {
+            "title": "Navigation",
+            "path": "components/navigation",
+            "order": 5,
+            "children": [
+              {
+                "title": "Breadcrumbs",
+                "path": "components/breadcrumbs",
+                "order": 1
+              },
+              {
+                "title": "Menu",
+                "path": "components/menu",
+                "order": 2
+              }
+            ]
+          },
+          {
+            "title": "Overlay",
+            "path": "components/overlay",
+            "order": 6,
+            "children": [
+              {
+                "title": "Modal",
+                "path": "components/modal",
+                "order": 1
+              },
+              {
+                "title": "Tooltip",
+                "path": "components/tooltip",
+                "order": 2
+              },
+              {
+                "title": "Overlay",
+                "path": "components/overlay",
+                "order": 3
+              }
+            ]
+          },
+          {
+            "title": "Background",
+            "path": "components/background",
+            "order": 7,
+            "children": [
+              {
+                "title": "Warp Speed Background",
+                "path": "components/warp-speed-background",
+                "order": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

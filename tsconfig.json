@@ -28,5 +28,10 @@
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }],
-  "exclude": ["node_modules", "dist", "src/data/doc-versions.json"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/data/doc-versions.json",
+    "src/data/nav-manifest.json"
+  ]
 }
