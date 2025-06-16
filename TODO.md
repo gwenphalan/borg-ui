@@ -34,10 +34,12 @@
 
 ### Search & Filtering
 
-- [ ] Add advanced filtering options (by complexity, accessibility level, etc.)
-- [ ] Add sorting by popularity, last updated, etc.
-- [ ] Add saved search functionality
-- [ ] Add component bookmarking
+- [ ] Add a persistent search bar with instant filtering as you type
+- [ ] Add quick filter chips for common categories (forms, layout, navigation, etc.)
+- [ ] Add a "recently viewed" section for quick access to recently visited components
+- [ ] Add a "favorites" system with a star button on each component card
+- [ ] Add a view toggle between card grid and list / table layouts with component previews
+- [ ] Add a "similar components" section at the bottom of each component page
 
 ### Data Visualization
 
@@ -256,9 +258,3 @@
 - [ ] Add community features
 - [ ] Add advanced analytics
 - [ ] Add multi-language support
-
----
-
-**Last Updated:** $(date)
-**Total TODOs:** 80+
-**Estimated Completion Time:** 6-12 months (depending on team size and priorities)
