@@ -5,222 +5,226 @@
     "order": 0,
     "children": [
       {
-        "title": "Getting Started",
-        "path": "getting-started",
-        "order": 1,
+        "title": "Components",
+        "path": "components",
+        "order": 0,
         "children": [
           {
-            "title": "Installation",
-            "path": "getting-started/installation",
-            "order": 1
-          },
-          {
-            "title": "Setup",
-            "path": "getting-started/setup",
-            "order": 2
-          },
-          {
-            "title": "Theming",
-            "path": "getting-started/theming",
-            "order": 3
+            "title": "Components",
+            "path": "components",
+            "order": 0,
+            "children": [
+              {
+                "title": "Button",
+                "path": "components/actions/button",
+                "order": 0,
+                "children": [
+                  {
+                    "title": "Button",
+                    "path": "components/actions/button",
+                    "order": 0
+                  },
+                  {
+                    "title": "Theme Toggle",
+                    "path": "components/actions/theme-toggle",
+                    "order": 0
+                  },
+                  {
+                    "title": "Toggle Button",
+                    "path": "components/actions/toggle-button",
+                    "order": 0
+                  }
+                ]
+              },
+              {
+                "title": "Warp Speed Background",
+                "path": "components/background/warp-speed-background",
+                "order": 0,
+                "children": [
+                  {
+                    "title": "Warp Speed Background",
+                    "path": "components/background/warp-speed-background",
+                    "order": 0
+                  }
+                ]
+              },
+              {
+                "title": "Accordion",
+                "path": "components/data-display/accordion",
+                "order": 0,
+                "children": [
+                  {
+                    "title": "Accordion",
+                    "path": "components/data-display/accordion",
+                    "order": 0
+                  },
+                  {
+                    "title": "Badge",
+                    "path": "components/data-display/badge",
+                    "order": 0
+                  },
+                  {
+                    "title": "Chip",
+                    "path": "components/data-display/chip",
+                    "order": 0
+                  },
+                  {
+                    "title": "Table",
+                    "path": "components/data-display/table",
+                    "order": 0
+                  }
+                ]
+              },
+              {
+                "title": "Checkbox",
+                "path": "components/forms/checkbox",
+                "order": 0,
+                "children": [
+                  {
+                    "title": "Checkbox",
+                    "path": "components/forms/checkbox",
+                    "order": 0
+                  },
+                  {
+                    "title": "Date Picker",
+                    "path": "components/forms/date-picker",
+                    "order": 0
+                  },
+                  {
+                    "title": "Dropdown",
+                    "path": "components/forms/dropdown",
+                    "order": 0
+                  },
+                  {
+                    "title": "Radio",
+                    "path": "components/forms/radio",
+                    "order": 0
+                  },
+                  {
+                    "title": "Text Area",
+                    "path": "components/forms/text-area",
+                    "order": 0
+                  },
+                  {
+                    "title": "Text Input",
+                    "path": "components/forms/text-input",
+                    "order": 0
+                  },
+                  {
+                    "title": "Time Picker",
+                    "path": "components/forms/time-picker",
+                    "order": 0
+                  },
+                  {
+                    "title": "Toggle",
+                    "path": "components/forms/toggle",
+                    "order": 0
+                  }
+                ]
+              },
+              {
+                "title": "Card",
+                "path": "components/layout/card",
+                "order": 0,
+                "children": [
+                  {
+                    "title": "Card",
+                    "path": "components/layout/card",
+                    "order": 0
+                  },
+                  {
+                    "title": "Footer",
+                    "path": "components/layout/footer",
+                    "order": 0
+                  },
+                  {
+                    "title": "Grid",
+                    "path": "components/layout/grid",
+                    "order": 0
+                  },
+                  {
+                    "title": "Header",
+                    "path": "components/layout/header",
+                    "order": 0
+                  },
+                  {
+                    "title": "Hologram Container",
+                    "path": "components/layout/hologram-container",
+                    "order": 0
+                  },
+                  {
+                    "title": "Main Layout",
+                    "path": "components/layout/main-layout",
+                    "order": 0
+                  }
+                ]
+              },
+              {
+                "title": "Breadcrumbs",
+                "path": "components/navigation/breadcrumbs",
+                "order": 0,
+                "children": [
+                  {
+                    "title": "Breadcrumbs",
+                    "path": "components/navigation/breadcrumbs",
+                    "order": 0
+                  },
+                  {
+                    "title": "Menu",
+                    "path": "components/navigation/menu",
+                    "order": 0
+                  }
+                ]
+              },
+              {
+                "title": "Modal",
+                "path": "components/overlay/modal",
+                "order": 0,
+                "children": [
+                  {
+                    "title": "Modal",
+                    "path": "components/overlay/modal",
+                    "order": 0
+                  },
+                  {
+                    "title": "Overlay",
+                    "path": "components/overlay/overlay",
+                    "order": 0
+                  },
+                  {
+                    "title": "Tooltip",
+                    "path": "components/overlay/tooltip",
+                    "order": 0
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
       {
-        "title": "Components",
-        "path": "components",
-        "order": 2,
+        "title": "Getting Started",
+        "path": "getting-started",
+        "order": 0,
         "children": [
           {
-            "title": "Actions",
-            "path": "components/actions",
-            "order": 1,
+            "title": "Getting Started",
+            "path": "getting-started",
+            "order": 0,
             "children": [
               {
-                "title": "Button",
-                "path": "components/button",
-                "order": 1
-              },
-              {
-                "title": "Toggle Button",
-                "path": "components/toggle-button",
-                "order": 2
-              },
-              {
-                "title": "Theme Toggle",
-                "path": "components/theme-toggle",
-                "order": 3
-              }
-            ]
-          },
-          {
-            "title": "Forms",
-            "path": "components/forms",
-            "order": 2,
-            "children": [
-              {
-                "title": "Text Input",
-                "path": "components/text-input",
-                "order": 1
-              },
-              {
-                "title": "Text Area",
-                "path": "components/text-area",
-                "order": 2
-              },
-              {
-                "title": "Checkbox",
-                "path": "components/checkbox",
-                "order": 3
-              },
-              {
-                "title": "Radio",
-                "path": "components/radio",
-                "order": 4
-              },
-              {
-                "title": "Toggle",
-                "path": "components/toggle",
-                "order": 5
-              },
-              {
-                "title": "Dropdown",
-                "path": "components/dropdown",
-                "order": 6
-              },
-              {
-                "title": "Date Picker",
-                "path": "components/date-picker",
-                "order": 7
-              },
-              {
-                "title": "Time Picker",
-                "path": "components/time-picker",
-                "order": 8
-              }
-            ]
-          },
-          {
-            "title": "Layout",
-            "path": "components/layout",
-            "order": 3,
-            "children": [
-              {
-                "title": "Card",
-                "path": "components/card",
-                "order": 1
-              },
-              {
-                "title": "Grid",
-                "path": "components/grid",
-                "order": 2
-              },
-              {
-                "title": "Layout",
-                "path": "components/layout",
-                "order": 3
-              },
-              {
-                "title": "Header",
-                "path": "components/header",
-                "order": 4
-              },
-              {
-                "title": "Footer",
-                "path": "components/footer",
-                "order": 5
-              },
-              {
-                "title": "Hologram Container",
-                "path": "components/hologram-container",
-                "order": 6
-              }
-            ]
-          },
-          {
-            "title": "Data Display",
-            "path": "components/data-display",
-            "order": 4,
-            "children": [
-              {
-                "title": "Table",
-                "path": "components/table",
-                "order": 1
-              },
-              {
-                "title": "Accordion",
-                "path": "components/accordion",
-                "order": 2
-              },
-              {
-                "title": "Avatar",
-                "path": "components/avatar",
-                "order": 3
-              },
-              {
-                "title": "Badge",
-                "path": "components/badge",
-                "order": 4
-              },
-              {
-                "title": "Chip",
-                "path": "components/chip",
-                "order": 5
-              }
-            ]
-          },
-          {
-            "title": "Navigation",
-            "path": "components/navigation",
-            "order": 5,
-            "children": [
-              {
-                "title": "Breadcrumbs",
-                "path": "components/breadcrumbs",
-                "order": 1
-              },
-              {
-                "title": "Menu",
-                "path": "components/menu",
-                "order": 2
-              }
-            ]
-          },
-          {
-            "title": "Overlay",
-            "path": "components/overlay",
-            "order": 6,
-            "children": [
-              {
-                "title": "Modal",
-                "path": "components/modal",
-                "order": 1
-              },
-              {
-                "title": "Tooltip",
-                "path": "components/tooltip",
-                "order": 2
-              },
-              {
-                "title": "Overlay",
-                "path": "components/overlay",
-                "order": 3
-              }
-            ]
-          },
-          {
-            "title": "Background",
-            "path": "components/background",
-            "order": 7,
-            "children": [
-              {
-                "title": "Warp Speed Background",
-                "path": "components/warp-speed-background",
-                "order": 1
+                "title": "Setup",
+                "path": "getting-started/setup",
+                "order": 0
               }
             ]
           }
         ]
+      },
+      {
+        "title": "Quickstart",
+        "path": "quickstart",
+        "order": 0
       }
     ]
   }

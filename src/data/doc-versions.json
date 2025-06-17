@@ -1,0 +1,17 @@
+[
+  {
+    "version": "1.1.0",
+    "hasDocs": true,
+    "compareUrl": "https://github.com/gwenphalan/borg-ui/tree/v1.1.0/docs"
+  },
+  {
+    "version": "1.0.0",
+    "hasDocs": true,
+    "compareUrl": "https://github.com/gwenphalan/borg-ui/tree/v1.0.0/docs"
+  },
+  {
+    "version": "0.0.0",
+    "hasDocs": true,
+    "compareUrl": "https://github.com/gwenphalan/borg-ui/tree/v0.0.0/docs"
+  }
+]

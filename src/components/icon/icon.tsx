@@ -1,4 +1,3 @@
-import React from "react";
 import { cn } from "../../lib/utils";
 
 // No need to import React unless using JSX outside of function bodies

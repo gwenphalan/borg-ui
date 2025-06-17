@@ -8,7 +8,52 @@ import { Table } from "../components/table/table";
 import { Chip } from "../components/chip";
 import { Grid, GridItem } from "../components/layout/grid";
 import { ToggleButton } from "../components/button/toggle-button";
-import componentsData from "../data/components.json";
+import componentsDataRaw from "../data/components.json";
+
+interface ComponentInfo {
+    id: string;
+    name: string;
+    description: string;
+    category: string;
+    variants: { name: string }[];
+    features: string[];
+    accessibility: string;
+}
+
+interface RawComponent {
+    name: string;
+    description: string;
+}
+
+interface RawCategory {
+    name: string;
+    description: string;
+    components: Record<string, RawComponent>;
+}
+
+interface RawComponentsData {
+    categories: Record<string, RawCategory>;
+}
+
+function flattenComponents(data: RawComponentsData): ComponentInfo[] {
+    const result: ComponentInfo[] = [];
+    for (const [, catValue] of Object.entries(data.categories)) {
+        for (const [compKey, compValue] of Object.entries(catValue.components)) {
+            result.push({
+                id: compKey,
+                name: compValue.name,
+                description: compValue.description,
+                category: catValue.name,
+                variants: [{ name: "Default" }], // mock
+                features: ["Feature 1", "Feature 2"], // mock
+                accessibility: "WCAG 2.1 AA", // mock
+            });
+        }
+    }
+    return result;
+}
+
+const componentsList: ComponentInfo[] = flattenComponents(componentsDataRaw);
 
 interface FeaturesProps {
     styleMap: Record<string, string>;
@@ -20,27 +65,31 @@ export function Features({ styleMap }: FeaturesProps) {
     const [selectedCategory, setSelectedCategory] = useState("all");
 
     // Filter components based on search and category
-    const filteredComponents = componentsData.components.filter(component => {
+    const filteredComponents = componentsList.filter((component) => {
         const matchesSearch = component.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             component.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
             component.description.toLowerCase().includes(searchTerm.toLowerCase());
-
         const matchesCategory = selectedCategory === "all" || component.category === selectedCategory;
-
         return matchesSearch && matchesCategory;
     });
 
     // Get unique categories
-    const categories = ["all", ...Array.from(new Set(componentsData.components.map(c => c.category)))];
+    const categories = [
+        "all",
+        ...Array.from(new Set(componentsList.map((c) => c.category)))
+    ];
 
     // Group components by category
-    const componentsByCategory = filteredComponents.reduce((acc, component) => {
-        if (!acc[component.category]) {
-            acc[component.category] = [];
-        }
-        acc[component.category].push(component);
-        return acc;
-    }, {} as Record<string, typeof componentsData.components>);
+    const componentsByCategory = filteredComponents.reduce(
+        (acc: Record<string, ComponentInfo[]>, component) => {
+            if (!acc[component.category]) {
+                acc[component.category] = [];
+            }
+            acc[component.category].push(component);
+            return acc;
+        },
+        {}
+    );
 
     const tableColumns = [
         { key: "name", label: "Component", sortable: true },
@@ -50,10 +99,10 @@ export function Features({ styleMap }: FeaturesProps) {
         { key: "accessibility", label: "Accessibility", sortable: false },
     ];
 
-    const tableData = filteredComponents.map(component => ({
+    const tableData = filteredComponents.map((component) => ({
         ...component,
         variants: component.variants.length,
-        accessibility: component.accessibility
+        accessibility: component.accessibility,
     }));
 
     const handleNavigate = (section: string, componentId?: string) => {

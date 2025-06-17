@@ -10,7 +10,6 @@ import {
     Placement,
     Middleware,
 } from "@floating-ui/react";
-import React from "react";
 
 export interface OverlayProps {
     reference: HTMLElement | null;
