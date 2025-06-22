@@ -1,14 +1,12 @@
 :2015
 
 root * /srv
-
-# Serve files; fall back to index.html for SPA routing
+# SPA fallback
 file_server
 try_files {path} /index.html
 
 encode gzip
 
 header {
-  # Cache assets for 1 week
   Cache-Control "public, max-age=604800"
 }

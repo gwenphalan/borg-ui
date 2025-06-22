@@ -11,12 +11,11 @@ services:
       - caddy
 
     labels:
-      # caddy-docker-proxy will pick up this service
       caddy: ui.unimatrix-01.dev
       caddy.reverse_proxy: "borg-ui:2015"
+      caddy.tls: "contact@unimatrix-01.dev"
       caddy.encode: gzip
       caddy.header.Cache-Control: "public, max-age=604800"
-      caddy.tls: "contact@unimatrix-01.dev"
 
     restart: unless-stopped
 
