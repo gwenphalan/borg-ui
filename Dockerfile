@@ -5,13 +5,13 @@ WORKDIR /app
 # Copy package manifests
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies, ignoring lifecycle scripts for now
+RUN npm ci --ignore-scripts
 
 # Copy the rest of the application's source code
 COPY . .
 
-# Build the docs
+# Now, build the docs (this will include the necessary pre-build steps)
 RUN npm run build:docs
 
 # ---- Static server ----
