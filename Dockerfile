@@ -12,13 +12,13 @@ RUN git clone https://github.com/gwenphalan/borg-ui.git .
 RUN git config --global --add safe.directory /app
 
 # Install + build
-RUN npm ci && npm run build
+RUN npm ci && npm run build:docs
 
 # ---- Static server ----
 FROM caddy:2-alpine
 
 # Copy site from builder
-COPY --from=builder /app/dist /srv
+COPY --from=builder /app/dist-docs /srv
 
 # Caddyfile with try_files etc
 COPY Caddyfile /etc/caddy/Caddyfile

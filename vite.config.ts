@@ -2,10 +2,14 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import { resolve } from 'path';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   plugins: [
     react(),
+    dts({
+      insertTypesEntry: true,
+    }),
     svgr({
       svgrOptions: {
         // SVGR options
@@ -20,6 +24,22 @@ export default defineConfig({
     }),
   ],
   build: {
+    lib: {
+      entry: resolve(__dirname, 'src/index.ts'),
+      name: 'BorgUI',
+      formats: ['es', 'cjs'],
+      fileName: (format) => `index.${format === 'cjs' ? 'cjs' : 'js'}`,
+    },
+    rollupOptions: {
+      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      output: {
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDOM',
+          'react/jsx-runtime': 'jsxRuntime',
+        },
+      },
+    },
     outDir: 'dist',
     sourcemap: true,
     minify: true,
@@ -29,5 +49,4 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
   },
-  publicDir: 'public',
 });
