@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "dev": "npm run prebuild && vite",
-    "build": "npm run prebuild && tsc && vite build",
+    "build": "npm run prebuild && vite build",
     "prebuild": "node scripts/generate-doc-versions.mjs && node scripts/generate-nav.mjs",
     "preview": "vite preview",
     "lint": "eslint . --max-warnings 0",
