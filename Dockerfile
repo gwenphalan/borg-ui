@@ -2,17 +2,17 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install deps
-RUN apk add --no-cache git
+# Copy package manifests
+COPY package*.json ./
 
-# Clone the repo (in case you're doing it manually inside Docker)
-RUN git clone https://github.com/gwenphalan/borg-ui.git .
+# Install dependencies
+RUN npm ci
 
-# FIX: Add safe Git directory
-RUN git config --global --add safe.directory /app
+# Copy the rest of the application's source code
+COPY . .
 
-# Install + build
-RUN npm ci && npm run build:docs
+# Build the docs
+RUN npm run build:docs
 
 # ---- Static server ----
 FROM caddy:2-alpine
