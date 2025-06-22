@@ -2,24 +2,22 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Install dependencies
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# Copy src, public, scripts, etc.
 COPY . .
-
-# Build using your defined script (runs prebuild + tsc + vite build)
 RUN npm run build
 
-# Stage 2: Serve with Nginx
-FROM nginx:alpine AS production
+# Stage 2: Serve with Caddy on port 2015
+FROM caddy:2-alpine
 
-# Copy the built UI into Nginx's public folder
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Copy built assets into /srv
+COPY --from=builder /app/dist /srv
 
-# Optional: support SPA routing
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy our Caddyfile (see below)
+COPY Caddyfile /etc/caddy/Caddyfile
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 2015
+
+# Run Caddy with our config
+ENTRYPOINT ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]

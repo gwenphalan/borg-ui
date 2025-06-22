@@ -1,8 +1,24 @@
 services:
   borg-ui:
-    image: nginx:alpine
-    ports:
-      - "52134:80"
-    volumes:
-      - ./dist:/usr/share/nginx/html
+    build: .
+    container_name: borg-ui
+
+    # internal Caddy listens on 2015
+    expose:
+      - "2015"
+
+    networks:
+      - caddy
+
+    labels:
+      # caddy-docker-proxy will pick up this service
+      caddy: ui.unimatrix-01.dev
+      caddy.reverse_proxy: "borg-ui:2015"
+      caddy.encode: gzip
+      caddy.header.Cache-Control: "public, max-age=604800"
+
     restart: unless-stopped
+
+networks:
+  caddy:
+    external: true
