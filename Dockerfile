@@ -2,17 +2,15 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package manifests
-COPY package*.json ./
+# Install git, which is required by the build scripts
+RUN apk add --no-cache git
 
-# Install dependencies, ignoring lifecycle scripts for now
-RUN npm ci --ignore-scripts
+# Clone the repository to ensure the .git directory is available for build scripts
+RUN git clone https://github.com/gwenphalan/borg-ui.git .
+RUN git config --global --add safe.directory /app
 
-# Copy the rest of the application's source code
-COPY . .
-
-# Now, build the docs (this will include the necessary pre-build steps)
-RUN npm run build:docs
+# Install dependencies and build the documentation site
+RUN npm ci && npm run build:docs
 
 # ---- Static server ----
 FROM caddy:2-alpine
