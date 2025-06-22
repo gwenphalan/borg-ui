@@ -16,6 +16,7 @@ services:
       caddy.reverse_proxy: "borg-ui:2015"
       caddy.encode: gzip
       caddy.header.Cache-Control: "public, max-age=604800"
+      caddy.tls: "contact@unimatrix-01.dev"
 
     restart: unless-stopped
 
