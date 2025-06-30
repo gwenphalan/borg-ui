@@ -11,8 +11,8 @@ services:
       - caddy
 
     labels:
+      caddy.reverse_proxy: "{{upstreams 2015}}"
       caddy: ui.unimatrix-01.dev
-      caddy.reverse_proxy: "borg-ui:2015"
       caddy.tls: "contact@unimatrix-01.dev"
       caddy.encode: gzip
       caddy.header.Cache-Control: "public, max-age=604800"
