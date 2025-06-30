@@ -34,67 +34,83 @@ async function parseFrontMatter(filePath) {
  */
 async function generateNav(dir, isRoot = false) {
   const dirents = await fs.readdir(dir, { withFileTypes: true });
-  let items = [];
+  const items = [];
   let indexMeta = null;
-  let indexPath = null;
+  let indexPath = "";
+
+  // Find the index file first to establish the root of this level
+  const indexDirent = dirents.find((d) => d.name === "_.md");
+  if (indexDirent) {
+    const fullPath = path.join(dir, indexDirent.name);
+    indexMeta = await parseFrontMatter(fullPath);
+    indexPath = fullPath
+      .replace(DOCS_ROOT, "")
+      .replace(/\\/g, "/")
+      .slice(1)
+      .replace(/\.md$/, "");
+  }
 
   for (const dirent of dirents) {
-    if (EXCLUDED_ITEMS.includes(dirent.name)) continue;
+    if (EXCLUDED_ITEMS.includes(dirent.name) || dirent.name === "_.md") {
+      continue;
+    }
 
     const fullPath = path.join(dir, dirent.name);
     if (dirent.isDirectory()) {
-      const children = await generateNav(fullPath);
-      if (children.length > 0) {
-        items.push({
-          ...children[0],
-          children,
-        });
+      const childNav = await generateNav(fullPath);
+      if (childNav) {
+        items.push(childNav);
       }
     } else if (dirent.name.endsWith(".md")) {
-      if (dirent.name === "_.md") {
-        indexMeta = await parseFrontMatter(fullPath);
-        indexPath = fullPath
+      const meta = await parseFrontMatter(fullPath);
+      if (meta.hidden) continue;
+      items.push({
+        title: meta.title || toTitleCase(dirent.name),
+        path: fullPath
           .replace(DOCS_ROOT, "")
           .replace(/\\/g, "/")
           .slice(1)
-          .replace(/\.md$/, "");
-      } else {
-        const meta = await parseFrontMatter(fullPath);
-        if (meta.hidden) continue;
-        items.push({
-          title: meta.title || toTitleCase(dirent.name),
-          path: fullPath
-            .replace(DOCS_ROOT, "")
-            .replace(/\\/g, "/")
-            .slice(1)
-            .replace(/\.md$/, ""),
-          order: meta.order || 0,
-        });
-      }
+          .replace(/\.md$/, ""),
+        order: meta.order || 0,
+      });
     }
   }
+
+  items.sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
+
   if (indexMeta && !indexMeta.hidden) {
     let sectionPath = indexPath.replace(/\/_$/, "");
-    if (sectionPath !== "") {
-      items = [
-        {
-          title: indexMeta.title || toTitleCase(path.basename(dir)),
-          path: sectionPath,
-          order: indexMeta.order || 0,
-          children: items.length > 0 ? items : undefined,
-        },
-      ];
-    }
+    return {
+      title: indexMeta.title || toTitleCase(path.basename(dir)),
+      path: sectionPath,
+      order: indexMeta.order || 0,
+      children: items.length > 0 ? items : undefined,
+    };
   }
-  items.sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
-  return items;
+
+  if (isRoot) {
+    return items;
+  }
+
+  if (items.length > 0) {
+    return items.length === 1
+      ? items[0]
+      : { title: toTitleCase(path.basename(dir)), children: items };
+  }
+
+  return null;
+}
+
+export async function buildNavStructure(docsRoot) {
+  const nav = await generateNav(docsRoot, true);
+  return Array.isArray(nav) ? nav : [nav];
 }
 
 async function main() {
   console.log("Generating navigation manifest...");
   try {
-    const nav = await generateNav(DOCS_ROOT, true);
-    await fs.writeFile(OUTPUT_FILE, JSON.stringify(nav, null, 2));
+    const finalNav = await buildNavStructure(DOCS_ROOT);
+    await fs.writeFile(OUTPUT_FILE, JSON.stringify(finalNav, null, 2));
     console.log(`Successfully generated navigation manifest at ${OUTPUT_FILE}`);
   } catch (error) {
     console.error("Error generating navigation manifest:", error);
@@ -102,4 +118,9 @@ async function main() {
   }
 }
 
-main();
+if (
+  import.meta.url.startsWith("file:") &&
+  process.argv[1] === new URL(import.meta.url).pathname
+) {
+  main();
+}

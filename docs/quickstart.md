@@ -1,3 +1,8 @@
+---
+title: Quickstart
+order: 1
+---
+
 # Quickstart Guide
 
 Welcome to **Borg UI**! This guide will help you get started with our component library.

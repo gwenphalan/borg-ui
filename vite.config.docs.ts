@@ -4,6 +4,7 @@ import svgr from 'vite-plugin-svgr';
 import { resolve } from 'path';
 
 export default defineConfig({
+    appType: 'spa',
     plugins: [
         react(),
         svgr({
@@ -18,6 +19,9 @@ export default defineConfig({
             },
         }),
     ],
+    define: {
+        global: 'window',
+    },
     build: {
         outDir: 'dist-docs', // Output to a different directory
         sourcemap: true,
@@ -26,6 +30,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': resolve(__dirname, './src'),
+            buffer: 'buffer',
         },
     },
     publicDir: 'public',

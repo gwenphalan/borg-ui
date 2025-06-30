@@ -2,16 +2,130 @@
   {
     "version": "1.1.0",
     "hasDocs": true,
-    "compareUrl": "https://github.com/gwenphalan/borg-ui/tree/v1.1.0/docs"
+    "compareUrl": "https://github.com/gwenphalan/borg-ui/tree/v1.1.0/docs",
+    "navManifest": [
+      {
+        "title": "Docs",
+        "path": "_",
+        "order": 0,
+        "children": [
+          {
+            "title": "Components",
+            "path": "components",
+            "order": 0,
+            "children": [
+              {
+                "title": "Button",
+                "path": "components/button",
+                "order": 0
+              }
+            ]
+          },
+          {
+            "title": "Getting Started",
+            "path": "getting-started",
+            "order": 0,
+            "children": [
+              {
+                "title": "Setup",
+                "path": "getting-started/setup",
+                "order": 0
+              }
+            ]
+          },
+          {
+            "title": "Quickstart",
+            "path": "quickstart",
+            "order": 0
+          }
+        ]
+      }
+    ]
   },
   {
-    "version": "1.0.0",
+    "version": "1.0.13",
     "hasDocs": true,
-    "compareUrl": "https://github.com/gwenphalan/borg-ui/tree/v1.0.0/docs"
+    "compareUrl": "https://github.com/gwenphalan/borg-ui/tree/v1.0.13/docs",
+    "navManifest": [
+      {
+        "title": "Docs",
+        "path": "_",
+        "order": 0,
+        "children": [
+          {
+            "title": "Components",
+            "path": "components",
+            "order": 0,
+            "children": [
+              {
+                "title": "Button",
+                "path": "components/button",
+                "order": 0
+              }
+            ]
+          },
+          {
+            "title": "Getting Started",
+            "path": "getting-started",
+            "order": 0,
+            "children": [
+              {
+                "title": "Setup",
+                "path": "getting-started/setup",
+                "order": 0
+              }
+            ]
+          },
+          {
+            "title": "Quickstart",
+            "path": "quickstart",
+            "order": 0
+          }
+        ]
+      }
+    ]
   },
   {
     "version": "0.0.0",
     "hasDocs": true,
-    "compareUrl": "https://github.com/gwenphalan/borg-ui/tree/v0.0.0/docs"
+    "compareUrl": "https://github.com/gwenphalan/borg-ui/tree/v0.0.0/docs",
+    "navManifest": [
+      {
+        "title": "Docs",
+        "path": "_",
+        "order": 0,
+        "children": [
+          {
+            "title": "Components",
+            "path": "components",
+            "order": 0,
+            "children": [
+              {
+                "title": "Button",
+                "path": "components/button",
+                "order": 0
+              }
+            ]
+          },
+          {
+            "title": "Getting Started",
+            "path": "getting-started",
+            "order": 0,
+            "children": [
+              {
+                "title": "Setup",
+                "path": "getting-started/setup",
+                "order": 0
+              }
+            ]
+          },
+          {
+            "title": "Quickstart",
+            "path": "quickstart",
+            "order": 0
+          }
+        ]
+      }
+    ]
   }
 ]

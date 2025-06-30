@@ -43,6 +43,7 @@
   "dependencies": {
     "@floating-ui/react": "^0.24.8",
     "@radix-ui/react-slot": "^1.0.2",
+    "buffer": "^6.0.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "date-fns": "^3.3.1",

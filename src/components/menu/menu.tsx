@@ -1,6 +1,6 @@
 import React, { useState, useRef, MouseEvent } from "react";
 import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Icon } from "../icon/icon";
 import { Overlay } from "../overlay/Overlay";
 
@@ -28,7 +28,6 @@ export interface MenuProps {
     itemClassName?: string;
     dropdownClassName?: string;
     menuVariant?: string;
-    currentPath?: string;
     style?: React.CSSProperties;
 }
 
@@ -38,18 +37,23 @@ export function Menu({
     className = "",
     itemClassName = "",
     dropdownClassName = "",
-    currentPath,
     style,
 }: MenuProps) {
     const navMenuRef = useRef<HTMLElement>(null);
+    const location = useLocation();
 
     const leftItems = items.filter(item => !item.align || item.align === 'left');
     const rightItems = items.filter(item => item.align === 'right');
 
     function isItemActive(item: MenuItem): boolean {
         if (typeof item.isActive === "boolean") return item.isActive;
-        if (item.href && currentPath) return item.href === currentPath;
-        return false;
+        if (!item.href) return false;
+
+        if (item.href === '/') {
+            return location.pathname === '/';
+        }
+
+        return location.pathname.startsWith(item.href);
     }
 
     // Render function now uses a dedicated component for each item
@@ -117,7 +121,7 @@ function MenuItemComponent({
         text-content-primary cursor-pointer 
         hover:bg-content-primary
         disabled:text-content-secondary disabled:opacity-50 disabled:cursor-not-allowed 
-        data-[active=true]:bg-background-default data-[active=true]:text-content-primary
+        data-[active=true]:bg-content-primary
         ${itemClassName} ${item.className || ''} ${isVertical ? 'w-full' : ''}
     `;
 
@@ -137,16 +141,16 @@ function MenuItemComponent({
     const content = (
         <>
             {item.icon && (
-                <span className="h-5 w-5 shrink-0 mr-2 flex items-center group-hover:text-text-light dark:group-hover:text-text-dark">
+                <span className="h-5 w-5 shrink-0 mr-2 flex items-center group-hover:text-text-light dark:group-hover:text-text-dark group-data-[active=true]:text-text-light dark:group-data-[active=true]:text-text-dark">
                     {typeof item.icon === "string" ? <Icon name={item.icon} size={20} /> : item.icon}
                 </span>
             )}
-            <span className="flex-1 font-semibold group-hover:text-text-light dark:group-hover:text-text-dark">{item.label}</span>
+            <span className="flex-1 font-semibold group-hover:text-text-light dark:group-hover:text-text-dark group-data-[active=true]:text-text-light dark:group-data-[active=true]:text-text-dark">{item.label}</span>
             {hasChildren && (
                 <Icon
                     name="chevron"
                     size={20}
-                    className={`ml-2 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''} group-hover:text-text-light dark:group-hover:text-text-dark`}
+                    className={`ml-2 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''} group-hover:text-text-light dark:group-hover:text-text-dark group-data-[active=true]:text-text-light dark:group-data-[active=true]:text-text-dark`}
                 />
             )}
         </>

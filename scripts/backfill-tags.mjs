@@ -77,6 +77,9 @@ async function backfillTags() {
       console.log("No new versions found to tag.");
     } else {
       console.log(`Created tags for ${taggedVersions.size} new version(s).`);
+      console.log("Pushing new tags to remote...");
+      await git.push(["--tags"]);
+      console.log("Successfully pushed tags to remote.");
     }
   } catch (error) {
     console.error("An error occurred during the tag backfill process:");
