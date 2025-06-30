@@ -13,13 +13,15 @@ COPY . .
 RUN npm ci && npm run build:docs
 
 # ---- Static server ----
-FROM caddy:2-alpine
+FROM node:20-alpine
 
-# Copy site from builder
-COPY --from=builder /app/dist-docs /srv
+# Install serve to host the static site.
+RUN npm install -g serve
 
-# Caddyfile is copied from the context
-COPY Caddyfile /etc/caddy/Caddyfile
+# Set up the server directory.
+WORKDIR /srv
+COPY --from=builder /app/dist-docs .
 
+# Serve the static site. The -s flag is for single-page applications.
 EXPOSE 2015
-ENTRYPOINT ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]
+CMD ["serve", "-s", "-l", "2015"]

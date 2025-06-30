@@ -3,7 +3,7 @@ services:
     build: .
     container_name: borg-ui
 
-    # internal Caddy listens on 2015
+    # App server listens on 2015
     expose:
       - "2015"
 
