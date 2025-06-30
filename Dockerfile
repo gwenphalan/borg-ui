@@ -10,7 +10,7 @@ RUN apk add --no-cache git
 COPY . .
 
 # Install dependencies and build the documentation site
-RUN npm ci && npm run build:docs
+RUN yarn install --frozen-lockfile && yarn build:docs
 
 # ---- Static server ----
 FROM node:20-alpine
